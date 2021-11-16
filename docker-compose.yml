@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  db:
+    image: mysql:5.7.34
+    platform: linux/x86_64
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+    restart: always
+    volumes:
+      - db-data:/var/lib/mysql:cached
+    ports:
+      - 4306:3306
+
+  back:
+      build: back/
+      command: /bin/sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'" 
+      environment:
+        MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      volumes:
+        - ./back:/app:cached
+      depends_on:
+        - db
+      ports:
+        - 3000:3000
+
+  front:
+      build: front/
+      command: yarn run dev
+      volumes:
+        - ./front:/app:cached
+      ports:
+        - 8080:3000
+      depends_on:
+        - back
+volumes:
+  public-data:
+  tmp-data:
+  log-data:
+  db-data:
