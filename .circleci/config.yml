@@ -1,0 +1,61 @@
+version: 2.1
+
+orbs:
+  ruby: circleci/ruby@1.2.0
+
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:3.0.2-node-browsers-legacy
+    working_directory: ~/archi-shares-app/back
+    steps:
+      - checkout:
+          path: ~/archi-shares-app
+      - run:
+          name: Which bundler?
+          command: bundle -v
+      - ruby/install-deps
+
+  test:
+    docker:
+      - image: circleci/ruby:3.0.2-node-browsers-legacy
+      - image: circleci/mysql:5.7
+        environment:
+          MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+          MYSQL_DATABASE: app_test
+    environment:
+      BUNDLE_JOBS: '3'
+      BUNDLE_RETRY: '3'
+      APP_BUNDLE_VERSION: '2.2.22'
+      DB_HOST: '127.0.0.1'
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      RAILS_ENV: test
+      TZ: Asia/Tokyo
+    working_directory: ~/archi-shares-app/back
+    steps:
+      - checkout:
+          path: ~/archi-shares-app
+      - ruby/install-deps
+      - run:
+          name: MySQL が準備できるまで待機
+          command: |
+            for i in `seq 1 10`;
+            do
+              nc -z 127.0.0.1 3306 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for MySQL && exit 1
+      - run:
+          name: Database setup
+          command: bundle exec rails db:migrate
+      - ruby/rspec-test
+      - ruby/rubocop-check
+
+workflows:
+  build_and_test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
