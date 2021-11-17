@@ -8,7 +8,23 @@
         <v-card-subtitle>
           This is an architectural learning app
         </v-card-subtitle>
+        <v-card-text>
+          <p v-if="login">{{ currentUser.name }}がログインしています</p>
+          <p v-else>まだログインしていません</p>
+        </v-card-text>
       </v-card>
     </v-col>
   </v-row>
 </template>
+
+<script>
+import { mapGetters } from 'vuex'
+export default {
+  computed: {
+    ...mapGetters('authentication', [
+      'currentUser',
+      'login'
+    ])
+  }
+}
+</script>
