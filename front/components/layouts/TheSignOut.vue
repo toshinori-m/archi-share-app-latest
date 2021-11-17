@@ -17,8 +17,8 @@
     <v-dialog
       v-model="dialog"
       persistent
-      max-width="300px"
-      max-height="400px"
+      width="300px"
+      height="400px"
     >
       <v-card>
         <v-card-title class="justify-center">
