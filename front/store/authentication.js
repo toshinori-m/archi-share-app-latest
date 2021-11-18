@@ -69,6 +69,7 @@ export const actions = {
       return
     }
     dispatch('currentUserInfo', res.data)
+    dispatch('modal/userSignUpModal', false, { root: true })
     dispatch(
       'snackbarMessage/messageShow',
       {
@@ -85,6 +86,7 @@ export const actions = {
       return
     }
     dispatch('currentUserInfo', res.data)
+    dispatch('modal/userSignInModal', false, { root: true })
     dispatch(
       'snackbarMessage/messageShow',
       {
