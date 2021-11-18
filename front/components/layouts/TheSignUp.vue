@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-btn icon @click="dialog = true">
+    <v-btn icon @click="userSignUpModal(true)">
       <v-icon color="white">mdi-account-plus</v-icon>
     </v-btn>
-    <v-dialog v-model="dialog" persistent width="500px">
+    <v-dialog v-model="signUpModal" persistent width="500px">
       <v-card>
         <v-card-actions class="pb-0">
           <v-spacer />
@@ -70,11 +70,10 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      dialog: false,
       user: {
         name: '',
         email: '',
@@ -98,23 +97,26 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('modal', [
+      'signUpModal'
+    ]),
     passwordConfirmationRules() {
       return (this.user.password === this.user.password_confirmation) || 'パスワードが一致しません'
     }
   },
   methods: {
-    ...mapActions('authentication', [
-      'userSignUp'
-    ]
+    ...mapActions({
+      userSignUp: 'authentication/userSignUp',
+      userSignUpModal: 'modal/userSignUpModal'
+    }
     ),
     signUpAction(user) {
       if (this.$refs.form.validate()) {
         this.userSignUp(user)
-        this.dialog = false
       }
     },
     dialogClose() {
-      this.dialog = false
+      this.userSignUpModal(false)
       this.$refs.form.reset()
     }
   }

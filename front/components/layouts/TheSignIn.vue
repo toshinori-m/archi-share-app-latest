@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-btn icon @click="dialog = true">
+    <v-btn icon @click="userSignInModal(true)">
       <v-icon color="white">mdi-login</v-icon>
     </v-btn>
-    <v-dialog v-model="dialog" persistent width="500px">
+    <v-dialog v-model="signInModal" persistent width="500px">
       <v-card>
         <v-card-actions class="pb-0">
           <v-spacer />
@@ -52,11 +52,10 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
-      dialog: false,
       user: {
         email: '',
         password: ''
@@ -72,19 +71,24 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapGetters('modal', [
+      'signInModal'
+    ])
+  },
   methods: {
-    ...mapActions('authentication', [
-      'userSignIn'
-    ]),
-    dialogClose() {
-      this.dialog = false
-      this.$refs.form.reset()
-    },
+    ...mapActions({
+      userSignIn: 'authentication/userSignIn',
+      userSignInModal: 'modal/userSignInModal'
+    }),
     signInAction(user) {
       if (this.$refs.form.validate()) {
         this.userSignIn(user)
-        this.dialog = false
       }
+    },
+    dialogClose() {
+      this.userSignInModal(false)
+      this.$refs.form.reset()
     }
   }
 }
