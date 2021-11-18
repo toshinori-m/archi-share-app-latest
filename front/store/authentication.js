@@ -68,8 +68,8 @@ export const actions = {
     if (!res) {
       return
     }
-    dispatch('currentUserInfo', res.data)
     dispatch('modal/userSignUpModal', false, { root: true })
+    dispatch('currentUserInfo', res.data)
     dispatch(
       'snackbarMessage/messageShow',
       {
@@ -85,8 +85,8 @@ export const actions = {
     if (!res) {
       return
     }
-    dispatch('currentUserInfo', res.data)
     dispatch('modal/userSignInModal', false, { root: true })
+    dispatch('currentUserInfo', res.data)
     dispatch(
       'snackbarMessage/messageShow',
       {
