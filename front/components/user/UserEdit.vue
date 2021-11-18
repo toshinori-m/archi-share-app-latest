@@ -91,6 +91,11 @@ export default {
         })
         .catch((e) => {
           console.log(e)
+          this.messageShow({
+            message: 'このメールアドレスは既に使用されています',
+            type: 'error',
+            status: true
+          })
         })
       return response
     },
