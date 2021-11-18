@@ -43,7 +43,7 @@
               @click:append="show = !show"
             />
             <v-text-field
-              v-model="user.password_confirmation"
+              v-model="user.passwordConfirmation"
               label="パスワード確認"
               :type="show2 ? 'text' : 'password'"
               :rules="[passwordConfirmationRules]"
@@ -78,7 +78,7 @@ export default {
         name: '',
         email: '',
         password: '',
-        password_confirmation: ''
+        passwordConfirmation: ''
       },
       show: false,
       show2: false,
@@ -101,7 +101,7 @@ export default {
       'signUpModal'
     ]),
     passwordConfirmationRules() {
-      return (this.user.password === this.user.password_confirmation) || 'パスワードが一致しません'
+      return (this.user.password === this.user.passwordConfirmation) || 'パスワードが一致しません'
     }
   },
   methods: {

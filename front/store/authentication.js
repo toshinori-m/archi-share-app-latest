@@ -31,7 +31,13 @@ export const actions = {
   },
   async signUp({ dispatch }, authData) {
     const response = await this.$axios
-      .$post('/api/v1/auth', authData)
+      .$post('/api/v1/auth', {
+        name: authData.name,
+        email: authData.email,
+        password: authData.password,
+        password_confirmation: authData.passwordConfirmation,
+        introduction: 'よろしくお願いします'
+      })
       .catch((e) => {
         console.log(e)
         dispatch(
