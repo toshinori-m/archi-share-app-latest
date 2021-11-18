@@ -9,6 +9,7 @@
           v-model="name"
           label="ニックネーム"
           :rules="nameRules"
+          validate-on-blur
           counter="30"
           prepend-icon="mdi-lead-pencil"
         />
@@ -16,12 +17,14 @@
           v-model="email"
           label="メールアドレス"
           :rules="emailRules"
+          validate-on-blur
           prepend-icon="mdi-email"
         />
         <v-textarea
           v-model="introduction"
           label="プロフィール"
           :rules="introductionRules"
+          validate-on-blur
           counter="150"
           prepend-icon="mdi-card-account-details"
         />
@@ -65,7 +68,7 @@ export default {
       'currentUser'
     ])
   },
-  mounted() {
+  created() {
     this.name = this.currentUser.name
     this.email = this.currentUser.email
     this.introduction = this.currentUser.introduction
