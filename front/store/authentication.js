@@ -29,19 +29,37 @@ export const actions = {
         console.log(e)
       })
   },
-  async signUp({ context }, authData) {
+  async signUp({ dispatch }, authData) {
     const response = await this.$axios
       .$post('/api/v1/auth', authData)
-      .catch((e) => [
+      .catch((e) => {
         console.log(e)
-      ])
+        dispatch(
+          'snackbarMessage/messageShow',
+          {
+            message: 'このメールアドレスは既に使用されています',
+            type: 'error',
+            status: true
+          },
+          { root: true }
+        )
+      })
     return response
   },
-  async signIn({ context }, authData) {
+  async signIn({ dispatch }, authData) {
     const response = await this.$axios
       .$post('/api/v1/auth/sign_in', authData)
       .catch((e) => {
         console.log(e)
+        dispatch(
+          'snackbarMessage/messageShow',
+          {
+            message: 'メールアドレスまたはパスワードが違います',
+            type: 'error',
+            status: true
+          },
+          { root: true }
+        )
       })
     return response
   },
@@ -51,6 +69,15 @@ export const actions = {
       return
     }
     dispatch('currentUserInfo', res.data)
+    dispatch(
+      'snackbarMessage/messageShow',
+      {
+        message: 'ユーザーを登録しました',
+        type: 'success',
+        status: true
+      },
+      { root: true }
+    )
   },
   async userSignIn({ dispatch }, authData) {
     const res = await dispatch('signIn', authData)
@@ -58,6 +85,15 @@ export const actions = {
       return
     }
     dispatch('currentUserInfo', res.data)
+    dispatch(
+      'snackbarMessage/messageShow',
+      {
+        message: 'ログインに成功しました',
+        type: 'success',
+        status: true
+      },
+      { root: true }
+    )
   },
   async signOut({ context }) {
     const response = await this.$axios
@@ -74,5 +110,14 @@ export const actions = {
     }
     commit('loginSet', false)
     commit('currentUserSet', null)
+    dispatch(
+      'snackbarMessage/messageShow',
+      {
+        message: 'ログアウトしました',
+        type: 'success',
+        status: true
+      },
+      { root: true }
+    )
   }
 }
