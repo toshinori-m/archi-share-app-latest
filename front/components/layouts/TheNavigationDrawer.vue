@@ -3,6 +3,9 @@
     <v-list dense navi class="mt-15">
       <template v-if="currentUser">
         <v-list-item>
+          <home-button />
+        </v-list-item>
+        <v-list-item>
           <user-edit-button />
         </v-list-item>
         <v-list-item>
@@ -15,10 +18,12 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import HomeButton from '~/components/navigationDrawer/HomeButton.vue'
 import UserEditButton from '~/components/navigationDrawer/UserEditButton.vue'
 import TheSignOut from '~/components/layouts/TheSignOut.vue'
 export default {
   components: {
+    HomeButton,
     UserEditButton,
     TheSignOut
   },
