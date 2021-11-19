@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer fixed app mini-variant mini-variant-width="70" color="blue-grey lighten-1">
+  <v-navigation-drawer fixed app mini-variant mini-variant-width="64" color="blue-grey lighten-1">
     <v-list dense navi class="mt-15">
       <template v-if="currentUser">
         <v-list-item>
