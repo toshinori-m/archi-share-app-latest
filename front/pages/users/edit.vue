@@ -11,6 +11,11 @@ import UserEdit from '~/components/user/UserEdit.vue'
 export default {
   components: {
     UserEdit
+  },
+  head() {
+    return {
+      title: 'アカウント編集',
+    }
   }
 }
 </script>

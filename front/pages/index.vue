@@ -20,6 +20,11 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
+  head() {
+    return {
+      title: 'ホーム',
+    }
+  },
   computed: {
     ...mapGetters('authentication', [
       'currentUser',
