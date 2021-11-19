@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title class="justify-center">
-      <span class="text-h5 text-weight-bold">アカウント編集</span>
+      <span class="text-h5 text-weight-bold">ユーザー情報編集</span>
     </v-card-title>
     <v-card-text>
       <v-form>
