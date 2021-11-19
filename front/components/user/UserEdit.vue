@@ -4,7 +4,7 @@
       <span class="text-h5 text-weight-bold">ユーザー情報編集</span>
     </v-card-title>
     <v-card-text>
-      <v-form>
+      <v-form ref="form">
         <v-text-field
           v-model="name"
           label="ニックネーム"
@@ -34,7 +34,7 @@
       <v-btn
         block
         color="light-blue lighten-2"
-        @click="userEdit"
+        @click="userEditAction"
       >
         更新
       </v-btn>
@@ -110,6 +110,11 @@ export default {
         type: 'success',
         status: true
       })
+    },
+    userEditAction() {
+      if (this.$refs.form.validate()) {
+        this.userEdit()
+      }
     }
   }
 }
