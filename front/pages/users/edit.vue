@@ -16,7 +16,8 @@
     </v-col>
     <v-col cols="12" sm="7" md="5">
       <user-edit v-if="selectedItem === 0" />
-      <user-edit-password v-else />
+      <user-edit-password v-if="selectedItem === 1" />
+      <user-delete v-if="selectedItem === 2" />
     </v-col>
   </v-row>
 </template>
@@ -24,10 +25,12 @@
 <script>
 import UserEdit from '~/components/user/UserEdit.vue'
 import UserEditPassword from '~/components/user/UserEditPassword.vue'
+import UserDelete from '~/components/user/UserDelete.vue'
 export default {
   components: {
     UserEdit,
-    UserEditPassword
+    UserEditPassword,
+    UserDelete
   },
   head() {
     return {
@@ -39,7 +42,8 @@ export default {
       selectedItem: 0,
       items: [
         { text: 'ユーザー情報編集', icon: 'mdi-account-edit' },
-        { text: 'パスワード変更', icon: 'mdi-lock' }
+        { text: 'パスワード変更', icon: 'mdi-lock' },
+        { text: 'アカウント削除', icon: 'mdi-account-remove' }
       ]
     }
   }
