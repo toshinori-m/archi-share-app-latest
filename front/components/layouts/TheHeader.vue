@@ -1,8 +1,6 @@
 <template>
   <v-app-bar fixed app color="blue-grey lighten-1">
-    <v-app-bar-title class="white--text">
-      ホーム
-    </v-app-bar-title>
+    <span class="white--text text-h6">{{ title }}</span>
     <v-spacer />
     <template v-if="!login">
       <the-sign-up />
@@ -19,6 +17,12 @@ export default {
   components: {
     TheSignUp,
     TheSignIn
+  },
+  props: {
+    title: {
+      type: String,
+      required: true
+    }
   },
   computed: {
     ...mapGetters('authentication', [
