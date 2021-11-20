@@ -5,6 +5,25 @@
     </v-card-title>
     <v-card-text>
       <v-form ref="form">
+        <v-row justify="center">
+          <v-avatar size="100" class="mb-4">
+            <template v-if="image.url !== null">
+              <v-img v-if="inputImage !== null" :src="inputImage" />
+              <v-img v-else :src="image.url" />
+            </template>
+            <template v-else>
+              <v-img v-if="inputImage" :src="inputImage" />
+              <v-img v-else :src="icon" />
+            </template>
+          </v-avatar>
+        </v-row>
+        <v-file-input
+          v-model="editImage"
+          accept="image/png, image/jpeg, image/bmp"
+          prepend-icon="mdi-account-box"
+          label="ユーザー画像を選択してください"
+          @change="setImage"
+        />
         <v-text-field
           v-model="name"
           label="ニックネーム"
@@ -47,6 +66,10 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
+      image: null,
+      inputImage: null,
+      editImage: null,
+      icon: require('@/assets/images/default.png'),
       name: '',
       email: '',
       introduction: '',
@@ -69,17 +92,37 @@ export default {
     ])
   },
   created() {
+    this.image = this.currentUser.image
     this.name = this.currentUser.name
     this.email = this.currentUser.email
     this.introduction = this.currentUser.introduction
+    console.log(this.currentUser)
   },
   methods: {
     ...mapActions({
       currentUserInfo: 'authentication/currentUserInfo',
       messageShow: 'snackbarMessage/messageShow'
     }),
+    setImage(file) {
+      this.editImage = file
+      if (file !== undefined && file !== null) {
+        if (file.name.lastIndexOf('.') <= 0) {
+          return
+        }
+        const fr = new FileReader()
+        fr.readAsDataURL(file)
+        fr.addEventListener('load', () => {
+          this.inputImage = fr.result
+        })
+      } else {
+        this.inputImage = null
+      }
+    },
     async editForm() {
       const formData = new FormData()
+      if (this.inputImage !== null) {
+        formData.append('image', this.editImage)
+      }
       formData.append('name', this.name)
       formData.append('email', this.email)
       formData.append('introduction', this.introduction)
@@ -105,6 +148,7 @@ export default {
         return
       }
       this.currentUserInfo(res.data.data)
+      this.editImage = null
       this.messageShow({
         message: 'アカウントを更新しました',
         type: 'success',
