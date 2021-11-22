@@ -18,16 +18,21 @@ export default {
     TheSignUp,
     TheSignIn
   },
-  props: {
-    title: {
-      type: String,
-      required: true
-    }
-  },
   computed: {
-    ...mapGetters('authentication', [
-      'login'
-    ])
+    ...mapGetters({
+      login: 'authentication/login',
+      user: 'user/user'
+    }),
+    title() {
+      const matchedRoute = this.$route.matched[0]
+      const headInfo = matchedRoute.components.default.options.head()
+      const title = headInfo.title
+      if (title === undefined) {
+        return this.user.name
+      } else {
+        return headInfo.title
+      }
+    }
   }
 }
 </script>
