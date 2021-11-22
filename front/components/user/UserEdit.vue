@@ -96,7 +96,6 @@ export default {
     this.name = this.currentUser.name
     this.email = this.currentUser.email
     this.introduction = this.currentUser.introduction
-    console.log(this.currentUser)
   },
   methods: {
     ...mapActions({
@@ -148,9 +147,9 @@ export default {
         return
       }
       this.currentUserInfo(res.data.data)
-      this.editImage = null
+      this.$router.push(`/users/${this.currentUser.id}`)
       this.messageShow({
-        message: 'アカウントを更新しました',
+        message: 'ユーザー情報を更新しました',
         type: 'success',
         status: true
       })
