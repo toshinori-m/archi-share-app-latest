@@ -1,7 +1,18 @@
 <template>
-  <v-navigation-drawer fixed app mini-variant mini-variant-width="64" color="blue-grey lighten-1">
-    <v-list dense navi class="mt-15">
+  <v-navigation-drawer
+    fixed
+    app
+    mini-variant
+    mini-variant-width="64"
+    color="blue-grey lighten-1"
+  >
+    <v-list dense navi>
       <template v-if="currentUser">
+        <v-list-item>
+        <v-list-item-avatar>
+          <current-user-icon />
+        </v-list-item-avatar>
+      </v-list-item>
         <v-list-item>
           <home-button />
         </v-list-item>
@@ -18,11 +29,13 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import currentUserIcon from '~/components/navigationDrawer/CurrentUserIcon.vue'
 import HomeButton from '~/components/navigationDrawer/HomeButton.vue'
 import UserEditButton from '~/components/navigationDrawer/UserEditButton.vue'
 import TheSignOut from '~/components/layouts/TheSignOut.vue'
 export default {
   components: {
+    currentUserIcon,
     HomeButton,
     UserEditButton,
     TheSignOut
