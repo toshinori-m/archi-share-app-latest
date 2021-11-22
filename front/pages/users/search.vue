@@ -2,7 +2,7 @@
   <v-row justify="center" algin="center">
     <v-col cols="12" sm="8" md="6">
       <v-card>
-        <v-card-title class="justify-center">
+        <v-card-title class="justify-center headline">
           <span>ユーザー検索</span>
         </v-card-title>
         <v-card-text>
