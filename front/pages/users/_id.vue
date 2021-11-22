@@ -23,6 +23,12 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
+  data() {
+    return {
+      title: '',
+      icon: require('@/assets/images/default.png')
+    }
+  },
   async fetch({ $axios, params, store }) {
     await $axios
       .$get(`/api/v1/users/${params.id}`)
@@ -32,12 +38,6 @@ export default {
       .catch((e) => {
         console.log(e)
       })
-  },
-  data() {
-    return {
-      title: '',
-      icon: require('@/assets/images/default.png')
-    }
   },
   head() {
     return {

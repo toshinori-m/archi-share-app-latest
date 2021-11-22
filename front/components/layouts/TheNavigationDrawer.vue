@@ -17,6 +17,9 @@
           <home-button />
         </v-list-item>
         <v-list-item>
+          <user-search-button />
+        </v-list-item>
+        <v-list-item>
           <user-edit-button />
         </v-list-item>
         <v-list-item>
@@ -31,12 +34,14 @@
 import { mapGetters } from 'vuex'
 import currentUserIcon from '~/components/navigationDrawer/CurrentUserIcon.vue'
 import HomeButton from '~/components/navigationDrawer/HomeButton.vue'
+import UserSearchButton from '~/components/navigationDrawer/UserSearchButton.vue'
 import UserEditButton from '~/components/navigationDrawer/UserEditButton.vue'
 import TheSignOut from '~/components/layouts/TheSignOut.vue'
 export default {
   components: {
     currentUserIcon,
     HomeButton,
+    UserSearchButton,
     UserEditButton,
     TheSignOut
   },
