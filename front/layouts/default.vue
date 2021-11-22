@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <the-navigation-drawer />
-    <the-header :title="title" />
+    <the-header />
     <v-main>
       <the-snackbar />
       <v-container>
@@ -20,13 +20,6 @@ export default {
     TheHeader,
     TheNavigationDrawer,
     TheSnackbar
-  },
-  computed: {
-    title() {
-      const matchedRoute = this.$route.matched[0]
-      const headInfo = matchedRoute.components.default.options.head()
-      return headInfo ? headInfo.title : ''
-    }
   }
 }
 </script>

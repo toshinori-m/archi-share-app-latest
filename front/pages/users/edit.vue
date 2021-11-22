@@ -32,11 +32,6 @@ export default {
     UserEditPassword,
     UserDelete
   },
-  head() {
-    return {
-      title: 'アカウント編集',
-    }
-  },
   data() {
     return {
       selectedItem: 0,
@@ -46,6 +41,11 @@ export default {
         { text: 'アカウント削除', icon: 'mdi-account-remove' }
       ]
     }
-  }
+  },
+  head() {
+    return {
+      title: 'アカウント編集',
+    }
+  },
 }
 </script>
