@@ -2,14 +2,15 @@
   <v-row justify="center" align="center">
     <v-col cols="12" sm="9" md="7">
       <v-card>
-        <div class="d-flex justify-space-between">
+        <div class="d-flex justify-space-between pt-4">
           <v-avatar size="100" class="ma-4">
             <v-img v-if="user.image.url" :src="user.image.url" />
             <v-img v-else :src="icon" />
           </v-avatar>
+          <user-follow-count :followings="user.followings" :followers="user.followers" />
           <user-follow-button
             :user="user"
-            class="mt-4 mr-4"
+            class="mr-4"
           />
         </div>
         <v-card-text class="pt-0 text--primary">
@@ -29,9 +30,11 @@
 <script>
 import { mapGetters } from 'vuex'
 import UserFollowButton from '~/components/user/UserFollowButton.vue'
+import UserFollowCount from '~/components/user/UserFollowCount.vue'
 export default {
   components: {
-    UserFollowButton
+    UserFollowButton,
+    UserFollowCount
   },
   data() {
     return {
