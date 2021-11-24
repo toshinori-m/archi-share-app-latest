@@ -38,6 +38,6 @@ export const actions = {
       .catch((error) => {
         console.log(error)
       })
-    commit('userSet', response.data)
+    commit('userSet', response)
   }
 }
