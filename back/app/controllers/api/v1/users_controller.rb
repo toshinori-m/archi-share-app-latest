@@ -7,8 +7,14 @@ module Api
       end
 
       def show
-        @user = User.find(params[:id])
-        render json: @user.as_json(only: %i[id name email introduction image])
+        @user = User.includes(:followings, :followers).find(params[:id])
+        render json: @user.as_json(
+          only: %i[id name email introduction image],
+          include: %i[
+            followings
+            followers
+          ]
+        )
       end
     end
   end
