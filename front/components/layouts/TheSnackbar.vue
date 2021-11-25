@@ -3,6 +3,7 @@
     v-model="status"
     app
     top
+    right
     text
     :color="type"
   >
