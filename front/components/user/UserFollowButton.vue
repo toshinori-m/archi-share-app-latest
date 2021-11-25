@@ -103,7 +103,6 @@ export default {
       if (!res) {
         return
       }
-      this.userGet(this.user.id)
       this.currentUserInfo(this.currentUser)
       this.follow = true
       this.messageShow({
@@ -117,7 +116,6 @@ export default {
       if (!res) {
         return
       }
-      this.userGet(this.user.id)
       this.currentUserInfo(this.currentUser)
       this.follow = false
       this.messageShow({

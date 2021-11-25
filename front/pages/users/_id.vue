@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import UserFollowButton from '~/components/user/UserFollowButton.vue'
 import UserFollowCount from '~/components/user/UserFollowCount.vue'
 export default {
@@ -62,12 +62,23 @@ export default {
     ...mapGetters({
       currentUser: 'authentication/currentUser',
       user: 'user/user'
-    })
+    }),
+    currentUserCheck() {
+      return this.currentUser
+    }
+  },
+  watch: {
+    currentUserCheck() {
+      this.userGet(this.user.id)
+    }
   },
   created() {
     this.title = this.user.name
   },
   methods: {
+    ...mapActions('user', [
+      'userGet'
+    ]),
     userEditButton() {
       this.$router.push('/users/edit')
     }
