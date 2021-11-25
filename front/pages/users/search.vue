@@ -39,6 +39,9 @@
               <v-list-item-content>
                 <span>{{ user.name }}</span>
               </v-list-item-content>
+              <v-list-item-action>
+                <user-follow-button :user="user" />
+              </v-list-item-action>
             </v-list-item>
           </v-list>
         </template>
@@ -58,7 +61,11 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
+import UserFollowButton from '~/components/user/UserFollowButton.vue'
 export default {
+  components: {
+    UserFollowButton
+  },
   data() {
     return {
       filterQuery: {

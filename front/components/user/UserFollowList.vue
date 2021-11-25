@@ -18,7 +18,7 @@
         <v-card>
           <v-list v-if="followings[0]">
             <v-list-item
-              v-for="(following) in followings"
+              v-for="following in followings"
               :key="following.id"
               @click="userClick(following)"
             >
@@ -29,6 +29,9 @@
               <v-list-item-content>
                 <span>{{ following.name }}</span>
               </v-list-item-content>
+              <v-list-item-action>
+                <user-follow-button :user="following" />
+              </v-list-item-action>
             </v-list-item>
           </v-list>
           <v-card-text v-else class="text-h6 text-center">
@@ -40,7 +43,7 @@
         <v-card>
           <v-list v-if="followers[0]">
             <v-list-item
-              v-for="(follower) in followers"
+              v-for="follower in followers"
               :key="follower.id"
               @click="userClick(follower)"
             >
@@ -51,6 +54,9 @@
               <v-list-item-content>
                 <span>{{ follower.name }}</span>
               </v-list-item-content>
+              <v-list-item-action>
+                <user-follow-button :user="follower" />
+              </v-list-item-action>
             </v-list-item>
           </v-list>
           <v-card-text v-else class="text-h6 text-center">
@@ -64,7 +70,11 @@
 
 <script>
 import { mapGetters }  from 'vuex'
+import UserFollowButton from '~/components/user/UserFollowButton.vue'
 export default {
+  components: {
+    UserFollowButton
+  },
   props: {
     followings: {
       type: Array,
@@ -104,8 +114,8 @@ export default {
     closeDialog() {
       this.$emit('close')
     },
-    userClick(user) {
-      this.$router.push(`/users/${user.id}`)
+    userClick(f) {
+      this.$router.push(`/users/${f.id}`)
     }
   }
 }

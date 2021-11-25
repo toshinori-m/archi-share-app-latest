@@ -8,7 +8,7 @@
       フォロワー<br />
       {{ followers.length }}
     </v-btn>
-    <v-dialog v-model="dialog1" width="500">
+    <v-dialog v-model="dialog1" persistent width="500">
       <user-follow-list
         :followings="followings"
         :followers="followers"
@@ -16,7 +16,7 @@
         @close="dialog1 = false"
       />
     </v-dialog>
-    <v-dialog v-model="dialog2" width="500">
+    <v-dialog v-model="dialog2" persistent width="500">
       <user-follow-list
         :followings="followings"
         :followers="followers"
