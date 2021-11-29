@@ -7,7 +7,7 @@ Rails.application.routes.draw do
         registrations: 'api/v1/auth/registrations'
       }
       resources :users, only: %i[index show]
-      resources :posts, only: [:create]
+      resources :posts, only: %i[show create]
       resource :relationships, only: %i[create destroy]
     end
   end
