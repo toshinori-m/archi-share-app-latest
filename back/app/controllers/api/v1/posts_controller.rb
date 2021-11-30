@@ -1,6 +1,16 @@
 module Api
   module V1
     class PostsController < ApplicationController
+      def index
+        @posts = Post.all.includes(:user).order(id: 'DESC')
+        render json: @posts.as_json(
+          only: %i[id title content image],
+          include: [
+            { user: { only: %i[id name image] } }
+          ]
+        )
+      end
+
       def show
         @post = Post.find(params[:id])
         render json: @post.as_json(

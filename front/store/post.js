@@ -1,14 +1,19 @@
 export const state = () => ({
-  post: null
+  post: null,
+  posts: null
 })
 
 export const getters = {
-  post: (state) => state.post
+  post: (state) => state.post,
+  posts: (state) => state.posts
 }
 
 export const mutations = {
   postSet(state, data) {
     state.post = data
+  },
+  postsSet(state, data) {
+    state.posts = data
   }
 }
 
