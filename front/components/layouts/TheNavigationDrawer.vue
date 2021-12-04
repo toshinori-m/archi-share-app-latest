@@ -9,10 +9,10 @@
     <v-list dense navi>
       <template v-if="currentUser">
         <v-list-item>
-        <v-list-item-avatar>
-          <current-user-icon />
-        </v-list-item-avatar>
-      </v-list-item>
+          <v-list-item-avatar>
+            <current-user-icon />
+          </v-list-item-avatar>
+        </v-list-item>
         <v-list-item>
           <home-button />
         </v-list-item>
@@ -27,6 +27,14 @@
         </v-list-item>
         <v-list-item>
           <the-sign-out />
+        </v-list-item>
+      </template>
+      <template v-else>
+        <v-list-item class="mt-15">
+          <home-button />
+        </v-list-item>
+        <v-list-item>
+          <user-search-button />
         </v-list-item>
       </template>
     </v-list>
