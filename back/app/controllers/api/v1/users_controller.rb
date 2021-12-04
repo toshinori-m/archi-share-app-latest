@@ -3,16 +3,19 @@ module Api
     class UsersController < ApplicationController
       def index
         @users = User.all.order(id: 'DESC')
-        render json: @users.as_json(only: %i[id name email introduction image])
+        render json: @users.as_json(
+          only: %i[id name email introduction image]
+        )
       end
 
       def show
-        @user = User.includes(:followings, :followers).find(params[:id])
+        @user = User.includes(:posts, :followings, :followers).find(params[:id])
         render json: @user.as_json(
           only: %i[id name email introduction image],
-          include: %i[
-            followings
-            followers
+          include: [
+            { posts: { only: %i[id title content image] } },
+            :followings,
+            :followers
           ]
         )
       end
