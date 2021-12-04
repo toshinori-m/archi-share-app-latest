@@ -10,7 +10,7 @@
             {{ post.user.name }}
           </span>
           <v-spacer />
-          <post-setting-button />
+          <post-setting-button v-if="login" />
         </v-card-actions>
         <v-divider />
         <v-img :src="post.image.url" contain max-height="400" />
@@ -51,7 +51,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      post: 'post/post'
+      post: 'post/post',
+      login: 'authentication/login'
     })
   }
 }

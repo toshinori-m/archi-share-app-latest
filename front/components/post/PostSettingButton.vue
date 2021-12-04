@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="currentUser.id == post.user_id">
     <v-menu left>
       <template #activator="{ on, attrs }">
         <v-btn
@@ -69,9 +69,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('post', [
-      'post'
-    ])
+    ...mapGetters({
+      post: 'post/post',
+      currentUser: 'authentication/currentUser'
+    })
   },
   methods: {
     closeEditDialog(bool) {
