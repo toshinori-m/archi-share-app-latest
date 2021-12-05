@@ -13,7 +13,7 @@
           width="250"
           height="200"
         />
-        <p class="font-weight-bold text-center mx-1 mt-1 mb-0">
+        <p class="font-weight-bold text-truncate text-center ma-1 mb-0">
           {{ post.title }}
         </p>
         <div
