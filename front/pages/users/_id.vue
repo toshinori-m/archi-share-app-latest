@@ -2,32 +2,42 @@
   <v-row justify="center" align="center">
     <v-col cols="12" sm="9" md="7">
       <v-card tile outlined>
-        <div class="d-flex justify-space-between pt-4">
-          <v-avatar size="100" class="ma-4">
-            <v-img v-if="user.image.url" :src="user.image.url" />
-            <v-img v-else :src="icon" />
-          </v-avatar>
-          <user-follow-count
-            :followings="user.followings"
-            :followers="user.followers"
-          />
-          <user-follow-button
-            :user="user"
-            class="mr-4"
-          />
+        <div class="pt-4">
+          <v-row justify="center" algin="center">
+            <v-col>
+              <v-avatar size="100" class="ma-4">
+                <v-img v-if="user.image.url" :src="user.image.url" />
+                <v-img v-else :src="icon" />
+              </v-avatar>
+            </v-col>
+            <v-col>
+              <user-follow-count
+                :followings="user.followings"
+                :followers="user.followers"
+              />
+            </v-col>
+            <v-col cols="3">
+              <user-follow-button
+                :user="user"
+                class="mr-4"
+              />
+            </v-col>
+          </v-row>
         </div>
         <v-card-text class="pt-0 text--primary">
           <p class="text-h6">{{ user.name }}</p>
           <p>{{ user.introduction }}</p>
         </v-card-text>
-        <v-card-actions
-          v-if="user.id == currentUser.id"
-          class="justify-end pa-4 pt-0"
-        >
-          <v-btn outlined @click="userEditButton">
-            ユーザー情報を編集
-          </v-btn>
-        </v-card-actions>
+        <template v-if="login">
+          <v-card-actions
+            v-if="user.id == currentUser.id"
+            class="justify-end pa-4 pt-0"
+          >
+            <v-btn outlined @click="userEditButton">
+              ユーザー情報を編集
+            </v-btn>
+          </v-card-actions>
+        </template>
       </v-card>
       <v-tabs v-model="tab" fixed-tabs>
         <v-tab>
@@ -78,6 +88,7 @@ export default {
   computed: {
     ...mapGetters({
       currentUser: 'authentication/currentUser',
+      login: 'authentication/login',
       user: 'user/user'
     }),
     currentUserCheck() {
