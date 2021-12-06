@@ -21,9 +21,17 @@ export const actions = {
   async postGet({ commit }, paramsId) {
     const response = await this.$axios
       .$get(`/api/v1/posts/${paramsId}`)
-      .catch((error) => {
-        console.log(error)
+      .catch((e) => {
+        console.log(e)
       })
     commit('postSet', response)
+  },
+  async postsGet({ commit }) {
+    const response = await this.$axios
+      .$get('/api/v1/posts')
+      .catch((e) => {
+        console.log(e)
+      })
+    commit('postsSet', response)
   }
 }

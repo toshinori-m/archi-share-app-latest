@@ -1,23 +1,26 @@
 module Api
   module V1
     class PostsController < ApplicationController
-      before_action :set_post, only: %i[show update destroy]
+      before_action :set_post, only: %i[update destroy]
 
       def index
-        @posts = Post.all.includes(:user).order(id: 'DESC')
+        @posts = Post.all.includes(:user, :like_users).order(id: 'DESC')
         render json: @posts.as_json(
           only: %i[id title content image],
           include: [
-            { user: { only: %i[id name image] } }
+            { user: { only: %i[id name image] } },
+            :like_users
           ]
         )
       end
 
       def show
+        @post = Post.includes(:like_users).find(params[:id])
         render json: @post.as_json(
           only: %i[id title content image],
           include: [
-            user: { only: %i[id name image] }
+            { user: { only: %i[id name image] } },
+            :like_users
           ]
         )
       end

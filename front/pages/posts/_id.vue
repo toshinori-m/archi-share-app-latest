@@ -21,6 +21,9 @@
         <v-card-text class="text--primary">
           {{ post.content }}
         </v-card-text>
+        <v-card-actions class="px-4">
+          <like-button :post="post" />
+        </v-card-actions>
       </v-card>
     </v-col>
   </v-row>
@@ -29,9 +32,11 @@
 <script>
 import { mapGetters } from 'vuex'
 import PostSettingButton from '~/components/post/PostSettingButton.vue'
+import LikeButton from '~/components/like/LikeButton.vue'
 export default {
   components: {
-    PostSettingButton
+    PostSettingButton,
+    LikeButton
   },
   async fetch({ $axios, params, store }) {
     await $axios

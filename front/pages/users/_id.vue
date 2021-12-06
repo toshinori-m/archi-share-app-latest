@@ -74,6 +74,7 @@ export default {
     await $axios
       .$get(`/api/v1/users/${params.id}`)
       .then((res) => {
+        console.log(res)
         store.commit('user/userSet', res)
       })
       .catch((e) => {
