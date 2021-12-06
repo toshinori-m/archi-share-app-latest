@@ -50,6 +50,11 @@
 
 <script>
 export default {
+  filters: {
+    filteredContent(post) {
+      return post.content.length > 50 ? post.content.slice(0, 50) + '...' : post.content
+    }
+  },
   props: {
     user: {
       type: Object,
@@ -59,11 +64,6 @@ export default {
   data() {
     return {
       icon: require('@/assets/images/default.png')
-    }
-  },
-  filters: {
-    filteredContent(post) {
-      return post.content.length > 50 ? post.content.slice(0, 50) + '...' : post.content
     }
   },
   mounted() {

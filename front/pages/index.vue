@@ -13,13 +13,17 @@
           <p v-else>まだログインしていません</p>
         </v-card-text>
       </v-card>
-      <post-index :posts="posts" />
+      <post-index
+        :posts="posts"
+        :post="post"
+        @load="this.postsGet"
+      />
     </v-col>
   </v-row>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import PostIndex from '~/components/post/PostIndex.vue'
 export default {
   components: {
@@ -44,8 +48,14 @@ export default {
     ...mapGetters({
       currentUser: 'authentication/currentUser',
       login: 'authentication/login',
-      posts: 'post/posts'
+      posts: 'post/posts',
+      post: 'post/post'
     })
+  },
+  methods: {
+    ...mapActions('post', [
+      'postsGet'
+    ])
   }
 }
 </script>

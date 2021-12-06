@@ -25,6 +25,9 @@
           </v-avatar>
           {{ post.user.name }}
         </div>
+        <div class="d-flex justify-end">
+          <like-button :post="post" />
+        </div>
       </v-card>
     </div>
     <v-pagination v-model="page" :length="pageLength" />
@@ -32,12 +35,16 @@
 </template>
 
 <script>
+import LikeButton from '~/components/like/LikeButton.vue'
 export default {
+  components: {
+    LikeButton
+  },
   props: {
     posts: {
       type: Array,
       required: true
-    }
+    },
   },
   data() {
     return {
@@ -57,6 +64,14 @@ export default {
       )
       return lists
     },
+    loadPost() {
+      return this.$store.getters['post/post']
+    },
+  },
+   watch: {
+    loadPost() {
+      this.$emit('load')
+    }
   },
   methods: {
     postClick(post) {

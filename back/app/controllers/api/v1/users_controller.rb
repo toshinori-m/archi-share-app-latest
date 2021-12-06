@@ -9,11 +9,17 @@ module Api
       end
 
       def show
-        @user = User.includes(:posts, :followings, :followers).find(params[:id])
+        @user = User.includes(
+          :posts,
+          { postlike: :like_users },
+          :followings,
+          :followers
+        ).find(params[:id])
         render json: @user.as_json(
           only: %i[id name email introduction image],
           include: [
             { posts: { only: %i[id title content image] } },
+            :postlike,
             :followings,
             :followers
           ]
