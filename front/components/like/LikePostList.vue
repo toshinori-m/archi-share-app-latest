@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card
-      v-for="post in user.posts"
+      v-for="post in posts"
       :key="post.id"
       tile
       outlined
@@ -10,14 +10,14 @@
       <v-card-actions>
         <div
           class="d-inline-block"
-          @click.stop="userClick(user)"
+          @click.stop="userClick(post)"
         >
           <v-avatar size="50" class="mr-2">
-            <v-img v-if="user.image.url" :src="user.image.url" />
+            <v-img v-if="post.user.image.url" :src="post.user.image.url" />
             <v-img v-else :src="icon" />
           </v-avatar>
           <span>
-            {{ user.name }}
+            {{ post.user.name }}
           </span>
         </div>
       </v-card-actions>
@@ -63,8 +63,8 @@ export default {
     }
   },
   props: {
-    user: {
-      type: Object,
+    posts: {
+      type: Array,
       required: true
     }
   },
@@ -74,8 +74,8 @@ export default {
     }
   },
   methods: {
-    userClick(user) {
-      this.$router.push(`/users/${user.id}`)
+    userClick(post) {
+      this.$router.push(`/users/${post.user.id}`)
     },
     postClick(post) {
       this.$router.push(`/posts/${post.id}`)
@@ -83,4 +83,3 @@ export default {
   }
 }
 </script>
-

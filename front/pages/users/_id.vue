@@ -48,6 +48,7 @@
         </v-tab>
       </v-tabs>
       <user-post-list v-if="tab == 0" :user="user" />
+      <like-post-list v-else :posts="user.postlike" />
     </v-col>
   </v-row>
 </template>
@@ -57,11 +58,13 @@ import { mapGetters, mapActions } from 'vuex'
 import UserFollowButton from '~/components/user/UserFollowButton.vue'
 import UserFollowCount from '~/components/user/UserFollowCount.vue'
 import UserPostList from '~/components/user/UserPostList.vue'
+import LikePostList from '~/components/like/LikePostList.vue'
 export default {
   components: {
     UserFollowButton,
     UserFollowCount,
-    UserPostList
+    UserPostList,
+    LikePostList
   },
   data() {
     return {
