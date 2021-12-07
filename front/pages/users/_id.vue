@@ -47,8 +47,16 @@
           いいね
         </v-tab>
       </v-tabs>
-      <user-post-list v-if="tab == 0" :user="user" />
-      <like-post-list v-else :posts="user.postlike" />
+      <user-post-list
+        v-if="tab == 0"
+        :user="user"
+        @load="userGet(user.id)"
+      />
+      <like-post-list
+        v-else
+        :posts="user.postlike"
+        @load="userGet(user.id)"
+      />
     </v-col>
   </v-row>
 </template>
