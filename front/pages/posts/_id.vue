@@ -23,6 +23,7 @@
         </v-card-text>
         <v-card-actions class="px-4">
           <like-button :post="post" />
+          <like-user-modal :users="post.like_users" />
         </v-card-actions>
       </v-card>
     </v-col>
@@ -33,10 +34,12 @@
 import { mapGetters } from 'vuex'
 import PostSettingButton from '~/components/post/PostSettingButton.vue'
 import LikeButton from '~/components/like/LikeButton.vue'
+import LikeUserModal from '~/components/like/LikeUserModal.vue'
 export default {
   components: {
     PostSettingButton,
-    LikeButton
+    LikeButton,
+    LikeUserModal
   },
   async fetch({ $axios, params, store }) {
     await $axios
