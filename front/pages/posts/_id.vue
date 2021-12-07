@@ -3,12 +3,14 @@
     <v-col cols="12" sm="9" md="7">
       <v-card>
         <v-card-actions>
-          <v-avatar size="50" class="ma-2">
-            <v-img :src="post.user.image.url" />
-          </v-avatar>
-          <span>
-            {{ post.user.name }}
-          </span>
+          <div @click="userClick" class="link">
+            <v-avatar size="50" class="ma-2">
+              <v-img :src="post.user.image.url" />
+            </v-avatar>
+            <span>
+              {{ post.user.name }}
+            </span>
+          </div>
           <v-spacer />
           <post-setting-button v-if="login" />
         </v-card-actions>
@@ -62,6 +64,17 @@ export default {
       post: 'post/post',
       login: 'authentication/login'
     })
+  },
+  methods: {
+    userClick() {
+      this.$router.push(`/users/${this.post.user.id}`)
+    }
   }
 }
 </script>
+
+<style scoped>
+.link {
+  cursor: pointer;
+}
+</style>
