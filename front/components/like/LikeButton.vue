@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
   props: {
     post: {
@@ -43,33 +43,21 @@ export default {
     ...mapGetters({
       currentUser: 'authentication/currentUser',
       login: 'authentication/login'
-    }),
-    loadUserLike() {
-      return this.currentUser
-    }
-  },
-  watch: {
-    loadUserLike() {
-      if (this.login) {
-        this.like = false
-        this.currentUser.postlike.forEach((f) => {
-          if (this.post.id === f.id) {
-            this.like = true
-          }
-        })
-      }
-    }
+    })
   },
   mounted() {
     if (this.login) {
-      this.currentUser.postlike.forEach((f) => {
-        if (this.post.id === f.id) {
+      this.post.like_users.forEach((f) => {
+        if (this.currentUser.id === f.id) {
           this.like = true
         }
       })
     }
   },
   methods: {
+    ...mapMutations('post', [
+      'postSet'
+    ]),
     ...mapActions({
       currentUserInfo: 'authentication/currentUserInfo',
       postGet: 'post/postGet',
@@ -104,8 +92,9 @@ export default {
       if (!res) {
         return
       }
-      this.currentUserInfo(this.currentUser)
-      this.postGet(this.post.id)
+      // this.currentUserInfo(this.currentUser)
+      this.postSet(res.data)
+      this.like = true
       this.messageShow({
         message: '投稿をいいねしました',
         type: 'success',
@@ -117,8 +106,9 @@ export default {
       if (!res) {
         return
       }
-      this.currentUserInfo(this.currentUser)
-      this.postGet(this.post.id)
+      // this.currentUserInfo(this.currentUser)
+      this.postSet(res.data)
+      this.like = false
       this.messageShow({
         message: '投稿のいいねを外しました',
         type: 'info',

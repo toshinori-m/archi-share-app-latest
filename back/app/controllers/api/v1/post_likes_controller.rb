@@ -2,12 +2,18 @@ module Api
   module V1
     class PostLikesController < ApplicationController
       def create
-        @user = User.find(params[:user_id])
+        @post = Post.find(params[:post_id])
         likepost = PostLike.new(like_params)
         if likepost.save
-          render json: @user, status: :created
+          render json: @post.as_json(
+            only: %i[id title content image],
+            include: [
+              { user: { only: %i[id name image] } },
+              :like_users
+            ]
+          ), status: :created
         else
-          render json: @user.errors, status: :unprocessable_entity
+          render json: @post.errors, status: :unprocessable_entity
         end
       end
 
@@ -16,9 +22,15 @@ module Api
         @post = Post.find(params[:post_id])
         likepost = @user.unlike(@post)
         if likepost.destroy
-          render json: @user
+          render json: @post.as_json(
+            only: %i[id title content image],
+            include: [
+              { user: { only: %i[id name image] } },
+              :like_users
+            ]
+          )
         else
-          render json: @user.errors, status: :unprocessable_entity
+          render json: @post.errors, status: :unprocessable_entity
         end
       end
 

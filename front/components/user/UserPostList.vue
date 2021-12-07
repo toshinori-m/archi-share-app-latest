@@ -73,6 +73,16 @@ export default {
       icon: require('@/assets/images/default.png')
     }
   },
+  computed: {
+    loadPost() {
+      return this.$store.getters['post/post']
+    }
+  },
+  watch: {
+    loadPost() {
+      this.$emit('load')
+    }
+  },
   methods: {
     userClick(user) {
       this.$router.push(`/users/${user.id}`)
