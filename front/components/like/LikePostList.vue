@@ -50,7 +50,7 @@
         </div>
       </v-card>
     </template>
-    <template>
+    <template v-else>
       <v-card tile outlined>
         <v-card-text>
           <p class="text-h5 text-center mb-0">{{ user.name }}がいいねした投稿はありません</p>
