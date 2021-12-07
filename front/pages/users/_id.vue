@@ -54,7 +54,7 @@
       />
       <like-post-list
         v-else
-        :posts="user.postlike"
+        :user="user"
         @load="userGet(user.id)"
       />
     </v-col>
