@@ -8,22 +8,26 @@
       フォロワー<br />
       {{ followers.length }}
     </v-btn>
-    <v-dialog v-model="dialog1" persistent width="500">
-      <user-follow-list
-        :followings="followings"
-        :followers="followers"
-        :tabs="false"
-        @close="dialog1 = false"
-      />
-    </v-dialog>
-    <v-dialog v-model="dialog2" persistent width="500">
-      <user-follow-list
-        :followings="followings"
-        :followers="followers"
-        :tabs="true"
-        @close="dialog2 = false"
-      />
-    </v-dialog>
+    <template v-if="dialog1">
+      <v-dialog v-model="dialog1" persistent width="500">
+        <user-follow-list
+          :followings="followings"
+          :followers="followers"
+          :tabs="false"
+          @close="dialog1 = false"
+        />
+      </v-dialog>
+    </template>
+    <template v-if="dialog2">
+      <v-dialog v-model="dialog2" persistent width="500">
+        <user-follow-list
+          :followings="followings"
+          :followers="followers"
+          :tabs="true"
+          @close="dialog2 = false"
+        />
+      </v-dialog>
+    </template>
   </div>
 </template>
 
