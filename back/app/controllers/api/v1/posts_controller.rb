@@ -15,12 +15,15 @@ module Api
       end
 
       def show
-        @post = Post.includes(:like_users).find(params[:id])
+        @post = Post.includes(:like_users, :comments).find(params[:id])
         render json: @post.as_json(
           only: %i[id title content image],
           include: [
             { user: { only: %i[id name image] } },
-            { comments: { include: [{ user: { only: %i[id name image] } }] } },
+            { comments: { include: [
+              { user: { only: %i[id name image] } },
+              { post: { only: %i[id] } }
+            ] } },
             :like_users
           ]
         )

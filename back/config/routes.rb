@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       resources :users, only: %i[index show]
       resources :posts, only: %i[index show create update destroy]
       resource :post_likes, only: %i[create destroy]
-      resource :comments, only: %i[create destroy]
+      resources :comments, only: %i[create destroy]
       resource :relationships, only: %i[create destroy]
     end
   end
