@@ -20,6 +20,7 @@ module Api
           only: %i[id title content image],
           include: [
             { user: { only: %i[id name image] } },
+            { comments: { include: [{ user: { only: %i[id name image] } }] } },
             :like_users
           ]
         )
