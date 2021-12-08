@@ -5,7 +5,11 @@
         <v-card-actions>
           <div @click="userClick" class="link">
             <v-avatar size="50" class="ma-2">
-              <v-img :src="post.user.image.url" />
+              <v-img
+                v-if="post.user.image.url"
+                :src="post.user.image.url"
+              />
+              <v-else v-else :src="icon" />
             </v-avatar>
             <span>
               {{ post.user.name }}
@@ -29,6 +33,8 @@
         </v-card-actions>
         <v-divider />
         <comment-form :post="post" />
+        <v-divider />
+        <comment-list :comments="post.comments" />
       </v-card>
     </v-col>
   </v-row>
@@ -40,12 +46,14 @@ import PostSettingButton from '~/components/post/PostSettingButton.vue'
 import LikeButton from '~/components/like/LikeButton.vue'
 import LikeUserModal from '~/components/like/LikeUserModal.vue'
 import CommentForm from '~/components/comment/CommentForm.vue'
+import CommentList from '~/components/comment/CommentList.vue'
 export default {
   components: {
     PostSettingButton,
     LikeButton,
     LikeUserModal,
-    CommentForm
+    CommentForm,
+    CommentList
   },
   async fetch({ $axios, params, store }) {
     await $axios
@@ -57,6 +65,11 @@ export default {
       .catch((e) => {
         console.log(e)
       })
+  },
+  data() {
+    return {
+      icon: require('@/assets/images/default.png')
+    }
   },
   head() {
     return {

@@ -78,7 +78,7 @@ export default {
       if (!res) {
         return
       }
-      this.postGet()
+      this.postGet(this.post.id)
       this.content = ''
       this.messageShow({
         message: '投稿にコメントしました',
