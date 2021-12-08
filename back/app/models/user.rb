@@ -13,6 +13,7 @@ class User < ApplicationRecord
   has_many :posts, -> { order('created_at DESC') }, dependent: :destroy, inverse_of: :user
   has_many :post_likes, -> { order('created_at DESC') }, dependent: :destroy, inverse_of: :user
   has_many :postlike, through: :post_likes, source: :post
+  has_many :comments, dependent: :destroy
   has_many :relationships, dependent: :destroy
   has_many :followings, through: :relationships, source: :follow
   has_many :reverse_of_relationships, class_name: 'Relationship', foreign_key: 'follow_id', dependent: :destroy
