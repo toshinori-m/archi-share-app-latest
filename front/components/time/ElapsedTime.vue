@@ -6,7 +6,7 @@
 import dayjs from 'dayjs'
 export default {
   props: {
-    comment: {
+    content: {
       type: Object,
       required: true
     }
@@ -17,7 +17,7 @@ export default {
     }
   },
   mounted() {
-    this.time = dayjs(this.comment.created_at).fromNow()
+    this.time = dayjs(this.content.created_at).fromNow()
   }
 }
 </script>

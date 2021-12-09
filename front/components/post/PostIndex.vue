@@ -16,15 +16,19 @@
         <p class="font-weight-bold text-truncate text-center ma-1 mb-0">
           {{ post.title }}
         </p>
-        <div
-          class="d-inline-block ml-1 mb-1"
-          @click.stop="userClick(post.user)"
-        >
-          <v-avatar size="50">
-            <v-img :src="post.user.image.url" />
-          </v-avatar>
-          {{ post.user.name }}
-        </div>
+        <v-card-actions>
+          <div
+            class="d-inline-block"
+            @click.stop="userClick(post.user)"
+          >
+            <v-avatar size="50">
+              <v-img :src="post.user.image.url" />
+            </v-avatar>
+            {{ post.user.name }}
+          </div>
+          <v-spacer />
+          <elapsed-time :content="post" />
+        </v-card-actions>
         <div class="d-flex justify-end">
           <like-button :post="post" />
         </div>
@@ -36,9 +40,11 @@
 
 <script>
 import LikeButton from '~/components/like/LikeButton.vue'
+import ElapsedTime from '~/components/time/ElapsedTime.vue'
 export default {
   components: {
-    LikeButton
+    LikeButton,
+    ElapsedTime
   },
   props: {
     posts: {

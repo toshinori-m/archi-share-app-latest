@@ -6,7 +6,7 @@ module Api
       def index
         @posts = Post.all.includes(:user, :like_users).order(id: 'DESC')
         render json: @posts.as_json(
-          only: %i[id title content image],
+          only: %i[id title content image created_at],
           include: [
             { user: { only: %i[id name image] } },
             :like_users
