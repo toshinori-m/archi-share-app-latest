@@ -21,6 +21,8 @@
               {{ post.user.name }}
             </span>
           </div>
+          <v-spacer />
+          <elapsed-time :content="post" />
         </v-card-actions>
         <div class="pa-4">
           <v-row algin="center">
@@ -62,9 +64,11 @@
 
 <script>
 import LikeButton from '~/components/like/LikeButton.vue'
+import ElapsedTime from '~/components/time/ElapsedTime.vue'
 export default {
-  componens: {
-    LikeButton
+  components: {
+    LikeButton,
+    ElapsedTime
   },
   filters: {
     filteredContent(post) {
@@ -73,7 +77,7 @@ export default {
   },
   props: {
     user: {
-      type: Array,
+      type: Object,
       required: true
     }
   },
