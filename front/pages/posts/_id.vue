@@ -3,7 +3,7 @@
     <v-col cols="12" sm="9" md="7">
       <v-card>
         <v-card-actions>
-          <div @click="userClick" class="link">
+          <div class="link" @click="userClick">
             <v-avatar size="50" class="ma-2">
               <v-img
                 v-if="post.user.image.url"
@@ -16,6 +16,9 @@
             </span>
           </div>
           <v-spacer />
+          <span class="text-h6 grey--text text--darken-1 mr-5">
+            {{ postCreatedTime }}
+          </span>
           <post-setting-button v-if="login" />
         </v-card-actions>
         <v-divider />
@@ -42,6 +45,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import dayjs from 'dayjs'
 import PostSettingButton from '~/components/post/PostSettingButton.vue'
 import LikeButton from '~/components/like/LikeButton.vue'
 import LikeUserModal from '~/components/like/LikeUserModal.vue'
@@ -55,6 +59,11 @@ export default {
     CommentForm,
     CommentList
   },
+  data() {
+    return {
+      icon: require('@/assets/images/default.png')
+    }
+  },
   async fetch({ $axios, params, store }) {
     await $axios
       .$get(`/api/v1/posts/${params.id}`)
@@ -66,11 +75,6 @@ export default {
         console.log(e)
       })
   },
-  data() {
-    return {
-      icon: require('@/assets/images/default.png')
-    }
-  },
   head() {
     return {
       title: '投稿詳細'
@@ -80,7 +84,11 @@ export default {
     ...mapGetters({
       post: 'post/post',
       login: 'authentication/login'
-    })
+    }),
+    postCreatedTime() {
+      const time = dayjs(this.post.created_at).format('YYYY-MM-DD')
+      return time
+    }
   },
   methods: {
     userClick() {
