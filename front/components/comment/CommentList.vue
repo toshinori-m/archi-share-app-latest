@@ -6,7 +6,7 @@
     >
       <v-card-actions>
         <div
-          class="link"
+          class="link mr-5"
           @click="userClick(comment.user)"
         >
           <v-avatar size="40" class="ma-2">
@@ -18,6 +18,7 @@
           </v-avatar>
           <span>{{ comment.user.name }}</span>
         </div>
+        <elapsed-time :comment="comment" />
         <v-spacer />
         <comment-setting-button v-if="login" :comment="comment" />
       </v-card-actions>
@@ -30,9 +31,11 @@
 <script>
 import { mapGetters } from 'vuex'
 import CommentSettingButton  from '~/components/comment/CommentSettingButton.vue'
+import ElapsedTime from '~/components/time/ElapsedTime.vue'
 export default {
   components: {
-    CommentSettingButton
+    CommentSettingButton,
+    ElapsedTime
   },
   props: {
     comments: {
