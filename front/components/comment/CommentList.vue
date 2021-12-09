@@ -18,7 +18,7 @@
           </v-avatar>
           <span>{{ comment.user.name }}</span>
         </div>
-        <elapsed-time :comment="comment" />
+        <elapsed-time :content="comment" />
         <v-spacer />
         <comment-setting-button v-if="login" :comment="comment" />
       </v-card-actions>
