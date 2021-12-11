@@ -1,6 +1,11 @@
 module Api
   module V1
     class ArchitecturesController < ApplicationController
+      def index
+        @architectures = Architecture.all.order(id: 'DESC')
+        render json: @architectures
+      end
+
       def show
         @architecture = Architecture.find(params[:id])
         render json: @architecture
@@ -9,9 +14,9 @@ module Api
       def create
         @architecture = Architecture.new(architecture_params)
         if @architecture.save
-          render json: @architecture
+          render json: @architecture, status: :created
         else
-          render json: @architecture.errors
+          render json: { message: @architecture.errors }
         end
       end
 

@@ -48,6 +48,15 @@
                     こちら
                   </v-btn>
                 </v-card-actions>
+                <v-autocomplete
+                  v-model="architecture"
+                  :items="architectures"
+                  item-text="name"
+                  item-value="id"
+                  placeholder="紐付けしたい建築物を選択してください"
+                  clearable
+                  prepend-icon="mdi-home"
+                />
                 <template v-if="dialog">
                   <v-dialog v-model="dialog" persistent width="500px">
                     <architecture-create-modal @close="closeDialog" />
@@ -94,12 +103,19 @@ export default {
   components: {
     ArchitectureCreateModal
   },
+  async asyncData({ $axios }) {
+    const architectures = await $axios
+      .$get('/api/v1/architectures')
+    return { architectures }
+  },
   data() {
     return {
       title: '',
       content: '',
       image: null,
       sendImage: null,
+      architecture: null,
+      architectures: [],
       dialog: false,
       icon: require('@/assets/images/sample.jpg'),
       imageRules: [
@@ -121,14 +137,24 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('authentication', [
-      'currentUser'
-    ])
+    ...mapGetters({
+      currentUser: 'authentication/currentUser',
+      archi: 'architecture/architecture'
+    }),
+    loadArchi() {
+      return this.archi
+    }
+  },
+  watch: {
+    loadArchi() {
+      this.architectures.unshift(this.archi)
+    }
   },
   methods: {
-    ...mapActions('snackbarMessage', [
-      'messageShow'
-    ]),
+    ...mapActions({
+      architecturesGet: 'architecture/architecturesGet',
+      messageShow: 'snackbarMessage/messageShow'
+    }),
     closeDialog() {
       this.dialog = false
     },
@@ -153,6 +179,7 @@ export default {
       formData.append('title', this.title)
       formData.append('content', this.content)
       formData.append('image', this.sendImage)
+      formData.append('architecture_id', this.architecture)
       return formData
     },
     async postCreate() {
