@@ -7,21 +7,17 @@
         </v-card-title>
         <v-card-text>
           <v-form ref="form">
-            <v-row>
+            <v-row justify="center" align="end">
               <v-col cols="6">
-                <div>
+                <div class="pb-0">
                   <v-img
                     v-if="image"
                     :src="image"
-                    width="300px"
-                    height="300px"
                     class="mx-auto"
                   />
                   <v-img
                     v-else
                     :src="icon"
-                    width="300px"
-                    height="300px"
                     class="mx-auto"
                   />
                 </div>
@@ -31,12 +27,13 @@
                   label="投稿する画像を選択してください"
                   :rules="imageRules"
                   validate-on-blur
+                  class="file"
                   prepend-icon="mdi-image"
                   @change="setImage"
                 />
               </v-col>
               <v-col cols="6">
-                <v-card-actions>
+                <v-card-actions class="justify-center pa-0">
                   <span>
                     ※紐付けしたい建築物が無い場合は
                   </span>
@@ -78,19 +75,19 @@
                   counter="200"
                   prepend-icon="mdi-note-text"
                 />
+                <v-card-actions class="px-0 pb-6">
+                  <v-btn
+                    block
+                    color="light-blue lighten-2"
+                    @click="postCreateAction"
+                  >
+                    投稿
+                  </v-btn>
+                </v-card-actions>
               </v-col>
             </v-row>
           </v-form>
         </v-card-text>
-        <v-card-actions class="pa-4 pt-0">
-          <v-btn
-            block
-            color="light-blue lighten-2"
-            @click="postCreateAction"
-          >
-            投稿
-          </v-btn>
-        </v-card-actions>
       </v-card>
     </v-col>
   </v-row>
@@ -215,3 +212,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.file {
+  margin-bottom: 2px;
+}
+</style>
