@@ -35,6 +35,10 @@
           <like-user-modal :users="post.like_users" />
         </v-card-actions>
         <v-divider />
+        <template v-if="post.architecture">
+          <architecture-post-show :architecture="post.architecture" />
+          <v-divider />
+        </template>
         <comment-form :post="post" />
         <v-divider />
         <comment-list :comments="post.comments" />
@@ -49,6 +53,7 @@ import dayjs from 'dayjs'
 import PostSettingButton from '~/components/post/PostSettingButton.vue'
 import LikeButton from '~/components/like/LikeButton.vue'
 import LikeUserModal from '~/components/like/LikeUserModal.vue'
+import ArchitecturePostShow from '~/components/architecture/ArchitecturePostShow.vue'
 import CommentForm from '~/components/comment/CommentForm.vue'
 import CommentList from '~/components/comment/CommentList.vue'
 export default {
@@ -56,6 +61,7 @@ export default {
     PostSettingButton,
     LikeButton,
     LikeUserModal,
+    ArchitecturePostShow,
     CommentForm,
     CommentList
   },
