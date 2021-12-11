@@ -15,10 +15,43 @@
     <v-card-title class="justify-center">
       <span class="headline">建築物登録</span>
     </v-card-title>
-    <v-window v-model="step">
-      <v-window-item :value="1">
-        <v-card-text>
-          <v-form ref="archi_form">
+    <v-stepper
+      v-model="e1"
+      flat
+    >
+      <v-stepper-header class="blue-grey lighten-5 mx-6">
+        <v-stepper-step
+          :complete="e1 > 1"
+          step="1"
+          :rules="step1Error"
+          error-icon="mdi-alert-circle-outline"
+          color="light-blue lighten-2"
+        >
+          基本情報入力
+        </v-stepper-step>
+        <v-divider />
+        <v-stepper-step
+          :complete="e1 > 2"
+          step="2"
+          :rules="step2Error"
+          error-icon="mdi-alert-circle-outline"
+          color="light-blue lighten-2"
+        >
+          詳細情報入力
+        </v-stepper-step>
+        <v-divider />
+        <v-stepper-step
+          step="3"
+          :rules="step3Error"
+          error-icon="mdi-alert-circle-outline"
+          color="light-blue lighten-2"
+        >
+          画像選択
+        </v-stepper-step>
+      </v-stepper-header>
+      <v-stepper-items>
+        <v-stepper-content step="1">
+          <v-form ref="step1_form">
             <v-text-field
               v-model="name"
               label="建築名"
@@ -27,7 +60,7 @@
               validate-on-blur
               counter="30"
               prepend-icon="mdi-pencil"
-              @change="error = []"
+              @input="error = []"
             />
             <v-select
               v-model="prefecture"
@@ -47,12 +80,10 @@
               prepend-icon="mdi-map-marker"
             />
           </v-form>
-        </v-card-text>
-      </v-window-item>
-      <v-window-item :value="2">
-        <v-card-text>
-          <v-form ref="show_form">
-            <v-select
+        </v-stepper-content>
+        <v-stepper-content step="2">
+          <v-form ref="step2_form">
+            <v-combobox
               v-model="construction"
               multiple
               label="構造"
@@ -87,11 +118,9 @@
               prepend-icon="mdi-stairs-down"
             />
           </v-form>
-        </v-card-text>
-      </v-window-item>
-      <v-window-item :value="3">
-        <v-card-text>
-          <v-form ref="image_form">
+        </v-stepper-content>
+        <v-stepper-content step="3">
+          <v-form ref="step3_form">
             <v-img
               v-if="image"
               :src="image"
@@ -103,7 +132,7 @@
               v-else
               :src="icon"
               max-width="400px"
-              max-height="200px"
+              max-height="300px"
               class="mx-auto"
             />
             <v-file-input
@@ -116,33 +145,39 @@
               @change="setImage"
             />
           </v-form>
-        </v-card-text>
-      </v-window-item>
-    </v-window>
+        </v-stepper-content>
+      </v-stepper-items>
+    </v-stepper>
     <v-card-actions class="justify-end align-end pa-6 pt-0 mt-auto mb-0">
       <v-btn
-        :disabled="step === 1"
-        @click="step--"
+        v-if="e1 > 1"
+        @click="e1--"
       >
         戻る
       </v-btn>
-      <v-spacer />
       <v-btn
-        v-if="step === 1"
+        v-if="e1 === 2"
+        color="light-green"
+        @click="skipButtonValidation"
+      >
+        スキップ
+      </v-btn>
+      <v-btn
+        v-if="e1 === 1"
         color="light-blue lighten-2"
-        @click="archiValidation"
+        @click="step1Validation"
       >
         次へ
       </v-btn>
       <v-btn
-        v-if="step === 2"
+        v-if="e1 === 2"
         color="light-blue lighten-2"
-        @click="showValidation"
+        @click="step2Validation"
       >
         次へ
       </v-btn>
       <v-btn
-        v-if="step === 3"
+        v-if="e1 === 3"
         color="light-blue lighten-2"
         @click="archiCreateAction"
       >
@@ -158,12 +193,15 @@ export default {
   data() {
     return {
       dialog: false,
-      step: 0,
+      e1: 1,
+      step1Error: [],
+      step2Error: [],
+      step3Error: [],
       name: '',
       prefecture: null,
-      designer: '',
+      designer: null,
       address: '',
-      construction: null,
+      construction: [],
       aboveFloor: null,
       underFloor: null,
       image: null,
@@ -202,7 +240,7 @@ export default {
         v => (v && v.length <= 50) || '50文字以内で入力してください'
       ],
       constructionRules: [
-        v => !!v || '構造を選択してください'
+        v => (!!v && v.length > 0) || '構造を選択または入力してください'
       ],
       designerRules: [
         v => !!v || '設計者を入力してください',
@@ -223,15 +261,26 @@ export default {
     closeDialog() {
       this.$emit('close')
     },
-    archiValidation() {
-      if (this.$refs.archi_form.validate() && !this.error[0]) {
-        this.step++
+    step1Validation() {
+      if (this.$refs.step1_form.validate() && !this.error[0]) {
+        this.e1++
+        this.step1Error = [() => true]
+      } else {
+        this.step1Error = [() => false]
       }
     },
-    showValidation() {
-      if (this.$refs.show_form.validate()) {
-        this.step++
+    step2Validation() {
+      if (this.$refs.step2_form.validate()) {
+        this.e1++
+        this.step2Error = [() => true]
+      } else {
+        this.step2Error = [() => false]
       }
+    },
+    skipButtonValidation() {
+      this.e1++
+      this.step2Error = [() => true]
+      this.$refs.step2_form.reset()
     },
     setImage(file) {
       this.sendImage = file
@@ -253,11 +302,19 @@ export default {
       formData.append('name', this.name)
       formData.append('prefecture', this.prefecture)
       formData.append('address', this.address)
-      formData.append('construction', this.construction)
-      formData.append('designer', this.designer)
       formData.append('image', this.sendImage)
-      formData.append('above_floor', this.aboveFloor)
-      formData.apeend('under_floor', this.underFloor)
+      if (this.construction !== []) {
+        formData.append('construction', this.construction)
+      }
+      if (this.designer !== null) {
+        formData.append('designer', this.designer)
+      }
+      if (this.aboveFloor !== null) {
+        formData.append('above_floor', this.aboveFloor)
+      }
+      if (this.underFloor !== null) {
+        formData.append('under_floor', this.underFloor)
+      }
       return formData
     },
     async archiCreate() {
@@ -276,7 +333,8 @@ export default {
     errorValidation(message) {
       if (message.name[0] === 'has already been taken') {
         this.error = ['この建築名は既に登録されています']
-        this.step = 1
+        this.e1 = 1
+        this.step1Error = [() => false]
       }
     },
     async userArchiCreate() {
@@ -284,7 +342,6 @@ export default {
       if (!res) {
         return
       }
-      console.log(res)
       if (res.data.message) {
         this.errorValidation(res.data.message)
         return
@@ -298,8 +355,10 @@ export default {
       })
     },
     archiCreateAction() {
-      if (this.$refs.image_form.validate()) {
+      if (this.$refs.step3_form.validate()) {
         this.userArchiCreate()
+      } else {
+        this.step3Error = [() => false]
       }
     }
   }
