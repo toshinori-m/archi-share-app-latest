@@ -15,7 +15,7 @@ module Api
       end
 
       def show
-        @post = Post.includes(:like_users, :comments).find(params[:id])
+        @post = Post.includes(:like_users, :architecture, :comments).find(params[:id])
         render json: @post.as_json(
           only: %i[id title content image],
           include: [
@@ -24,7 +24,8 @@ module Api
               { user: { only: %i[id name image] } },
               { post: { only: %i[id] } }
             ] } },
-            :like_users
+            :like_users,
+            :architecture
           ]
         )
       end
@@ -59,7 +60,7 @@ module Api
       private
 
       def post_params
-        params.permit(:user_id, :title, :content, :image)
+        params.permit(:user_id, :title, :content, :image, :architecture_id)
       end
 
       def set_post

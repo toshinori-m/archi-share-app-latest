@@ -271,8 +271,8 @@ export default {
         })
       return response
     },
-    errorValidation(res) {
-      if (res.data.name[0] === 'has already been taken') {
+    errorValidation(message) {
+      if (message.name[0] === 'has already been taken') {
         this.error = ['この建築名は既に登録されています']
         this.step = 1
       }
@@ -283,8 +283,8 @@ export default {
         return
       }
       console.log(res)
-      if (res.data.name) {
-        this.errorValidation(res)
+      if (res.data.message) {
+        this.errorValidation(res.data.message)
         return
       }
       this.archiSet(res.data)
