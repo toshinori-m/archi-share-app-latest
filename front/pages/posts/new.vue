@@ -50,6 +50,7 @@
                   :items="architectures"
                   item-text="name"
                   item-value="id"
+                  no-data-text="該当する建築物はありません"
                   placeholder="紐付けしたい建築物を選択してください"
                   clearable
                   prepend-icon="mdi-home"
