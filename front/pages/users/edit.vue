@@ -3,7 +3,11 @@
     <v-col cols="3" sm="2" md="3" align-self="start">
       <v-card>
         <v-list>
-          <v-list-item-group v-model="selectedItem" color="light-blue">
+          <v-list-item-group
+            v-model="selectedItem"
+            mandatory
+            color="light-blue"
+          >
             <v-list-item v-for="(item, i) in items" :key="i">
               <v-list-item-icon>
                 <v-icon v-text="item.icon"></v-icon>
