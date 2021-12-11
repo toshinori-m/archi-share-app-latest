@@ -70,7 +70,7 @@
               counter="20"
               prepend-icon="mdi-account-edit"
             />
-            <v-select
+            <v-combobox
               v-model="aboveFloor"
               :items="above"
               label="地上階"
@@ -79,7 +79,7 @@
               clearable
               prepend-icon="mdi-stairs-up"
             />
-            <v-select
+            <v-combobox
               v-model="underFloor"
               :items="under"
               placeholder="地下がある場合は選択してください"
@@ -171,12 +171,12 @@ export default {
       error: [],
       icon: require('@/assets/images/sample.jpg'),
       prefectures: [
-        '北海道','青森', '岩手', '宮城', '秋田', '山形','福島', '茨城',
-        '栃木', '群馬', '埼玉', '千葉', '東京', '神奈川','新潟', '富山',
-        '石川', '福井', '山梨', '長野', '岐阜', '静岡','愛知', '三重',
-        '滋賀', '京都', '大阪', '兵庫', '奈良', '和歌山','鳥取', '島根',
-        '岡山', '広島', '山口', '徳島', '香川', '愛媛','高知', '福岡',
-        '佐賀', '長崎', '熊本', '大分', '宮崎', '鹿児島','沖縄'
+        '北海道','青森県', '岩手県', '宮城県', '秋田県', '山形県','福島県', '茨城県',
+        '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県','新潟県', '富山県',
+        '石川県', '福井県', '山梨県', '長野県', '岐阜県', '静岡県','愛知県', '三重県',
+        '滋賀県', '京都府', '大阪府', '兵庫県', '奈良県', '和歌山県','鳥取県', '島根県',
+        '岡山県', '広島県', '山口県', '徳島県', '香川県', '愛媛県','高知県', '福岡県',
+        '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県','沖縄県'
       ],
       construct: [
         '木造',
@@ -185,7 +185,7 @@ export default {
         '鉄骨鉄筋コンクリート造',
         'RS造'
       ],
-      above: Array.from(new Array(10)).map((v, i) => i + 1 + '階'),
+      above: Array.from(new Array(10)).map((v, i) => '地上' + (i + 1) + '階'),
       under: Array.from(new Array(5)).map((v, i) => '地下' + (i + 1) + '階'),
       imageRules: [
         v => !!v || '画像を選択してください'
@@ -209,7 +209,7 @@ export default {
         v => (v && v.length <= 20) || '20文字以内で入力してください'
       ],
       aboveRules: [
-        v => !!v || '階数（地上）を選択してください'
+        v => !!v || '階数を選択または入力してください'
       ]
     }
   },
@@ -256,6 +256,8 @@ export default {
       formData.append('construction', this.construction)
       formData.append('designer', this.designer)
       formData.append('image', this.sendImage)
+      formData.append('above_floor', this.aboveFloor)
+      formData.apeend('under_floor', this.underFloor)
       return formData
     },
     async archiCreate() {
