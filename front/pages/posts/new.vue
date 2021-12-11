@@ -1,5 +1,5 @@
 <template>
-  <v-row justify="center" align="center">
+  <v-row justify="center" align="center" dense>
     <v-col cols="12" sm="10" md="8">
       <v-card>
         <v-card-title class="justify-center">
@@ -8,13 +8,23 @@
         <v-card-text>
           <v-form ref="form">
             <v-row>
-              <v-col cols="5">
-                <v-avatar tile size="300">
-                  <v-img v-if="image" :src="image" />
-                  <v-img v-else :src="icon" />
-                </v-avatar>
-              </v-col>
-              <v-col cols="7">
+              <v-col cols="6">
+                <div>
+                  <v-img
+                    v-if="image"
+                    :src="image"
+                    width="300px"
+                    height="300px"
+                    class="mx-auto"
+                  />
+                  <v-img
+                    v-else
+                    :src="icon"
+                    width="300px"
+                    height="300px"
+                    class="mx-auto"
+                  />
+                </div>
                 <v-file-input
                   v-model="sendImage"
                   accept="image/png, image/jpeg, image/bmp"
@@ -24,6 +34,25 @@
                   prepend-icon="mdi-image"
                   @change="setImage"
                 />
+              </v-col>
+              <v-col cols="6">
+                <v-card-actions>
+                  <span>
+                    ※紐付けしたい建築物が無い場合は
+                  </span>
+                  <v-btn
+                    text
+                    color="blue"
+                    @click="dialog = true"
+                  >
+                    こちら
+                  </v-btn>
+                </v-card-actions>
+                <template v-if="dialog">
+                  <v-dialog v-model="dialog" persistent width="500px">
+                    <architecture-create-modal @close="closeDialog" />
+                  </v-dialog>
+                </template>
                 <v-text-field
                   v-model="title"
                   label="投稿名"
@@ -60,13 +89,18 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import ArchitectureCreateModal from '~/components/architecture/ArchitectureCreateModal.vue'
 export default {
+  components: {
+    ArchitectureCreateModal
+  },
   data() {
     return {
       title: '',
       content: '',
       image: null,
       sendImage: null,
+      dialog: false,
       icon: require('@/assets/images/sample.jpg'),
       imageRules: [
         v => !!v || '画像を選択してください'
@@ -95,6 +129,9 @@ export default {
     ...mapActions('snackbarMessage', [
       'messageShow'
     ]),
+    closeDialog() {
+      this.dialog = false
+    },
     setImage(file) {
       this.sendImage = file
       if (file !== undefined && file !== null) {

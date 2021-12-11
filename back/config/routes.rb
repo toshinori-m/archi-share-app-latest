@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       resource :post_likes, only: %i[create destroy]
       resources :comments, only: %i[create destroy]
       resource :relationships, only: %i[create destroy]
+      resources :architectures, only: %i[show create]
     end
   end
 end
