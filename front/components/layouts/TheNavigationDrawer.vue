@@ -20,6 +20,9 @@
           <post-create-button />
         </v-list-item>
         <v-list-item>
+          <post-search-button />
+        </v-list-item>
+        <v-list-item>
           <user-search-button />
         </v-list-item>
         <v-list-item>
@@ -46,6 +49,7 @@ import { mapGetters } from 'vuex'
 import currentUserIcon from '~/components/navigationDrawer/CurrentUserIcon.vue'
 import HomeButton from '~/components/navigationDrawer/HomeButton.vue'
 import PostCreateButton from '~/components/navigationDrawer/PostCreateButton.vue'
+import PostSearchButton from '~/components/navigationDrawer/PostSearchButton.vue'
 import UserSearchButton from '~/components/navigationDrawer/UserSearchButton.vue'
 import UserEditButton from '~/components/navigationDrawer/UserEditButton.vue'
 import TheSignOut from '~/components/layouts/TheSignOut.vue'
@@ -54,6 +58,7 @@ export default {
     currentUserIcon,
     HomeButton,
     PostCreateButton,
+    PostSearchButton,
     UserSearchButton,
     UserEditButton,
     TheSignOut
