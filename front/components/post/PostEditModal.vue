@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import PostImagePreview from '~/components/post/PostImagePreview.vue'
 export default {
   components: {
@@ -107,12 +107,10 @@ export default {
     this.content = this.post.content
   },
   methods: {
-    ...mapMutations('post', [
-      'postSet'
-    ]),
-    ...mapActions('snackbarMessage', [
-      'messageShow'
-    ]),
+    ...mapActions({
+      postGet: 'post/postGet',
+      messageShow: 'snackbarMessage/messageShow'
+    }),
     closeDialog() {
       this.$emit('close')
     },
@@ -158,7 +156,7 @@ export default {
       if (!res) {
         return
       }
-      this.postSet(res.data)
+      this.postGet(res.data.id)
       this.closeDialog()
       this.messageShow({
         message: '投稿を編集しました',
