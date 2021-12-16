@@ -27,6 +27,8 @@ services:
   front:
       build: front/
       command: yarn run dev
+      environment:
+        API_KEY: $API_KEY
       volumes:
         - ./front:/app:cached
       ports:

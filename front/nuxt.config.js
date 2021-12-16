@@ -30,7 +30,9 @@ export default {
   plugins: [
     { src: '~/plugins/axios.js' },
     { src: '~/plugins/day.js' },
-    { src: '~/plugins/persistedState.client.js' }
+    { src: '~/plugins/persistedState.client.js' },
+    { src: '~/plugins/vue2-google-maps.js' },
+    { src: '~/plugins/vue2-geocoder.js' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -74,5 +76,21 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    extend(config, ctx) {
+      config.externals = config.externals || [];
+      if (!ctx.isClient) {
+        config.externals.splice(0, 0, function(context, request, callback) {
+          if (/^vue2-google-maps($|\/)/.test(request)) {
+            callback(null, false);
+          } else {
+            callback();
+          }
+        });
+      }
+    },
+    vendor: ['vue2-google-maps']
+  },
+  publicRuntimeConfig: {
+    API_KEY : process.env.API_KEY,
   }
 }

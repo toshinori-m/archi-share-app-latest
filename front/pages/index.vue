@@ -16,7 +16,7 @@
       <post-index
         :posts="posts"
         :post="post"
-        @load="this.postsGet"
+        @load="postsGet"
       />
     </v-col>
   </v-row>
