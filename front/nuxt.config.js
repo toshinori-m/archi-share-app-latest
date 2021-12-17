@@ -76,19 +76,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    extend(config, ctx) {
-      config.externals = config.externals || [];
-      if (!ctx.isClient) {
-        config.externals.splice(0, 0, function(context, request, callback) {
-          if (/^vue2-google-maps($|\/)/.test(request)) {
-            callback(null, false);
-          } else {
-            callback();
-          }
-        });
-      }
-    },
-    vendor: ['vue2-google-maps']
+    transpile: [/^vue2-google-maps($|\/)/]
   },
   publicRuntimeConfig: {
     API_KEY : process.env.API_KEY,
