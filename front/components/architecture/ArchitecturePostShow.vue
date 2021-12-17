@@ -15,63 +15,66 @@
         </v-icon>
       </v-btn>
     </v-card-actions>
-    <div>
-      <v-row
-        dense
-        justify="center"
-        align="center"
-      >
-        <v-col cols="5">
-          <div v-if="list" class="pa-2">
-            <v-img :src="architecture.image.url" />
-          </div>
-        </v-col>
-        <v-col cols="7">
-          <v-list v-if="list" dense>
-            <v-list-item>
-              <v-list-item-content>
-                建築名：
-              </v-list-item-content>
-              <v-list-item-content class="align-end">
-                {{ architecture.name }}
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-content>
-                住所：
-              </v-list-item-content>
-              <v-list-item-content class="align-end">
-                {{ architecture.prefecture + architecture.address }}
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-content>
-                構造：
-              </v-list-item-content>
-              <v-list-item-content class="align-end">
-                {{ architecture.construction }}
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-content>
-                設計者：
-              </v-list-item-content>
-              <v-list-item-content class="align-end">
-                {{ architecture.designer }}
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-content>
-                階数：
-              </v-list-item-content>
-              <v-list-item-content class="align-end">
-                {{ architecture.above_floor + architecture.under_floor }}
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-        </v-col>
-      </v-row>
-    </div>
+    <template v-if="list">
+      <div>
+        <v-row
+          dense
+          justify="center"
+          align="center"
+        >
+          <v-col cols="5">
+            <div class="pa-2">
+              <v-img :src="architecture.image.url" />
+            </div>
+          </v-col>
+          <v-col cols="7">
+            <v-list dense>
+              <v-list-item>
+                <v-list-item-content>
+                  建築名：
+                </v-list-item-content>
+                <v-list-item-content class="align-end">
+                  {{ architecture.name }}
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  住所：
+                </v-list-item-content>
+                <v-list-item-content class="align-end">
+                  {{ architecture.prefecture + architecture.address }}
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  構造：
+                </v-list-item-content>
+                <v-list-item-content class="align-end">
+                  {{ architecture.construction }}
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  設計者：
+                </v-list-item-content>
+                <v-list-item-content class="align-end">
+                  {{ architecture.designer }}
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  階数：
+                </v-list-item-content>
+                <v-list-item-content class="align-end">
+                  {{ architecture.above_floor + architecture.under_floor }}
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+          </v-col>
+        </v-row>
+      </div>
+      <architecture-post-map :architecture="architecture" />
+    </template>
     <v-card-actions class="justify-center pa-0">
       <v-btn
         v-if="list"
