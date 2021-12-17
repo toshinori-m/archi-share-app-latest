@@ -37,6 +37,9 @@
           <home-button />
         </v-list-item>
         <v-list-item>
+          <post-search-button />
+        </v-list-item>
+        <v-list-item>
           <user-search-button />
         </v-list-item>
       </template>
