@@ -2,7 +2,7 @@
   <v-row justify="center" align="center">
     <v-col cols="12" sm="10" md="8">
       <v-data-iterator
-        :items="posts"
+        :items="filteredArchitectures"
         :items-per-page="itemsPerPage"
         no-results-text="該当する投稿はありません"
         :page="page"
@@ -27,10 +27,22 @@
                 prepend-inner-icon="mdi-magnify"
                 label="検索"
               />
+              <v-spacer />
+              <v-autocomplete
+                v-model="architecture"
+                :items="architectures"
+                flat
+                hide-details
+                solo-inverted
+                no-data-text="該当する建築物はありません"
+                item-text="name"
+                item-value="id"
+                placeholder="建築物を選択"
+              />
+              <v-spacer />
               <v-btn-toggle
                 v-model="sortDesc"
                 mandatory
-                class="ml-5"
               >
                 <v-btn
                   large
@@ -155,10 +167,12 @@ export default {
     LikeButton,
     ElapsedTime
   },
-  async asyncData({ $axios }) {
-    const posts = await $axios
-      .$get('/api/v1/posts')
-    return { posts }
+  async asyncData({ app }) {
+    const [posts, architectures] = await Promise.all([
+      app.$axios.$get('/api/v1/posts'),
+      app.$axios.$get('/api/v1/architectures')
+    ])
+    return { posts, architectures }
   },
   data() {
     return {
@@ -168,7 +182,10 @@ export default {
       page: 1,
       itemsPerPage: 6,
       sortBy: 'created_at',
-      posts: null
+      groupBy: 'architecture_id',
+      posts: null,
+      architectures: null,
+      architecture: null
     }
   },
   head() {
@@ -185,6 +202,22 @@ export default {
     },
     postUpdate() {
       return this.post
+    },
+    filteredArchitectures() {
+      if (this.architecture !== null) {
+        const list = []
+        for (let i = 0; i < this.posts.length; i++) {
+          const post = this.posts[i]
+          if (post.architecture) {
+            if (post.architecture.id === this.architecture) {
+              list.push(post)
+            }
+          }
+        }
+        return list
+      } else {
+        return this.posts
+      }
     }
   },
   watch: {
