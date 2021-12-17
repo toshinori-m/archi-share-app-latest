@@ -37,6 +37,7 @@
                 no-data-text="該当する建築物はありません"
                 item-text="name"
                 item-value="id"
+                clearable
                 placeholder="建築物を選択"
               />
               <v-spacer />
