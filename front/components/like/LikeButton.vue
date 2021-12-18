@@ -1,5 +1,5 @@
 <template>
-  <div v-if="login" class="d-flex">
+  <div class="d-flex">
     <span class="d-flex align-center text-h6">
       {{ post.like_users.length }}
     </span>
@@ -43,12 +43,29 @@ export default {
     ...mapGetters({
       currentUser: 'authentication/currentUser',
       login: 'authentication/login'
-    })
+    }),
+    loginCheck() {
+      return this.currentUser
+    }
+  },
+  watch: {
+    loginCheck() {
+      if (this.login) {
+        this.like = false
+        this.currentUser.postlike.forEach((f) => {
+          if (this.post.id === f.id) {
+            this.like = true
+          }
+        })
+      } else {
+        this.like = false
+      }
+    }
   },
   mounted() {
     if (this.login) {
-      this.post.like_users.forEach((f) => {
-        if (this.currentUser.id === f.id) {
+      this.currentUser.postlike.forEach((f) => {
+        if (this.post.id === f.id) {
           this.like = true
         }
       })
@@ -61,7 +78,8 @@ export default {
     ...mapActions({
       currentUserInfo: 'authentication/currentUserInfo',
       postGet: 'post/postGet',
-      messageShow: 'snackbarMessage/messageShow'
+      messageShow: 'snackbarMessage/messageShow',
+      userSignInModal: 'modal/userSignInModal'
     }),
     async likePost() {
       const response = await this.$axios
@@ -88,13 +106,16 @@ export default {
       return response
     },
     async userLikePost() {
+      if (!this.login) {
+        this.userSignInModal(true)
+        return
+      }
       const res = await this.likePost()
       if (!res) {
         return
       }
-      // this.currentUserInfo(this.currentUser)
+      this.currentUserInfo(this.currentUser)
       this.postSet(res.data)
-      this.like = true
       this.messageShow({
         message: '投稿をいいねしました',
         type: 'success',
@@ -106,9 +127,8 @@ export default {
       if (!res) {
         return
       }
-      // this.currentUserInfo(this.currentUser)
+      this.currentUserInfo(this.currentUser)
       this.postSet(res.data)
-      this.like = false
       this.messageShow({
         message: '投稿のいいねを外しました',
         type: 'info',
