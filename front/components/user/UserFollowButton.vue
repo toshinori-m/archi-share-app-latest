@@ -1,24 +1,40 @@
 <template>
-  <div v-if="login">
-    <template v-if="currentUser.id !== user.id">
+  <div>
+    <template v-if="login">
+      <template v-if="currentUser.id !== user.id">
+        <v-btn
+          v-if="follow"
+          min-width="125"
+          rounded
+          :color="color"
+          @click.stop="userUnFollow"
+          @mouseover="mouseover"
+          @mouseleave="mouseleave"
+        >
+          {{ message }}
+        </v-btn>
+        <v-btn
+          v-else
+          min-width="125"
+          rounded
+          outlined
+          color="blue"
+          @click.stop="userFollow"
+        >
+          <v-icon>
+            mdi-account-plus
+          </v-icon>
+          フォロー
+        </v-btn>
+      </template>
+    </template>
+    <template v-else>
       <v-btn
-        v-if="follow"
-        min-width="125"
-        rounded
-        :color="color"
-        @click.stop="userUnFollow"
-        @mouseover="mouseover"
-        @mouseleave="mouseleave"
-      >
-        {{ message }}
-      </v-btn>
-      <v-btn
-        v-else
         min-width="125"
         rounded
         outlined
         color="blue"
-        @click.stop="userFollow"
+        @click.stop="userLogin"
       >
         <v-icon>
           mdi-account-plus
@@ -49,10 +65,26 @@ export default {
     ...mapGetters('authentication', [
       'login',
       'currentUser'
-    ])
+    ]),
+    currentUserCheck() {
+      return this.currentUser
+    }
+  },
+  watch: {
+    currentUserCheck() {
+      if (this.login) {
+        this.follow = false
+        this.currentUser.followings.forEach((f) => {
+          if (this.user.id === f.id) {
+            this.follow = true
+          }
+        })
+      }
+    }
   },
   mounted() {
     if (this.login) {
+      this.follow = false
       this.currentUser.followings.forEach((f) => {
         if (this.user.id === f.id) {
           this.follow = true
@@ -64,7 +96,8 @@ export default {
     ...mapActions({
       userGet: 'user/userGet',
       currentUserInfo: 'authentication/currentUserInfo',
-      messageShow: 'snackbarMessage/messageShow'
+      messageShow: 'snackbarMessage/messageShow',
+      userSignInModal: 'modal/userSignInModal'
     }),
     mouseover() {
       this.color = 'red white--text'
@@ -73,6 +106,9 @@ export default {
     mouseleave() {
       this.color = 'blue white--text'
       this.message = 'フォロー中'
+    },
+    userLogin() {
+      this.userSignInModal(true)
     },
     async followButton() {
       const response = await this.$axios
@@ -104,7 +140,6 @@ export default {
         return
       }
       this.currentUserInfo(this.currentUser)
-      this.follow = true
       this.messageShow({
         message: 'フォローしました',
         type: 'success',
@@ -117,7 +152,6 @@ export default {
         return
       }
       this.currentUserInfo(this.currentUser)
-      this.follow = false
       this.messageShow({
         message: 'フォロー解除しました',
         type: 'success',
