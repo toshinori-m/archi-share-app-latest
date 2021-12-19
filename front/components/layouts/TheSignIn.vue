@@ -23,6 +23,7 @@
               label="メールアドレス"
               :rules="emailRules"
               validate-on-blur
+              color="secondary"
               prepend-icon="mdi-email"
             />
             <v-text-field
@@ -31,6 +32,7 @@
               :type="show ? 'text' : 'password'"
               :rules="passwordRules"
               validate-on-blur
+              color="secondary"
               prepend-icon="mdi-lock"
               :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="show = !show"
@@ -40,7 +42,7 @@
         <v-card-actions class="justify-center px-6 pt-0 pb-6">
           <v-btn
             block
-            color="light-blue lighten-2"
+            color="tertiary"
             @click="signInAction(user)"
           >
             ログイン
