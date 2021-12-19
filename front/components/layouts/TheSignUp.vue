@@ -12,7 +12,7 @@
           </v-btn>
         </v-card-actions>
         <v-card-title class="justify-center pa-0">
-          <span class="text-h5 text-weight-bold">ユーザー登録</span>
+          <span class="text-h5 text-weight-bold primary--text">ユーザー登録</span>
         </v-card-title>
         <v-card-text class="pt-6">
           <v-form ref="form">
@@ -22,6 +22,7 @@
               :rules="nameRules"
               validate-on-blur
               counter="30"
+              color="secondary"
               prepend-icon="mdi-lead-pencil"
             />
             <v-text-field
@@ -29,6 +30,7 @@
               label="メールアドレス"
               :rules="emailRules"
               validate-on-blur
+              color="secondary"
               prepend-icon="mdi-email"
             />
             <v-text-field
@@ -38,6 +40,7 @@
               :rules="passwordRules"
               validate-on-blur
               counter
+              color="secondary"
               prepend-icon="mdi-lock"
               :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="show = !show"
@@ -49,6 +52,7 @@
               :rules="[passwordConfirmationRules]"
               validate-on-blur
               counter
+              color="secondary"
               prepend-icon="mdi-lock"
               :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="show2 = !show2"
@@ -58,7 +62,7 @@
         <v-card-actions class="justify-center px-6 pt-0 pb-6">
           <v-btn
             block
-            color="light-blue lighten-2"
+            color="tertiary"
             @click="signUpAction(user)"
           >
             登録

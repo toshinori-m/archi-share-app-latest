@@ -63,7 +63,8 @@ export default {
       themes: {
         light: {
           primary: '463528',
-          secondary: '8E806A'
+          secondary: '8E806A',
+          tertiary: 'D0CE7C'
         },
         dark: {
           primary: colors.blue.darken2,
