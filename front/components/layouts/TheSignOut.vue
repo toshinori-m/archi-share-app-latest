@@ -1,19 +1,12 @@
 <template>
   <div>
-    <v-tooltip right>
-      <template #activator="{ on, attrs }">
-        <v-btn
-          icon
-          large
-          v-bind="attrs"
-          v-on="on"
-          @click="dialog = true"
-        >
-          <v-icon color="white">mdi-close</v-icon>
-        </v-btn>
-      </template>
-      <span class="text-caption">ログアウト</span>
-    </v-tooltip>
+    <v-btn
+      icon
+      large
+      @click="dialog = true"
+    >
+      <v-icon color="primary">mdi-logout</v-icon>
+    </v-btn>
     <v-dialog
       v-model="dialog"
       persistent

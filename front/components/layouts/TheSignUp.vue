@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-btn icon @click="userSignUpModal(true)">
-      <v-icon color="white">mdi-account-plus</v-icon>
+      <v-icon color="primary">mdi-account-plus</v-icon>
     </v-btn>
     <v-dialog v-model="signUpModal" persistent width="500px">
       <v-card>
