@@ -1,41 +1,114 @@
 <template>
-  <div>
-    <div class="d-flex justify-space-between flex-wrap mt-5">
-      <v-card
-        v-for="post in viewLists"
-        :key="post.id"
-        width="250"
-        class="mb-10"
-        @click="postClick(post)"
+  <v-data-iterator
+    :items="posts"
+    :items-per-page="itemsPerPage"
+    :page="page"
+    hide-default-footer
+  >
+    <template #header>
+      <v-toolbar
+        class="mb-2"
+        color="tertiary"
       >
-        <v-img
-          :src="post.image.url"
-          width="250"
-          height="200"
-        />
-        <p class="font-weight-bold text-truncate text-center ma-1 mb-0">
-          {{ post.title }}
-        </p>
-        <v-card-actions>
-          <div
-            class="d-inline-block"
-            @click.stop="userClick(post.user)"
-          >
-            <v-avatar size="50">
-              <v-img :src="post.user.image.url" />
-            </v-avatar>
-            {{ post.user.name }}
-          </div>
-          <v-spacer />
-          <elapsed-time :content="post" />
-        </v-card-actions>
-        <div class="d-flex justify-end">
-          <like-button :post="post" />
-        </div>
-      </v-card>
-    </div>
-    <v-pagination v-model="page" :length="pageLength" />
-  </div>
+        <v-toolbar-title>
+          最近の投稿
+        </v-toolbar-title>
+      </v-toolbar>
+    </template>
+    <template #default="props">
+      <v-row>
+        <v-col
+          v-for="item in props.items"
+          :key="item.id"
+          cols="12"
+          sm="6"
+          md="4"
+          lg="4"
+        >
+          <v-card @click="postClick(item)">
+            <v-img :src="item.image.url" />
+            <v-card-title class="justify-center font-weight-bold">
+              <span class="text-truncate">
+                {{ item.title }}
+              </span>
+            </v-card-title>
+            <v-card-actions class="py-0">
+              <div
+                class="d-inline-block"
+                @click.stop="userClick(item.user)"
+              >
+                <v-avatar size="50">
+                  <v-img :src="item.user.image.url" />
+                </v-avatar>
+                {{ item.user.name }}
+              </div>
+              <v-spacer />
+              <elapsed-time :content="item" />
+            </v-card-actions>
+            <v-card-actions class="justify-end pt-0">
+              <like-button :post="item" />
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+    </template>
+    <template #footer>
+      <v-row
+        class="ma-2"
+        align="center"
+        justify="center"
+      >
+        <span class="primary--text">
+          Items per page
+        </span>
+        <v-menu offset-y>
+          <template #activator="{ on, attrs }">
+            <v-btn
+              text
+              color="primary"
+              class="ml-2"
+              v-bind="attrs"
+              v-on="on"
+            >
+              {{ itemsPerPage }}
+              <v-icon>mdi-chevron-down</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item
+              v-for="(number, i) in itemsPerPageArray"
+              :key="i"
+              @click="updateItemsPerPage(number)"
+            >
+              <v-list-item-title>
+                {{ number }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <v-spacer />
+        <span class="mr-4 primary--text">
+          Page {{ page }} of {{ numberOfPages }}
+        </span>
+        <v-btn
+          fab
+          color="secondary"
+          class="mr-1"
+          @click="formerPage"
+        >
+          <v-icon>mdi-chevron-left</v-icon>
+        </v-btn>
+        <v-btn
+          fab
+          color="secondary"
+          class="ml-1"
+          @click="nextPage"
+        >
+          <v-icon>mdi-chevron-right</v-icon>
+        </v-btn>
+      </v-row>
+    </template>
+  </v-data-iterator>
 </template>
 
 <script>
@@ -54,25 +127,21 @@ export default {
   },
   data() {
     return {
+      itemsPerPageArray: [6, 9, 12],
       page: 1,
-      pageSize: 4
+      itemsPerPage: 6
     }
   },
   computed: {
-    pageLength() {
-      const length = Math.ceil(this.posts.length / this.pageSize)
-      return length
-    },
-    viewLists() {
-      const lists = this.posts.slice(
-        this.pageSize * (this.page - 1),
-        this.pageSize * this.page
-      )
-      return lists
-    },
     loadPost() {
       return this.$store.getters['post/post']
     },
+    numberOfPages () {
+      return Math.ceil(this.posts.length / this.itemsPerPage)
+    },
+    filteredKeys () {
+      return this.keys.filter(key => key !== 'Name')
+    }
   },
    watch: {
     loadPost() {
@@ -85,6 +154,15 @@ export default {
     },
     userClick(user) {
       this.$router.push(`/users/${user.id}`)
+    },
+    nextPage () {
+      if (this.page + 1 <= this.numberOfPages) this.page += 1
+    },
+    formerPage () {
+      if (this.page - 1 >= 1) this.page -= 1
+    },
+    updateItemsPerPage (number) {
+      this.itemsPerPage = number
     }
   }
 }
