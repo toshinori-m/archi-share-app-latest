@@ -10,7 +10,7 @@
         class="mb-2"
         color="tertiary"
       >
-        <v-toolbar-title>
+        <v-toolbar-title class="primary--text">
           最近の投稿
         </v-toolbar-title>
       </v-toolbar>
