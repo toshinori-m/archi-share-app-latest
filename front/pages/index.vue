@@ -1,18 +1,6 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card class="text-center">
-        <v-card-title class="headline justify-center">
-          ArchiShare App
-        </v-card-title>
-        <v-card-subtitle>
-          This is an architectural learning app
-        </v-card-subtitle>
-        <v-card-text>
-          <p v-if="login">{{ currentUser.name }}がログインしています</p>
-          <p v-else>まだログインしていません</p>
-        </v-card-text>
-      </v-card>
+    <v-col cols="12" sm="10" md="10">
       <post-index
         :posts="posts"
         :post="post"
