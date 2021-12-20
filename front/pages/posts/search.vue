@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" sm="10" md="8">
+    <v-col cols="12" sm="10" md="10">
       <v-data-iterator
         :items="filteredArchitectures"
         :items-per-page="itemsPerPage"
@@ -12,12 +12,12 @@
         hide-default-footer
       >
         <template #header>
-          <v-toolbar
-            dark
-            color="light-blue lighten-2"
-            class="mb-1"
-          >
-            <template v-if="$vuetify.breakpoint.mdAndUp">
+          <template v-if="$vuetify.breakpoint.mdAndUp">
+            <v-toolbar
+              dark
+              color="primary"
+              class="mb-1"
+            >
               <v-text-field
                 v-model="search"
                 clearable
@@ -38,7 +38,7 @@
                 item-text="name"
                 item-value="id"
                 clearable
-                placeholder="建築物を選択"
+                label="建築物を選択"
               />
               <v-spacer />
               <v-btn-toggle
@@ -62,8 +62,132 @@
                   <v-icon>mdi-arrow-down</v-icon>
                 </v-btn>
               </v-btn-toggle>
-            </template>
-          </v-toolbar>
+            </v-toolbar>
+          </template>
+          <template v-if="$vuetify.breakpoint.smOnly">
+            <v-toolbar
+              dark
+              flat
+              color="primary"
+            >
+              <v-text-field
+                v-model="search"
+                clearable
+                flat
+                solo-inverted
+                hide-details
+                prepend-inner-icon="mdi-magnify"
+                label="検索"
+              />
+            </v-toolbar>
+            <v-toolbar
+              dark
+              flat
+              color="primary"
+              class="mb-1"
+            >
+              <v-autocomplete
+                v-model="architecture"
+                :items="architectures"
+                flat
+                hide-details
+                solo-inverted
+                no-data-text="該当する建築物はありません"
+                item-text="name"
+                item-value="id"
+                clearable
+                label="建築物を選択"
+              />
+              <v-spacer />
+              <v-btn-toggle
+                v-model="sortDesc"
+                mandatory
+              >
+                <v-btn
+                  large
+                  depressed
+                  color="red lighten-1"
+                  :value="false"
+                >
+                  <v-icon>mdi-arrow-up</v-icon>
+                </v-btn>
+                <v-btn
+                  large
+                  depressed
+                  color="indigo darken-1"
+                  :value="true"
+                >
+                  <v-icon>mdi-arrow-down</v-icon>
+                </v-btn>
+              </v-btn-toggle>
+            </v-toolbar>
+          </template>
+          <template v-if="$vuetify.breakpoint.xsOnly">
+            <v-toolbar
+              dark
+              flat
+              color="primary"
+            >
+              <v-text-field
+                v-model="search"
+                clearable
+                flat
+                solo-inverted
+                hide-details
+                prepend-inner-icon="mdi-magnify"
+                label="検索"
+              />
+            </v-toolbar>
+            <v-toolbar
+              dark
+              flat
+              color="primary"
+            >
+              <v-autocomplete
+                v-model="architecture"
+                :items="architectures"
+                flat
+                hide-details
+                solo-inverted
+                no-data-text="該当する建築物はありません"
+                item-text="name"
+                item-value="id"
+                clearable
+                label="建築物を選択"
+              />
+            </v-toolbar>
+            <v-toolbar
+              dark
+              flat
+              color="primary"
+              class="mb-1"
+            >
+              <v-btn-toggle
+                v-model="sortDesc"
+                mandatory
+                class="mx-auto"
+              >
+                <v-btn
+                  large
+                  depressed
+                  color="red lighten-1"
+                  width="150"
+                  :value="false"
+                >
+                  <v-icon>mdi-arrow-up</v-icon>
+                </v-btn>
+                <v-btn
+                  large
+                  depressed
+                  color="indigo darken-1"
+                  width="150"
+                  :value="true"
+                >
+                  <v-icon>mdi-arrow-down</v-icon>
+                </v-btn>
+              </v-btn-toggle>
+            </v-toolbar>
+          </template>
         </template>
         <template #default="props">
           <v-row>
@@ -103,8 +227,9 @@
           <v-row
             align="center"
             justify="center"
+            class="ma-2"
           >
-            <span class="grey--text">Items per page</span>
+            <span class="primary--text">Items per page</span>
             <v-menu offset-y>
             <template #activator="{ on, attrs }">
               <v-btn
@@ -132,13 +257,13 @@
           <v-spacer />
           <span
             class="mr-4
-            grey--text"
+            primary--text"
           >
             Page {{ page }} of {{ numberOfPages }}
           </span>
           <v-btn
             fab
-            color="light-blue lighten-2"
+            color="secondary"
             class="mr-1"
             @click="formerPage"
           >
@@ -146,7 +271,7 @@
           </v-btn>
           <v-btn
             fab
-            color="light-blue lighten-2"
+            color="secondary"
             class="ml-1"
             @click="nextPage"
           >
