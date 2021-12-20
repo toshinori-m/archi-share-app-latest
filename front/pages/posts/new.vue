@@ -1,14 +1,30 @@
 <template>
-  <v-row justify="center" align="center" dense>
-    <v-col cols="12" sm="10" md="8">
+  <v-row justify="center" align="center">
+    <v-col cols="12" sm="10" md="10">
+      <v-alert
+        border="top"
+        colored-border
+        type="info"
+        elevation="2"
+      >
+        <span class="primary--text">
+          紐付けしたい建築物が無い場合は、
+          <v-btn text color="blue" width="65" @click="dialog = true">
+            こちら
+          </v-btn>
+          で建築物の登録が出来ます
+        </span>
+      </v-alert>
       <v-card>
-        <v-card-title class="justify-center">
-          <span class="headline">新規投稿</span>
-        </v-card-title>
+        <v-toolbar flat color="tertiary">
+          <v-toolbar-title class="mx-auto">
+            <span class="headline primary--text">投稿フォーム</span>
+          </v-toolbar-title>
+        </v-toolbar>
         <v-card-text>
           <v-form ref="form">
-            <v-row justify="center" align="end">
-              <v-col cols="6">
+            <v-row justify="center" align="center">
+              <v-col cols="12" sm="10" md="6">
                 <div class="pb-0">
                   <v-img
                     v-if="image"
@@ -21,38 +37,17 @@
                     class="mx-auto"
                   />
                 </div>
-                <v-file-input
-                  v-model="sendImage"
-                  accept="image/png, image/jpeg, image/bmp"
-                  label="投稿する画像を選択してください"
-                  :rules="imageRules"
-                  validate-on-blur
-                  class="file"
-                  prepend-icon="mdi-image"
-                  @change="setImage"
-                />
               </v-col>
-              <v-col cols="6">
-                <v-card-actions class="justify-center pa-0">
-                  <span>
-                    ※紐付けしたい建築物が無い場合は
-                  </span>
-                  <v-btn
-                    text
-                    color="blue"
-                    @click="dialog = true"
-                  >
-                    こちら
-                  </v-btn>
-                </v-card-actions>
+              <v-col cols="12" sm="10" md="6">
                 <v-autocomplete
                   v-model="architecture"
                   :items="architectures"
                   item-text="name"
                   item-value="id"
                   no-data-text="該当する建築物はありません"
-                  placeholder="紐付けしたい建築物を選択してください"
+                  placeholder="紐付けしたい建築物を選択"
                   clearable
+                  color="secondary"
                   prepend-icon="mdi-home"
                 />
                 <template v-if="dialog">
@@ -60,12 +55,23 @@
                     <architecture-create-modal @close="closeDialog" />
                   </v-dialog>
                 </template>
+                <v-file-input
+                  v-model="sendImage"
+                  accept="image/png, image/jpeg, image/bmp"
+                  label="投稿する画像を選択"
+                  :rules="imageRules"
+                  validate-on-blur
+                  color="secondary"
+                  prepend-icon="mdi-image"
+                  @change="setImage"
+                />
                 <v-text-field
                   v-model="title"
                   label="投稿名"
                   :rules="titleRules"
                   validate-on-blur
                   counter="30"
+                  color="secondary"
                   prepend-icon="mdi-lead-pencil"
                 />
                 <v-textarea
@@ -74,12 +80,14 @@
                   :rules="contentRules"
                   validate-on-blur
                   counter="200"
+                  color="secondary"
                   prepend-icon="mdi-note-text"
                 />
-                <v-card-actions class="px-0 pb-6">
+                <v-card-actions class="pa-0 pt-4">
                   <v-btn
                     block
-                    color="light-blue lighten-2"
+                    color="tertiary"
+                    class="primary--text"
                     @click="postCreateAction"
                   >
                     投稿
@@ -213,9 +221,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.file {
-  margin-bottom: 2px;
-}
-</style>
