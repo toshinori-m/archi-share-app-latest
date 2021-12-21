@@ -207,17 +207,19 @@
                   <span class="text-truncate">{{ item.title }}</span>
                 </v-card-title>
                 <v-card-actions class="py-0">
-                  <div class="d-inline-block" @click.stop="userClick(item.user)">
+                  <div class="d-inline-block text-truncate" @click.stop="userClick(item.user)">
                     <v-avatar size="50">
                       <v-img :src="item.user.image.url" />
                     </v-avatar>
-                    {{ item.user.name }}
+                    <span class="">{{ item.user.name }}</span>
                   </div>
                   <v-spacer />
-                  <elapsed-time :content="item" />
                 </v-card-actions>
                 <v-card-actions class="justify-end pt-0">
+                  <v-spacer />
                   <like-button :post="item" />
+                  <v-spacer />
+                  <elapsed-time :content="item" />
                 </v-card-actions>
               </v-card>
             </v-col>
@@ -292,6 +294,11 @@ export default {
   components: {
     LikeButton,
     ElapsedTime
+  },
+  filters: {
+    filteredName(name) {
+      return name.length > 10 ? name.slice(0, 9) + '...' : name
+    }
   },
   async asyncData({ app }) {
     const [posts, architectures] = await Promise.all([
