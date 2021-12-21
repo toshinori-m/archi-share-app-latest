@@ -27,6 +27,10 @@
           フォロー
         </v-btn>
       </template>
+      <template v-else>
+        <v-card flat width="150">
+        </v-card>
+      </template>
     </template>
     <template v-else>
       <v-btn
