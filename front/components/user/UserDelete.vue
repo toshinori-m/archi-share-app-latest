@@ -1,8 +1,10 @@
 <template>
   <v-card>
-    <v-card-title class="justify-center">
-      <span class="text-h5 text-weight-bold">アカウント削除</span>
-    </v-card-title>
+    <v-toolbar flat color="tertiary">
+      <v-toolbar-title class="mx-auto">
+        <span class="headline primary--text">アカウント削除</span>
+      </v-toolbar-title>
+    </v-toolbar>
     <v-card-text>
       <p class="text-center">アカウントを削除すると以下のデータが全て消えてしまいます</p>
       <v-list-item v-for="(item, i) in items" :key="i">
@@ -16,6 +18,7 @@
       <v-checkbox
         v-model="checkbox"
         label="アカウントの削除に同意する"
+        color="secondary"
       ></v-checkbox>
     </v-card-actions>
     <v-card-actions class="justify-center">

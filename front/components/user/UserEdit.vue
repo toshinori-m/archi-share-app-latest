@@ -1,8 +1,12 @@
 <template>
   <v-card>
-    <v-card-title class="justify-center">
-      <span class="text-h5 text-weight-bold">ユーザー情報編集</span>
-    </v-card-title>
+    <v-toolbar flat color="tertiary">
+      <v-toolbar-title class="mx-auto">
+        <span class="headline primary--text">
+          ユーザー情報編集
+        </span>
+      </v-toolbar-title>
+    </v-toolbar>
     <v-card-text>
       <v-form ref="form">
         <v-row justify="center">
@@ -22,6 +26,7 @@
           accept="image/png, image/jpeg, image/bmp"
           prepend-icon="mdi-account-box"
           label="ユーザー画像を選択してください"
+          color="secondary"
           @change="setImage"
         />
         <v-text-field
@@ -30,6 +35,7 @@
           :rules="nameRules"
           validate-on-blur
           counter="30"
+          color="secondary"
           prepend-icon="mdi-lead-pencil"
         />
         <v-text-field
@@ -37,6 +43,7 @@
           label="メールアドレス"
           :rules="emailRules"
           validate-on-blur
+          color="secondary"
           prepend-icon="mdi-email"
         />
         <v-textarea
@@ -45,6 +52,7 @@
           :rules="introductionRules"
           validate-on-blur
           counter="150"
+          color="secondary"
           prepend-icon="mdi-card-account-details"
         />
       </v-form>
@@ -52,7 +60,8 @@
     <v-card-actions class="pa-4">
       <v-btn
         block
-        color="light-blue lighten-2"
+        color="tertiary"
+        class="primary--text"
         @click="userEditAction"
       >
         更新
