@@ -1,8 +1,10 @@
 <template>
   <v-card>
-    <v-card-title class="justify-center">
-      <span class="text-h5 text-weight-bold">パスワード変更</span>
-    </v-card-title>
+    <v-toolbar flat color="tertiary">
+      <v-toolbar-title class="mx-auto">
+        <span class="headline primary--text">パスワード変更</span>
+      </v-toolbar-title>
+    </v-toolbar>
     <v-card-text>
       <v-form ref="form">
         <v-text-field
@@ -12,6 +14,7 @@
            :rules="passwordRules"
           validate-on-blur
           counter
+          color="secondary"
           prepend-icon="mdi-lock"
           :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append="show = !show"
@@ -23,6 +26,7 @@
           :rules="[passwordConfirmationRules]"
           validate-on-blur
           counter
+          color="secondary"
           prepend-icon="mdi-lock"
           :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append="show2 = !show2"
@@ -32,7 +36,8 @@
     <v-card-actions class="pa-4">
       <v-btn
         block
-        color="light-blue lighten-2"
+        color="tertiary"
+        class="primary--text"
         @click="userEditAction"
       >
         変更

@@ -63,6 +63,7 @@ export default {
       themes: {
         light: {
           primary: '463528',
+          accent: 'CF995F',
           secondary: '8E806A',
           tertiary: 'D0CE7C'
         },

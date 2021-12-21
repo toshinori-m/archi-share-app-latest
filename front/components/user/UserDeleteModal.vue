@@ -15,16 +15,32 @@
     >
       <v-card>
         <v-card-title class="justify-center">
-          <span>アカウント削除の確認</span>
+          <span class="primary--text">
+            アカウント削除の確認
+          </span>
         </v-card-title>
         <v-card-text class="black--text text-center">
-          <p>本当にアカウントを削除してもよろしいですか？</p>
+          <p class="primary--text">
+            本当にアカウントを削除してもよろしいですか？
+          </p>
         </v-card-text>
         <v-card-actions>
-          <v-btn block color="light-blue lighten-2" @click="userDeleteAction">はい</v-btn>
+          <v-btn
+            block
+            color="tertiary"
+            @click="userDeleteAction"
+          >
+            はい
+          </v-btn>
         </v-card-actions>
         <v-card-actions class="pb-4">
-          <v-btn block @click="dialog = false">いいえ</v-btn>
+          <v-btn
+            block
+            color="grey lighten-2"
+            @click="dialog = false"
+          >
+            いいえ
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
