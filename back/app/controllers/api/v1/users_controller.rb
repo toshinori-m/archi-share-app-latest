@@ -2,7 +2,7 @@ module Api
   module V1
     class UsersController < ApplicationController
       def index
-        @users = User.all.order(id: 'DESC')
+        @users = User.all
         render json: @users.as_json(
           only: %i[id name email introduction image]
         )

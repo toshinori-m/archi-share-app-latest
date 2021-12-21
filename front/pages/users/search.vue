@@ -1,90 +1,186 @@
 <template>
-  <v-row justify="center" algin="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card>
-        <v-card-title class="justify-center headline">
-          <span>ユーザー検索</span>
-        </v-card-title>
-        <v-card-text>
-          <v-form>
-            <v-text-field
-              v-model="filterQuery.name"
-              placeholder="ニックネームで検索"
-              prepend-icon="mdi-lead-pencil"
-            />
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn
-            block
-            color="light-blue lighten-2"
-            @click="handleChangeQuery"
+  <v-row justify="center" justify-lg="start" algin="center">
+    <template v-if="$vuetify.breakpoint.lgAndUp">
+      <v-col lg="5">
+        <v-card>
+          <v-toolbar
+            flat
+            color="tertiary"
+            class="primary--text mb-1"
           >
-          検索
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-      <v-card class="mt-5">
-        <template v-if="viewLists[0]">
+            最近登録したユーザー
+          </v-toolbar>
           <v-list>
             <v-list-item
-              v-for="(user) in viewLists"
+              v-for="user in recentUsers"
               :key="user.id"
-              @click="userShowClick(user)"
+              @click="userClick(user)"
             >
-              <v-list-item-avatar size="60">
+              <v-list-item-avatar size="40">
                 <v-img v-if="user.image.url" :src="user.image.url" />
                 <v-img v-else :src="icon" />
               </v-list-item-avatar>
               <v-list-item-content>
-                <span>{{ user.name }}</span>
+                <span class="text-body2">{{ user.name }}</span>
               </v-list-item-content>
               <v-list-item-action>
                 <user-follow-button :user="user" />
               </v-list-item-action>
             </v-list-item>
           </v-list>
+        </v-card>
+      </v-col>
+    </template>
+    <v-col cols="12" sm="10" md="8" lg="7">
+      <v-data-iterator
+        :items="users"
+        :items-per-page="itemsPerPage"
+        no-results-text="該当するはありません"
+        :page="page"
+        :search="search"
+        hide-default-footer
+      >
+        <template #header>
+          <v-toolbar
+            dark
+            color="primary"
+            class="mb-1"
+          >
+            <v-text-field
+              v-model="search"
+              clearable
+              flat
+              solo-inverted
+              hide-details
+              prepend-inner-icon="mdi-magnify"
+              label="検索"
+            />
+          </v-toolbar>
         </template>
-        <template v-else>
-          <v-card-text>
-            <p class="text-center text-h6">該当するユーザーはいませんでした</p>
-          </v-card-text>
+        <template #default="props">
+          <v-card>
+            <v-list>
+              <v-list-item
+                v-for="item in props.items"
+                :key="item.id"
+                @click="userClick(item)"
+              >
+                <v-list-item-avatar v-if="$vuetify.breakpoint.smAndUp" size="60">
+                  <v-img v-if="item.image.url" :src="item.image.url" />
+                  <v-img v-else :src="icon" />
+                </v-list-item-avatar>
+                <v-list-item-avatar v-else size="40">
+                  <v-img v-if="item.image.url" :src="item.image.url" />
+                  <v-img v-else :src="icon" />
+                </v-list-item-avatar>
+                <v-list-item-content>
+                  <span
+                    v-if="$vuetify.breakpoint.smAndUp"
+                    class="text-caption text-sm-h6"
+                  >
+                    {{ item.name }}
+                  </span>
+                  <span
+                    v-else
+                    class="text-caption text-sm-h6"
+                  >
+                    {{ item.name | filteredName }}
+                  </span>
+                </v-list-item-content>
+                <v-list-item-action>
+                  <user-follow-button :user="item" />
+                </v-list-item-action>
+              </v-list-item>
+            </v-list>
+          </v-card>
         </template>
-      </v-card>
-      <v-pagination
-        v-model="page"
-        :length="pageLength"
-      />
+        <template #footer>
+          <v-row
+            align="center"
+            justify="center"
+            class="ma-2"
+          >
+            <span class="primary--text">Items per page</span>
+            <v-menu offset-y>
+              <template #activator="{ on, attrs }">
+                <v-btn
+                  dark
+                  text
+                  color="primary"
+                  class="ml-2"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  {{ itemsPerPage }}
+                  <v-icon>mdi-chevron-down</v-icon>
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item
+                  v-for="(number, index) in itemsPerPageArray"
+                  :key="index"
+                  @click="updateItemsPerPage(number)"
+                >
+                  <v-list-item-title>{{ number }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+            <v-spacer />
+            <span
+              class="mr-4
+              primary--text"
+            >
+              Page {{ page }} of {{ numberOfPages }}
+            </span>
+            <v-btn
+              fab
+              color="secondary"
+              class="mr-1"
+              @click="formerPage"
+            >
+              <v-icon>mdi-chevron-left</v-icon>
+            </v-btn>
+            <v-btn
+              fab
+              color="secondary"
+              class="ml-1"
+              @click="nextPage"
+            >
+              <v-icon>mdi-chevron-right</v-icon>
+            </v-btn>
+          </v-row>
+        </template>
+      </v-data-iterator>
     </v-col>
   </v-row>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters } from 'vuex'
 import UserFollowButton from '~/components/user/UserFollowButton.vue'
 export default {
   components: {
     UserFollowButton
   },
-  data() {
-    return {
-      filterQuery: {
-        name: ''
-      },
-      icon: require('@/assets/images/default.png'),
-      page: 1,
-      pageSize: 5
+  filters: {
+    filteredName(name) {
+      return name.length > 9 ? name.slice(0, 8) + '...' : name
     }
   },
-  async fetch({ $axios, store }) {
-    await $axios
+  async asyncData({ $axios }) {
+    const users = await $axios
       .$get('/api/v1/users')
-      .then((res) => {
-        store.commit('user/usersSet', res)
-      })
-      .catch((e) => {
-        console.log(e)
-      })
+    return { users }
+  },
+  data() {
+    return {
+      users: null,
+      icon: require('@/assets/images/default.png'),
+      itemsPerPageArray: [6, 12, 18],
+      search: '',
+      page: 1,
+      itemsPerPage: 6,
+    }
   },
   head() {
     return {
@@ -92,30 +188,43 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('user', [
-      'filteredUsers'
+    ...mapGetters('authentication', [
+      'currentUser'
     ]),
-    pageLength() {
-      const length = Math.ceil(this.filteredUsers.length / this.pageSize)
-      return length
+    numberOfPages () {
+      return Math.ceil(this.users.length / this.itemsPerPage)
     },
-    viewLists() {
-      const lists = this.filteredUsers.slice(
-        this.pageSize * (this.page - 1),
-        this.pageSize * this.page
-      )
-      return lists
+    recentUsers() {
+      const data = this.users.slice(-5).reverse()
+      return data
+    },
+    currentUserCheck() {
+      return this.currentUser
+    }
+  },
+  watch: {
+    currentUserCheck() {
+      this.$axios
+        .get('api/v1/users')
+        .then((res) => {
+          this.users = res.data
+        })
+        .catch((e) => {
+          console.log(e)
+        })
     }
   },
   methods: {
-    ...mapMutations('user', [
-      'filterQuerySet'
-    ]),
-    handleChangeQuery() {
-      this.page = 1
-      this.filterQuerySet(this.filterQuery)
+    nextPage () {
+      if (this.page + 1 <= this.numberOfPages) this.page += 1
     },
-    userShowClick(user) {
+    formerPage () {
+      if (this.page - 1 >= 1) this.page -= 1
+    },
+    updateItemsPerPage (number) {
+      this.itemsPerPage = number
+    },
+    userClick(user) {
       this.$router.push(`/users/${user.id}`)
     }
   }

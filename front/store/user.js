@@ -1,33 +1,14 @@
 export const state = () => ({
-  user: null,
-  users: null,
-  filterQuery: {
-    name: ''
-  }
+  user: null
 })
 
 export const getters = {
-  user: (state) => state.user,
-  filteredUsers(state) {
-    let data = state.users
-    if (state.filterQuery.name !== '') {
-      data = data.filter(function(row) {
-        return row.name.includes(state.filterQuery.name)
-      })
-    }
-    return data
-  }
+  user: (state) => state.user
 }
 
 export const mutations = {
   userSet(state, data) {
     state.user = data
-  },
-  usersSet(state, data) {
-    state.users = data
-  },
-  filterQuerySet(state, filterQuery) {
-    state.filterQuery = { ...filterQuery }
   }
 }
 
