@@ -34,7 +34,7 @@
             </v-card-title>
             <v-card-actions class="py-0">
               <div
-                class="d-inline-block"
+                class="d-inline-block text-truncate"
                 @click.stop="userClick(item.user)"
               >
                 <v-avatar size="50">
@@ -43,10 +43,12 @@
                 {{ item.user.name }}
               </div>
               <v-spacer />
-              <elapsed-time :content="item" />
             </v-card-actions>
             <v-card-actions class="justify-end pt-0">
+              <v-spacer />
               <like-button :post="item" />
+              <v-spacer />
+              <elapsed-time :content="item" />
             </v-card-actions>
           </v-card>
         </v-col>
