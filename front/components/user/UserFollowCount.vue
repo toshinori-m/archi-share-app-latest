@@ -61,7 +61,26 @@
       </v-btn>
     </template>
     <template v-if="dialog1">
-      <v-dialog v-model="dialog1" persistent width="500">
+      <v-dialog
+        v-if="$vuetify.breakpoint.xsOnly"
+        v-model="dialog1"
+        fullscreen
+        hide-overlay
+        transition="dialog-bottom-transition"
+      >
+        <user-follow-list
+          :followings="followings"
+          :followers="followers"
+          :tabs="false"
+          @close="dialog1 = false"
+        />
+      </v-dialog>
+      <v-dialog
+        v-else
+        v-model="dialog1"
+        persistent
+        width="500"
+      >
         <user-follow-list
           :followings="followings"
           :followers="followers"
@@ -71,7 +90,26 @@
       </v-dialog>
     </template>
     <template v-if="dialog2">
-      <v-dialog v-model="dialog2" persistent width="500">
+      <v-dialog
+        v-if="$vuetify.breakpoint.xsOnly"
+        v-model="dialog2"
+        fullscreen
+        hide-overlay
+        transition="dialog-bottom-transition"
+      >
+        <user-follow-list
+          :followings="followings"
+          :followers="followers"
+          :tabs="true"
+          @close="dialog2 = false"
+        />
+      </v-dialog>
+      <v-dialog
+        v-else
+        v-model="dialog2"
+        persistent
+        width="500"
+      >
         <user-follow-list
           :followings="followings"
           :followers="followers"
