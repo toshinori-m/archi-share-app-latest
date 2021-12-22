@@ -80,15 +80,15 @@ export default {
     LikeButton,
     ElapsedTime
   },
+  filters: {
+    filteredContent(content) {
+      return content.length > 50 ? content.slice(0, 50) + '...' : content
+    }
+  },
   props: {
     user: {
       type: Object,
       required: true
-    }
-  },
-  filters: {
-    filteredContent(content) {
-      return content.length > 50 ? content.slice(0, 50) + '...' : content
     }
   },
   data() {
