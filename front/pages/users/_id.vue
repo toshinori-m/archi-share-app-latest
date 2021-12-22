@@ -1,31 +1,42 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" sm="9" md="7">
-      <v-card tile outlined>
+    <v-col cols="12" sm="10" md="10" lg="8">
+      <v-card tile>
         <div class="pt-4">
-          <v-row justify="center" algin="center">
-            <v-col>
-              <v-avatar size="100" class="ma-4">
+          <v-row dense justify="center" algin="center">
+            <v-col cols="4">
+              <v-avatar
+                v-if="$vuetify.breakpoint.mdAndUp"
+                size="100"
+                class="ma-2 ml-4"
+              >
+                <v-img v-if="user.image.url" :src="user.image.url" />
+                <v-img v-else :src="icon" />
+              </v-avatar>
+              <v-avatar
+                v-else
+                size="60"
+                class="ma-2 ml-4"
+              >
                 <v-img v-if="user.image.url" :src="user.image.url" />
                 <v-img v-else :src="icon" />
               </v-avatar>
             </v-col>
-            <v-col>
+            <v-col cols="4">
               <user-follow-count
                 :followings="user.followings"
                 :followers="user.followers"
               />
             </v-col>
-            <v-col cols="3">
+            <v-col cols="4">
               <user-follow-button
                 :user="user"
-                class="mr-4"
               />
             </v-col>
           </v-row>
         </div>
         <v-card-text class="pt-0 text--primary">
-          <p class="text-h6">{{ user.name }}</p>
+          <p class=" text-h6">{{ user.name }}</p>
           <p>{{ user.introduction }}</p>
         </v-card-text>
         <template v-if="login">
@@ -33,13 +44,17 @@
             v-if="user.id == currentUser.id"
             class="justify-end pa-4 pt-0"
           >
-            <v-btn outlined @click="userEditButton">
+            <v-btn
+              outlined
+              color="primary"
+              @click="userEditButton"
+            >
               ユーザー情報を編集
             </v-btn>
           </v-card-actions>
         </template>
       </v-card>
-      <v-tabs v-model="tab" fixed-tabs>
+      <v-tabs v-model="tab" dark fixed-tabs background-color="primary">
         <v-tab>
           投稿
         </v-tab>

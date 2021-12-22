@@ -1,13 +1,65 @@
 <template>
-  <div class="d-flex">
-    <v-btn large text @click="dialog1 = true">
-      フォロー<br />
-      {{ followings.length }}
-    </v-btn>
-    <v-btn large text @click="dialog2 = true">
-      フォロワー<br />
-      {{ followers.length }}
-    </v-btn>
+  <div class="d-flex justify-center">
+    <template v-if="$vuetify.breakpoint.mdAndUp">
+      <v-btn
+        large
+        text
+        color="primary"
+        @click="dialog1 = true"
+      >
+        フォロー<br />
+        {{ followings.length }}
+      </v-btn>
+      <v-btn
+        large
+        text
+        color="primary"
+        @click="dialog2 = true"
+      >
+        フォロワー<br />
+        {{ followers.length }}
+      </v-btn>
+    </template>
+    <template v-if="$vuetify.breakpoint.smOnly">
+      <v-btn
+        small
+        text
+        color="primary"
+        @click="dialog1 = true"
+      >
+        フォロー<br />
+        {{ followings.length }}
+      </v-btn>
+      <v-btn
+        small
+        text
+        color="primary"
+        @click="dialog2 = true"
+      >
+        フォロワー<br />
+        {{ followers.length }}
+      </v-btn>
+    </template>
+    <template v-if="$vuetify.breakpoint.xsOnly">
+      <v-btn
+        x-small
+        text
+        color="primary"
+        @click="dialog1 = true"
+      >
+        フォロー<br />
+        {{ followings.length }}
+      </v-btn>
+      <v-btn
+        x-small
+        text
+        color="primary"
+        @click="dialog2 = true"
+      >
+        フォロワー<br />
+        {{ followers.length }}
+      </v-btn>
+    </template>
     <template v-if="dialog1">
       <v-dialog v-model="dialog1" persistent width="500">
         <user-follow-list
