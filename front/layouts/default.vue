@@ -3,7 +3,7 @@
     <the-navigation-drawer />
     <the-header />
     <v-main>
-      <the-snackbar />
+      <the-snackbar v-if="$vuetify.breakpoint.smAndUp" />
       <v-container>
         <Nuxt />
       </v-container>
