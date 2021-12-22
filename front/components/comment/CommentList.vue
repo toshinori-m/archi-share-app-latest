@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-for="comment in comments"
+      v-for="(comment, i) in comments"
       :key="comment.id"
     >
       <v-row dense justify="center" align="center">
@@ -37,8 +37,13 @@
           </v-card-actions>
         </v-col>
       </v-row>
-      <p class="px-3">{{ comment.content }}</p>
-      <v-divider />
+      <p
+        class="px-3"
+        :class="(i === comments.length - 1) ? 'pb-4' : ''"
+      >
+        {{ comment.content }}
+      </p>
+      <v-divider v-if="i !== comments.length - 1" />
     </div>
   </div>
 </template>
