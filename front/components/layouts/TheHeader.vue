@@ -2,7 +2,7 @@
   <v-app-bar app flat color="white">
     <v-app-bar-nav-icon :class="[login ? '' : 'mr-13']" @click="drawerSet" />
     <v-spacer />
-    <span class="text-md-h5 primary--text">{{ title }}</span>
+    <span class="text-md-h5 primary--text text-truncate">{{ title }}</span>
     <v-spacer />
     <template v-if="login">
       <the-sign-out />
