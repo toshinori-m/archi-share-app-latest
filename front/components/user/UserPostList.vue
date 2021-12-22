@@ -1,17 +1,17 @@
 <template>
-  <div>
+  <v-card>
     <template v-if="user.posts[0]">
       <v-card
-        v-for="post in user.posts"
+        v-for="(post, i) in user.posts"
         :key="post.id"
         tile
-        outlined
+        flat
         @click="postClick(post)"
       >
         <v-card-actions>
           <div
-            class="d-inline-block"
-            @click.stop="userClick(user)"
+            class="d-inline-block text-truncate"
+            @click.stop="userClick()"
           >
             <v-avatar size="50" class="mr-2">
               <v-img v-if="user.image.url" :src="user.image.url" />
@@ -21,35 +21,45 @@
               {{ user.name }}
             </span>
           </div>
-          <v-spacer />
-          <elapsed-time :content="post" />
         </v-card-actions>
-        <div class="pa-4">
-          <v-row algin="center">
-            <v-col cols="6" align-self="center">
+        <div class="pa-4 pb-0">
+          <v-row justify="center" align="center">
+            <v-col cols="12" sm="5" align-self="center">
               <v-img
                 :src="post.image.url"
                 contain
-                max-height="250"
+                max-height="300px"
               />
             </v-col>
-            <v-col cols="6">
-              <v-responsive max-height="210">
-                <v-card-title class="justify-center">
-                  <span class="text-truncate">{{ post.title }}</span>
-                </v-card-title>
-                <v-card-text>
-                  <p class="overflow-y-hidden">
-                    {{ post | filteredContent }}
-                  </p>
-                </v-card-text>
-                <div>
-                  <like-button :post="post" />
-                </div>
-              </v-responsive>
+            <v-col cols="12" sm="7">
+              <v-card-title class="justify-center">
+                <span class="text-truncate">{{ post.title }}</span>
+              </v-card-title>
+              <v-card-text>
+                <p v-if="$vuetify.breakpoint.smAndUp">
+                  {{ post.content }}
+                </p>
+                <p v-else>
+                  {{ post.content | filteredContent }}
+                </p>
+              </v-card-text>
             </v-col>
           </v-row>
         </div>
+        <v-row
+          dense
+          justify="end"
+          align="center"
+          class="pr-10"
+        >
+          <v-col cols="5" sm="3">
+            <like-button :post="post" />
+          </v-col>
+          <v-col cols="5" sm="3" class="text-right">
+            <elapsed-time :content="post" />
+          </v-col>
+        </v-row>
+        <v-divider v-if="i !== user.posts.length - 1" />
       </v-card>
     </template>
     <template v-else>
@@ -59,7 +69,7 @@
         </v-card-text>
       </v-card>
     </template>
-  </div>
+  </v-card>
 </template>
 
 <script>
@@ -70,15 +80,15 @@ export default {
     LikeButton,
     ElapsedTime
   },
-  filters: {
-    filteredContent(post) {
-      return post.content.length > 50 ? post.content.slice(0, 50) + '...' : post.content
-    }
-  },
   props: {
     user: {
       type: Object,
       required: true
+    }
+  },
+  filters: {
+    filteredContent(content) {
+      return content.length > 50 ? content.slice(0, 50) + '...' : content
     }
   },
   data() {
@@ -97,8 +107,8 @@ export default {
     }
   },
   methods: {
-    userClick(user) {
-      this.$router.push(`/users/${user.id}`)
+    userClick() {
+      this.$vuetify.goTo(0)
     },
     postClick(post) {
       this.$router.push(`/posts/${post.id}`)
