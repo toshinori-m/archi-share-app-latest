@@ -1,6 +1,6 @@
 <template>
   <v-app-bar app flat color="white">
-    <v-app-bar-nav-icon @click="drawerSet" v-bind:class="[login ? '' : 'mr-13']" />
+    <v-app-bar-nav-icon :class="[login ? '' : 'mr-13']" @click="drawerSet" />
     <v-spacer />
     <span class="text-md-h5 primary--text">{{ title }}</span>
     <v-spacer />
