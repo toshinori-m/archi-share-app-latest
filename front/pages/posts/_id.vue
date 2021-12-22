@@ -1,47 +1,61 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" sm="9" md="7">
+    <v-col cols="12" sm="10" lg="8">
       <v-card>
-        <v-card-actions>
-          <div class="link" @click="userClick">
-            <v-avatar size="50" class="ma-2">
-              <v-img
-                v-if="post.user.image.url"
-                :src="post.user.image.url"
-              />
-              <v-else v-else :src="icon" />
-            </v-avatar>
-            <span>
-              {{ post.user.name }}
-            </span>
-          </div>
-          <v-spacer />
-          <span class="text-h6 grey--text text--darken-1 mr-5">
-            {{ postCreatedTime }}
-          </span>
-          <post-setting-button v-if="login" />
-        </v-card-actions>
+        <v-row dense justify="center" align="center">
+          <v-col cols="6" sm="8">
+            <div class="link text-truncate" @click="userClick">
+              <v-avatar :size="avatarSize" class="ma-2">
+                <v-img
+                  v-if="post.user.image.url"
+                  :src="post.user.image.url"
+                />
+                <v-else v-else :src="icon" />
+              </v-avatar>
+              <span class="text-caption text-sm-subtitle-1">
+                {{ post.user.name }}
+              </span>
+            </div>
+          </v-col>
+          <v-col cols="6" sm="4" class="text-center">
+            <v-card-actions class="justify-end">
+              <span
+                class="text-caption
+                text-sm-subtitle-1
+                text-md-h6
+                text-sm-right
+                grey--text
+                text--darken-1"
+              >
+                {{ postCreatedTime }}
+              </span>
+              <post-setting-button v-if="login" />
+            </v-card-actions>
+          </v-col>
+        </v-row>
         <v-divider />
         <v-img :src="post.image.url" contain max-height="400" />
         <v-divider />
         <v-card-title>
-          <span class="headline">{{ post.title }}</span>
+          <span class="text-subtitle-1 text-sm-h5">{{ post.title }}</span>
         </v-card-title>
-        <v-card-text class="text--primary">
+        <v-card-text
+          class="text--primary text-caption text-sm-subtitle-1"
+          :style="{'white-space': 'pre-line'}"
+        >
           {{ post.content }}
         </v-card-text>
         <v-card-actions class="px-4">
           <like-button :post="post" />
           <like-user-modal :users="post.like_users" />
         </v-card-actions>
-        <v-divider />
-        <template v-if="post.architecture">
-          <architecture-post-show :architecture="post.architecture" />
-          <v-divider />
-        </template>
+        <architecture-post-show
+          v-if="post.architecture"
+          :architecture="post.architecture"
+        />
         <comment-form :post="post" />
         <v-divider />
-        <comment-list :comments="post.comments" />
+        <comment-list v-if="post.comments" :comments="post.comments" />
       </v-card>
     </v-col>
   </v-row>
@@ -91,6 +105,13 @@ export default {
       post: 'post/post',
       login: 'authentication/login'
     }),
+    avatarSize() {
+      if (this.$vuetify.breakpoint.smAndUp) {
+        return 50
+      } else {
+        return 35
+      }
+    },
     postCreatedTime() {
       const time = dayjs(this.post.created_at).format('YYYY-MM-DD')
       return time

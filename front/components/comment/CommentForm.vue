@@ -1,8 +1,16 @@
 <template>
   <div>
-    <v-card-title class="justify-center">
-      <span class="headline">コメント</span>
-    </v-card-title>
+    <v-toolbar dense flat color="tertiary">
+      <v-toolbar-title
+        class="text-subtitle-1
+        text-sm-h6
+        text-md-h5
+        text--primary
+        mx-auto"
+      >
+        コメント
+      </v-toolbar-title>
+    </v-toolbar>
     <v-card-text>
       <v-form>
         <v-textarea
@@ -19,6 +27,7 @@
       <v-spacer />
       <v-btn
         :disabled="able"
+        :small="btnSize"
         color="light-blue lighten-2"
         @click="userCommentCreate"
       >
@@ -50,6 +59,13 @@ export default {
       if (this.content === '') {
         return true
       } else if (this.content.length > 150) {
+        return true
+      } else {
+        return false
+      }
+    },
+    btnSize() {
+      if (this.$vuetify.breakpoint.xsOnly) {
         return true
       } else {
         return false
