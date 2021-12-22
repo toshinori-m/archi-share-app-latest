@@ -2,10 +2,12 @@
   <div class="text-center">
     <template v-if="login">
       <template v-if="currentUser.id !== user.id">
-        <template v-if="$vuetify.breakpoint.mdAndUp">
+        <template v-if="$vuetify.breakpoint.smAndUp">
           <v-btn
             v-if="follow"
-            min-width="125"
+            :min-width="btnSize"
+            :small="smallIconSize"
+            :x-small="xSmallIconSize"
             rounded
             :color="color"
             @click.stop="userUnFollow"
@@ -16,7 +18,9 @@
           </v-btn>
           <v-btn
             v-else
-            min-width="125"
+            :min-width="btnSize"
+            :small="smallIconSize"
+            :x-small="xSmallIconSize"
             rounded
             outlined
             color="blue"
@@ -28,23 +32,21 @@
             フォロー
           </v-btn>
         </template>
-        <template v-if="$vuetify.breakpoint.smAndDown">
+        <template v-else>
           <v-btn
             v-if="follow"
-            min-width="105"
-            small
+            min-width="85"
+            x-small
             rounded
             :color="color"
             @click.stop="userUnFollow"
-            @mouseover="mouseover"
-            @mouseleave="mouseleave"
           >
-            {{ message }}
+            フォロー中
           </v-btn>
           <v-btn
             v-else
-            min-width="105"
-            small
+            min-width="85"
+            x-small
             rounded
             outlined
             color="blue"
@@ -58,40 +60,25 @@
         </template>
       </template>
       <template v-else>
-        <v-card flat width="150">
+        <v-card flat :width="btnSize">
         </v-card>
       </template>
     </template>
     <template v-else>
-      <template v-if="$vuetify.breakpoint.mdAndUp">
-        <v-btn
-          min-width="125"
-          rounded
-          outlined
-          color="blue"
-          @click.stop="userLogin"
-        >
-          <v-icon>
-            mdi-account-plus
-          </v-icon>
-          フォロー
-        </v-btn>
-      </template>
-      <template v-if="$vuetify.breakpoint.smAndDown">
-        <v-btn
-          min-width="105"
-          small
-          rounded
-          outlined
-          color="blue"
-          @click.stop="userLogin"
-        >
-          <v-icon small>
-            mdi-account-plus
-          </v-icon>
-          フォロー
-        </v-btn>
-      </template>
+      <v-btn
+        :min-width="btnSize"
+        :small="smallIconSize"
+        :x-small="xSmallIconSize"
+        rounded
+        outlined
+        color="blue"
+        @click.stop="userLogin"
+      >
+        <v-icon>
+          mdi-account-plus
+        </v-icon>
+        フォロー
+      </v-btn>
     </template>
   </div>
 </template>
@@ -119,6 +106,29 @@ export default {
     ]),
     currentUserCheck() {
       return this.currentUser
+    },
+    btnSize() {
+      if (this.$vuetify.breakpoint.mdAndUp) {
+        return 125
+      } else if (this.$vuetify.breakpoint.smOnly) {
+        return 105
+      } else {
+        return 85
+      }
+    },
+    smallIconSize() {
+      if (this.$vuetify.breakpoint.smOnly) {
+        return true
+      } else {
+        return false
+      }
+    },
+    xSmallIconSize() {
+      if (this.$vuetify.breakpoint.xsOnly) {
+        return true
+      } else {
+        return false
+      }
     }
   },
   watch: {
