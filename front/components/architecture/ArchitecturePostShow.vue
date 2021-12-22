@@ -1,8 +1,16 @@
 <template>
   <div>
-    <v-card-title class="justify-center pb-0">
-      <span class="headline">建築物の詳細</span>
-    </v-card-title>
+    <v-toolbar dense flat color="tertiary">
+      <v-toolbar-title
+        class="text-subtitle-1
+        text-sm-h6
+        text-md-h5
+        text--primary
+        mx-auto"
+      >
+        建築物の詳細
+      </v-toolbar-title>
+    </v-toolbar>
     <v-card-actions class="justify-center pa-0">
       <v-btn
         v-if="!list"
@@ -22,13 +30,21 @@
           justify="center"
           align="center"
         >
-          <v-col cols="5">
+          <v-col cols="12" md="5">
             <div class="pa-2">
-              <v-img :src="architecture.image.url" />
+              <v-img
+                :src="architecture.image.url"
+                max-height="300"
+              />
             </div>
           </v-col>
-          <v-col cols="7">
-            <v-list dense>
+          <v-col cols="12" md="7">
+            <v-list
+              dense
+              class="text-caption
+              text-sm-subtitle-2
+              text-md-subtitle-1"
+            >
               <v-list-item>
                 <v-list-item-content>
                   建築名：
