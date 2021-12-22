@@ -1,5 +1,5 @@
 <template>
-  <div v-if="currentUser.id == comment.user.id">
+  <div>
     <v-menu left>
       <template #activator="{ on, attrs }">
         <v-btn
@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import CommentDeleteModal from '~/components/comment/CommentDeleteModal.vue'
 export default {
   components: {
@@ -54,11 +53,6 @@ export default {
     return {
       deleteDialog: false
     }
-  },
-  computed: {
-    ...mapGetters('authentication', [
-      'currentUser'
-    ])
   },
   methods: {
     closeDeleteDialog() {
