@@ -9,16 +9,41 @@
       >
         <span class="primary--text">
           紐付けしたい建築物が無い場合は、
-          <v-btn text color="blue" width="65" @click="dialog = true">
+          <v-btn
+            text
+            color="blue"
+            width="65"
+            @click="dialog = true"
+          >
             こちら
           </v-btn>
           で建築物の登録が出来ます
         </span>
       </v-alert>
+      <template v-if="dialog">
+        <v-dialog
+          v-if="$vuetify.breakpoint.xsOnly"
+          v-model="dialog"
+          fullscreen
+          hide-overlay
+        >
+          <architecture-create-modal @close="closeDialog" />
+        </v-dialog>
+        <v-dialog
+          v-else
+          v-model="dialog"
+          persistent
+          width="600"
+        >
+          <architecture-create-modal @close="closeDialog" />
+        </v-dialog>
+      </template>
       <v-card>
         <v-toolbar flat color="tertiary">
           <v-toolbar-title class="mx-auto">
-            <span class="headline primary--text">投稿フォーム</span>
+            <span class="headline primary--text">
+              投稿フォーム
+            </span>
           </v-toolbar-title>
         </v-toolbar>
         <v-card-text>
@@ -50,11 +75,6 @@
                   color="secondary"
                   prepend-icon="mdi-home"
                 />
-                <template v-if="dialog">
-                  <v-dialog v-model="dialog" persistent width="500px">
-                    <architecture-create-modal @close="closeDialog" />
-                  </v-dialog>
-                </template>
                 <v-file-input
                   v-model="sendImage"
                   accept="image/png, image/jpeg, image/bmp"
