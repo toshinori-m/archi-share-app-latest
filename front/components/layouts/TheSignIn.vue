@@ -3,19 +3,25 @@
     <v-btn icon @click="userSignInModal(true)">
       <v-icon color="primary">mdi-login</v-icon>
     </v-btn>
-    <v-dialog v-model="signInModal" persistent width="500px">
+    <v-dialog
+      v-model="signInModal"
+      :fullscreen="xsDialog"
+      :hide-overlay="xsDialog"
+      :persistent="!xsDialog"
+      width="500"
+    >
       <v-card>
-        <v-card-actions class="pb-0">
+        <v-card-actions class="pa-0">
           <v-spacer />
           <v-btn icon large @click="dialogClose">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-actions>
-        <v-card-title class="justify-center pa-0">
-          <span class="text-h5 text-weight-bold">
+        <v-toolbar dense flat color="tertiary">
+          <v-toolbar-title class="primary--text mx-auto">
             ユーザーログイン
-          </span>
-        </v-card-title>
+          </v-toolbar-title>
+        </v-toolbar>
         <v-card-text class="pt-6">
           <v-form ref="form">
             <v-text-field
@@ -48,6 +54,12 @@
             ログイン
           </v-btn>
         </v-card-actions>
+        <v-card-text class="d-flex justify-center align-center">
+          <span>アカウントをまだ持っていない方は</span>
+          <v-btn small text color="blue" @click="newDialog">
+            新規登録
+          </v-btn>
+        </v-card-text>
       </v-card>
     </v-dialog>
   </div>
@@ -76,12 +88,20 @@ export default {
   computed: {
     ...mapGetters('modal', [
       'signInModal'
-    ])
+    ]),
+    xsDialog() {
+      if (this.$vuetify.breakpoint.xsOnly) {
+        return true
+      } else {
+        return false
+      }
+    }
   },
   methods: {
     ...mapActions({
       userSignIn: 'authentication/userSignIn',
-      userSignInModal: 'modal/userSignInModal'
+      userSignInModal: 'modal/userSignInModal',
+      userSignUpModal: 'modal/userSignUpModal'
     }),
     signInAction(user) {
       if (this.$refs.form.validate()) {
@@ -91,6 +111,11 @@ export default {
     dialogClose() {
       this.userSignInModal(false)
       this.$refs.form.reset()
+    },
+    newDialog() {
+      this.userSignInModal(false)
+      this.$refs.form.reset()
+      this.userSignUpModal(true)
     }
   }
 }
