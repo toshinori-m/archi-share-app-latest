@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-actions class="pb-0">
+    <v-card-actions class="pa-0">
       <v-spacer />
       <v-btn
         icon
@@ -12,20 +12,22 @@
         </v-icon>
       </v-btn>
     </v-card-actions>
-    <v-card-title class="justify-center">
-      <span class="headline">建築物登録</span>
-    </v-card-title>
+    <v-toolbar dense flat color="tertiary">
+      <v-toolbar-title class="primary--text mx-auto">
+        建築物登録
+      </v-toolbar-title>
+    </v-toolbar>
     <v-stepper
       v-model="e1"
       flat
     >
-      <v-stepper-header class="blue-grey lighten-5 mx-6">
+      <v-stepper-header class="primary--text mx-6">
         <v-stepper-step
           :complete="e1 > 1"
           step="1"
           :rules="step1Error"
           error-icon="mdi-alert-circle-outline"
-          color="light-blue lighten-2"
+          color="tertiary"
         >
           基本情報入力
         </v-stepper-step>
@@ -35,7 +37,7 @@
           step="2"
           :rules="step2Error"
           error-icon="mdi-alert-circle-outline"
-          color="light-blue lighten-2"
+          color="tertiary"
         >
           詳細情報入力
         </v-stepper-step>
@@ -44,7 +46,7 @@
           step="3"
           :rules="step3Error"
           error-icon="mdi-alert-circle-outline"
-          color="light-blue lighten-2"
+          color="tertiary"
         >
           画像選択
         </v-stepper-step>
@@ -59,6 +61,7 @@
               :error-messages="error"
               validate-on-blur
               counter="30"
+              color="secondary"
               prepend-icon="mdi-pencil"
               @input="error = []"
             />
@@ -68,6 +71,7 @@
               :items="prefectures"
               :rules="prefectureRules"
               clearable
+              color="secondary"
               validate-on-blur
               prepend-icon="mdi-map-marker"
             />
@@ -77,6 +81,7 @@
               :rules="addressRules"
               validate-on-blur
               counter="50"
+              color="secondary"
               prepend-icon="mdi-map-marker"
             />
           </v-form>
@@ -91,6 +96,7 @@
               :rules="constructionRules"
               validate-on-blur
               clearable
+              color="secondary"
               prepend-icon="mdi-home"
             />
             <v-text-field
@@ -99,6 +105,7 @@
               :rules="designerRules"
               validate-on-blur
               counter="20"
+              color="secondary"
               prepend-icon="mdi-account-edit"
             />
             <v-combobox
@@ -108,6 +115,7 @@
               :rules="aboveRules"
               validate-on-blur
               clearable
+              color="secondary"
               prepend-icon="mdi-stairs-up"
             />
             <v-combobox
@@ -115,6 +123,7 @@
               :items="under"
               placeholder="地下がある場合は選択してください"
               clearable
+              color="secondary"
               prepend-icon="mdi-stairs-down"
             />
           </v-form>
@@ -141,6 +150,7 @@
               label="登録する建築物の画像を選択してください"
               :rules="imageRules"
               validate-on-blur
+              color="secondary"
               prepend-icon="mdi-image"
               @change="setImage"
             />
@@ -151,6 +161,7 @@
     <v-card-actions class="justify-end align-end pa-6 pt-0 mt-auto mb-0">
       <v-btn
         v-if="e1 > 1"
+        color="grey lighten-2"
         @click="e1--"
       >
         戻る
@@ -164,21 +175,24 @@
       </v-btn>
       <v-btn
         v-if="e1 === 1"
-        color="light-blue lighten-2"
+        color="tertiary"
+        class="primary--text"
         @click="step1Validation"
       >
         次へ
       </v-btn>
       <v-btn
         v-if="e1 === 2"
-        color="light-blue lighten-2"
+        color="tertiary"
+        class="primary--text"
         @click="step2Validation"
       >
         次へ
       </v-btn>
       <v-btn
         v-if="e1 === 3"
-        color="light-blue lighten-2"
+        color="tertiary"
+        class="primary--text"
         @click="archiCreateAction"
       >
         登録
