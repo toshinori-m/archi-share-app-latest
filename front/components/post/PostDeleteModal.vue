@@ -1,22 +1,28 @@
 <template>
   <v-card>
     <v-card-title class="justify-center">
-      <span>投稿削除の確認</span>
+      <span class="primary--text">投稿削除の確認</span>
     </v-card-title>
-    <v-card-text class="black--text text-center">
+    <v-card-text class="primary--text text-center">
       <p>本当にこの投稿を削除してもよろしいですか？</p>
     </v-card-text>
     <v-card-actions>
       <v-btn
         block
-        color="light-blue lighten-2"
+        color="tertiary"
         @click="userPostDelete"
       >
         はい
       </v-btn>
     </v-card-actions>
     <v-card-actions class="pb-4">
-      <v-btn block @click="closeDialog">いいえ</v-btn>
+      <v-btn
+        block
+        color="grey lighten-2"
+        @click="closeDialog"
+      >
+        いいえ
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
