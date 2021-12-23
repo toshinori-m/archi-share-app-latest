@@ -34,14 +34,26 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-dialog
-      v-if="editDialog == true"
-      v-model="editDialog"
-      persistent
-      width="500px"
-    >
-      <post-edit-modal @close="closeEditDialog" />
-    </v-dialog>
+    <template v-if="$vuetify.breakpoint.xsOnly">
+      <v-dialog
+        v-if="editDialog == true"
+        v-model="editDialog"
+        fullscreen
+        hide-overlay
+      >
+        <post-edit-modal @close="closeEditDialog" />
+      </v-dialog>
+    </template>
+    <template v-else>
+      <v-dialog
+        v-if="editDialog == true"
+        v-model="editDialog"
+        persistent
+        width="600"
+      >
+        <post-edit-modal @close="closeEditDialog" />
+      </v-dialog>
+    </template>
     <v-dialog
       v-model="deleteDialog"
       persistent
