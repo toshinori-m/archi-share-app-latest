@@ -1,5 +1,5 @@
 <template>
-  <div v-if="currentUser.id == post.user.id">
+  <div v-if="currentUser.id == post.user.id || currentUser.admin">
     <v-menu left>
       <template #activator="{ on, attrs }">
         <v-btn
