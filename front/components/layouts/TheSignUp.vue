@@ -3,17 +3,25 @@
     <v-btn icon @click="userSignUpModal(true)">
       <v-icon color="primary">mdi-account-plus</v-icon>
     </v-btn>
-    <v-dialog v-model="signUpModal" persistent width="500px">
+    <v-dialog
+      v-model="signUpModal"
+      :fullscreen="xsDialog"
+      :hide-overlay="xsDialog"
+      :persistent="!xsDialog"
+      width="500px"
+    >
       <v-card>
-        <v-card-actions class="pb-0">
+        <v-card-actions class="pa-0">
           <v-spacer />
           <v-btn icon large @click="dialogClose">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-card-actions>
-        <v-card-title class="justify-center pa-0">
-          <span class="text-h5 text-weight-bold primary--text">ユーザー登録</span>
-        </v-card-title>
+        <v-toolbar dense flat color="tertiary">
+          <v-toolbar-title class="primary--text mx-auto">
+            ユーザー登録
+          </v-toolbar-title>
+        </v-toolbar>
         <v-card-text class="pt-6">
           <v-form ref="form">
             <v-text-field
@@ -68,6 +76,12 @@
             登録
           </v-btn>
         </v-card-actions>
+        <v-card-text class="d-flex justify-center align-center">
+          <span>既にアカウントを持っている方は</span>
+          <v-btn small text color="blue" @click="loginDialog">
+            ログイン
+          </v-btn>
+        </v-card-text>
       </v-card>
     </v-dialog>
   </div>
@@ -106,12 +120,20 @@ export default {
     ]),
     passwordConfirmationRules() {
       return (this.user.password === this.user.passwordConfirmation) || 'パスワードが一致しません'
+    },
+    xsDialog() {
+      if (this.$vuetify.breakpoint.xsOnly) {
+        return true
+      } else {
+        return false
+      }
     }
   },
   methods: {
     ...mapActions({
       userSignUp: 'authentication/userSignUp',
-      userSignUpModal: 'modal/userSignUpModal'
+      userSignUpModal: 'modal/userSignUpModal',
+      userSignInModal: 'modal/userSignInModal'
     }
     ),
     signUpAction(user) {
@@ -122,6 +144,11 @@ export default {
     dialogClose() {
       this.userSignUpModal(false)
       this.$refs.form.reset()
+    },
+    loginDialog() {
+      this.userSignUpModal(false)
+      this.$refs.form.reset()
+      this.userSignInModal(true)
     }
   }
 }
