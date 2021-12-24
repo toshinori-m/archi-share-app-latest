@@ -25,6 +25,15 @@ module Api
           ]
         )
       end
+
+      def destroy
+        @user = User.find(params[:id])
+        if @user.destroy
+          render json: @user
+        else
+          render json: @user.errors, status: :unprocessable_entity
+        end
+      end
     end
   end
 end
