@@ -89,6 +89,10 @@
                 </v-list-item-content>
                 <v-list-item-action>
                   <user-follow-button :user="item" />
+                  <admin-user-delete-modal
+                    v-if="login && currentUser.admin"
+                    :user="item" @load="loadUsers"
+                  />
                 </v-list-item-action>
               </v-list-item>
             </v-list>
@@ -158,9 +162,11 @@
 <script>
 import { mapGetters } from 'vuex'
 import UserFollowButton from '~/components/user/UserFollowButton.vue'
+import AdminUserDeleteModal from '~/components/admin/AdminUserDeleteModal.vue'
 export default {
   components: {
-    UserFollowButton
+    UserFollowButton,
+    AdminUserDeleteModal
   },
   filters: {
     filteredName(name) {
@@ -189,7 +195,8 @@ export default {
   },
   computed: {
     ...mapGetters('authentication', [
-      'currentUser'
+      'currentUser',
+      'login'
     ]),
     numberOfPages () {
       return Math.ceil(this.users.length / this.itemsPerPage)
@@ -226,6 +233,16 @@ export default {
     },
     userClick(user) {
       this.$router.push(`/users/${user.id}`)
+    },
+    async loadUsers() {
+      await this.$axios
+        .get('api/v1/users')
+        .then((res) => {
+          this.users = res.data
+        })
+        .catch((e) => {
+          console.log(e)
+        })
     }
   }
 }
