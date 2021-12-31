@@ -4,6 +4,8 @@ class CreateArchitectures < ActiveRecord::Migration[6.1]
       t.string :name
       t.string :prefecture
       t.string :address
+      t.decimal :lat, precision: 11, scale: 8
+      t.decimal :lng, precision: 11, scale: 8
       t.string :construction
       t.string :designer
       t.string :above_floor

@@ -29,7 +29,6 @@
           error-icon="mdi-alert-circle-outline"
           color="tertiary"
         >
-          基本情報入力
         </v-stepper-step>
         <v-divider />
         <v-stepper-step
@@ -39,16 +38,22 @@
           error-icon="mdi-alert-circle-outline"
           color="tertiary"
         >
-          詳細情報入力
         </v-stepper-step>
         <v-divider />
         <v-stepper-step
+          :complete="e1 > 3"
           step="3"
           :rules="step3Error"
           error-icon="mdi-alert-circle-outline"
           color="tertiary"
         >
-          画像選択
+        </v-stepper-step>
+        <v-divider />
+        <v-stepper-step
+          step="4"
+          error-icon="mdi-alert-circle-outline"
+          color="tertiary"
+        >
         </v-stepper-step>
       </v-stepper-header>
       <v-stepper-items>
@@ -85,9 +90,95 @@
               prepend-icon="mdi-map-marker"
             />
           </v-form>
+          <v-card-actions class="justify-end align-end pa-0 py-2">
+            <v-btn
+              color="tertiary"
+              class="primary--text"
+              @click="step1Validation"
+            >
+              次へ
+            </v-btn>
+          </v-card-actions>
         </v-stepper-content>
         <v-stepper-content step="2">
-          <v-form ref="step2_form">
+          <v-tabs v-model="tab" fixed-tabs background-color="tertiary">
+            <v-tab>
+              数値を入力
+            </v-tab>
+            <v-tab>
+              マップ上で指定
+            </v-tab>
+          </v-tabs>
+          <v-tabs-items v-model="tab">
+            <v-tab-item>
+              <v-row>
+                <v-col cols="12">
+                  <v-form ref="step2_text_form">
+                    <v-text-field
+                      v-model="lat"
+                      label="緯度"
+                      type="number"
+                      :rules="latRules"
+                      color="secondary"
+                      prepend-icon="mdi-map-marker"
+                    />
+                    <v-text-field
+                      v-model="lng"
+                      label="経度"
+                      type="number"
+                      :rules="lngRules"
+                      color="secondary"
+                      prepend-icon="mdi-map-marker"
+                    />
+                  </v-form>
+                </v-col>
+              </v-row>
+            </v-tab-item>
+            <v-tab-item>
+              <GmapMap
+                :center="{ lat: 35.68123620000001, lng: 139.7671248 }"
+                :zoom="12"
+                :options="options"
+                map-type-id="roadmap"
+                style="height: 300px"
+                @click="mapClick"
+              >
+                <GmapMarker
+                  v-if="mapLat"
+                  :position="{ lat: mapLat, lng: mapLng }"
+                  @click="markerClick"
+                >
+                </GmapMarker>
+              </GmapMap>
+            </v-tab-item>
+          </v-tabs-items>
+          <v-card-actions class="justify-end align-end pa-0 py-2">
+            <v-btn
+              color="grey lighten-2"
+              @click="e1--"
+            >
+              戻る
+            </v-btn>
+            <v-btn
+              v-if="tab === 0"
+              color="tertiary"
+              class="primary--text"
+              @click="step2TextValidation"
+            >
+              次へ
+            </v-btn>
+            <v-btn
+              v-if="tab === 1"
+              color="tertiary"
+              class="primary--text"
+              @click="step2MapValidation"
+            >
+              次へ
+            </v-btn>
+          </v-card-actions>
+        </v-stepper-content>
+        <v-stepper-content step="3">
+          <v-form ref="step3_form">
             <v-combobox
               v-model="construction"
               multiple
@@ -127,9 +218,30 @@
               prepend-icon="mdi-stairs-down"
             />
           </v-form>
+          <v-card-actions class="justify-end align-end pa-0 py-2">
+            <v-btn
+              color="grey lighten-2"
+              @click="e1--"
+            >
+              戻る
+            </v-btn>
+            <v-btn
+              color="light-green"
+              @click="skipButton"
+            >
+              スキップ
+            </v-btn>
+            <v-btn
+              color="tertiary"
+              class="primary--text"
+              @click="step3Validation"
+            >
+              次へ
+            </v-btn>
+          </v-card-actions>
         </v-stepper-content>
-        <v-stepper-content step="3">
-          <v-form ref="step3_form">
+        <v-stepper-content step="4">
+          <v-form ref="step4_form">
             <v-img
               v-if="image"
               :src="image"
@@ -155,49 +267,24 @@
               @change="setImage"
             />
           </v-form>
+          <v-card-actions class="justify-end align-end pa-0 py-2">
+            <v-btn
+              color="grey lighten-2"
+              @click="e1--"
+            >
+              戻る
+            </v-btn>
+            <v-btn
+              color="tertiary"
+              class="primary--text"
+              @click="archiCreateAction"
+            >
+              登録
+            </v-btn>
+          </v-card-actions>
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
-    <v-card-actions class="justify-end align-end pa-6 pt-0 mt-auto mb-0">
-      <v-btn
-        v-if="e1 > 1"
-        color="grey lighten-2"
-        @click="e1--"
-      >
-        戻る
-      </v-btn>
-      <v-btn
-        v-if="e1 === 2"
-        color="light-green"
-        @click="skipButtonValidation"
-      >
-        スキップ
-      </v-btn>
-      <v-btn
-        v-if="e1 === 1"
-        color="tertiary"
-        class="primary--text"
-        @click="step1Validation"
-      >
-        次へ
-      </v-btn>
-      <v-btn
-        v-if="e1 === 2"
-        color="tertiary"
-        class="primary--text"
-        @click="step2Validation"
-      >
-        次へ
-      </v-btn>
-      <v-btn
-        v-if="e1 === 3"
-        color="tertiary"
-        class="primary--text"
-        @click="archiCreateAction"
-      >
-        登録
-      </v-btn>
-    </v-card-actions>
   </v-card>
 </template>
 
@@ -213,8 +300,18 @@ export default {
       step3Error: [],
       name: '',
       prefecture: null,
-      designer: null,
       address: '',
+      tab: null,
+      loading: false,
+      lat: '',
+      lng: '',
+      options: {
+        mapTypeControl: false,
+        streetViewControl: false
+      },
+      mapLat: null,
+      mapLng: null,
+      designer: null,
       construction: [],
       aboveFloor: null,
       underFloor: null,
@@ -262,6 +359,12 @@ export default {
       ],
       aboveRules: [
         v => !!v || '階数を選択または入力してください'
+      ],
+      latRules: [
+        v => !!v || '緯度を入力してください'
+      ],
+      lngRules: [
+        v => !!v || '経度を入力してください'
       ]
     }
   },
@@ -275,6 +378,15 @@ export default {
     closeDialog() {
       this.$emit('close')
     },
+    mapClick(event) {
+      this.mapLat = event.latLng.lat()
+      this.mapLng = event.latLng.lng()
+      this.loading = true
+    },
+    markerClick() {
+      this.mapLat = null
+      this.mapLng = null
+    },
     step1Validation() {
       if (this.$refs.step1_form.validate() && !this.error[0]) {
         this.e1++
@@ -283,18 +395,40 @@ export default {
         this.step1Error = [() => false]
       }
     },
-    step2Validation() {
-      if (this.$refs.step2_form.validate()) {
+    step2TextValidation() {
+      if (this.$refs.step2_text_form.validate()) {
         this.e1++
         this.step2Error = [() => true]
       } else {
         this.step2Error = [() => false]
       }
     },
-    skipButtonValidation() {
+    step2MapValidation() {
+      if (this.mapLat !== null && this.mapLng !== null) {
+        this.e1++
+        this.step2Error = [() => true]
+        this.$refs.step2_text_form.reset()
+      } else {
+        this.step2Error = [() => false]
+        this.messageShow({
+          message: 'マップ上で位置を指定してください',
+          type: 'error',
+          status: true
+        })
+      }
+    },
+    step3Validation() {
+      if (this.$refs.step3_form.validate()) {
+        this.e1++
+        this.step3Error = [() => true]
+      } else {
+        this.step3Error = [() => false]
+      }
+    },
+    skipButton() {
       this.e1++
-      this.step2Error = [() => true]
-      this.$refs.step2_form.reset()
+      this.step3Error = [() => true]
+      this.$refs.step3_form.reset()
     },
     setImage(file) {
       this.sendImage = file
@@ -317,6 +451,13 @@ export default {
       formData.append('prefecture', this.prefecture)
       formData.append('address', this.address)
       formData.append('image', this.sendImage)
+      if (this.tab === 0) {
+        formData.append('lat', this.lat)
+        formData.append('lng', this.lng)
+      } else {
+        formData.append('lat', this.mapLat)
+        formData.append('lng', this.mapLng)
+      }
       if (this.construction !== []) {
         formData.append('construction', this.construction)
       }
@@ -369,10 +510,10 @@ export default {
       })
     },
     archiCreateAction() {
-      if (this.$refs.step3_form.validate()) {
+      if (this.$refs.step4_form.validate()) {
         this.userArchiCreate()
       } else {
-        this.step3Error = [() => false]
+        this.step4Error = [() => false]
       }
     }
   }
