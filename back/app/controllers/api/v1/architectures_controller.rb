@@ -23,7 +23,7 @@ module Api
       private
 
       def architecture_params
-        params.permit(:name, :prefecture, :address, :construction, :designer, :image, :above_floor, :under_floor)
+        params.permit(:name, :prefecture, :address, :lat, :lng, :construction, :designer, :image, :above_floor, :under_floor)
       end
     end
   end
