@@ -68,12 +68,14 @@ export default {
         { icon: 'mdi-home', text: 'ホーム', route: '/' },
         { icon: 'mdi-note-plus', text: '新規投稿', route: '/posts/new' },
         { icon: 'mdi-file-search', text: '投稿検索', route: '/posts/search' },
+        { icon: 'mdi-map-search', text: '建築物を探す', route: '/architectures/search' },
         { icon: 'mdi-account-search', text: 'ユーザー検索', route: '/users/search' },
         { icon: 'mdi-account-edit', text: 'アカウント編集', route: '/users/edit' }
       ],
       items2: [
         { icon: 'mdi-home', text: 'ホーム', route: '/' },
         { icon: 'mdi-file-search', text: '投稿検索', route: '/posts/search' },
+        { icon: 'mdi-map-search', text: '建築物を探す', route: '/architectures/search' },
         { icon: 'mdi-account-search', text: 'ユーザー検索', route: '/users/search' }
       ]
     }

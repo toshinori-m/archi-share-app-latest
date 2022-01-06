@@ -20,13 +20,5 @@ export const actions = {
         console.log(e)
       })
     commit('archiSet', response)
-  },
-  async architecturesGet({ commit }) {
-    const response = await this.$axios
-      .$get('/api/v1/architectures')
-      .catch((e) => {
-        console.log(e)
-      })
-    commit('architecturesGet', response)
   }
 }
