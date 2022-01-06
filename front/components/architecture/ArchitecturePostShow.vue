@@ -47,7 +47,7 @@
             >
               <v-list-item>
                 <v-list-item-content>
-                  建築名：
+                  建築名:
                 </v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ architecture.name }}
@@ -55,7 +55,7 @@
               </v-list-item>
               <v-list-item>
                 <v-list-item-content>
-                  住所：
+                  住所:
                 </v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ architecture.prefecture + architecture.address }}
@@ -63,7 +63,7 @@
               </v-list-item>
               <v-list-item>
                 <v-list-item-content>
-                  構造：
+                  構造:
                 </v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ architecture.construction }}
@@ -71,7 +71,7 @@
               </v-list-item>
               <v-list-item>
                 <v-list-item-content>
-                  設計者：
+                  設計者:
                 </v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ architecture.designer }}
@@ -79,7 +79,7 @@
               </v-list-item>
               <v-list-item>
                 <v-list-item-content>
-                  階数：
+                  階数:
                 </v-list-item-content>
                 <v-list-item-content class="align-end">
                   {{ architecture.above_floor + architecture.under_floor }}

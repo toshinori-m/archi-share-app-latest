@@ -2,6 +2,7 @@
   <v-data-iterator
     :items="posts"
     :items-per-page="itemsPerPage"
+    no-data-text="表示する投稿がありません"
     :page="page"
     hide-default-footer
   >
@@ -11,7 +12,7 @@
         color="tertiary"
       >
         <v-toolbar-title class="primary--text">
-          最近の投稿
+          {{ toolTitle }}
         </v-toolbar-title>
       </v-toolbar>
     </template>
@@ -126,6 +127,10 @@ export default {
       type: Array,
       required: true
     },
+    toolTitle: {
+      type: String,
+      required: true
+    }
   },
   data() {
     return {

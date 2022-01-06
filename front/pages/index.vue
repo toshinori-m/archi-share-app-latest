@@ -3,7 +3,7 @@
     <v-col cols="12" sm="10" md="10">
       <post-index
         :posts="posts"
-        :post="post"
+        :tool-title="toolTitle"
         @load="postsGet"
       />
     </v-col>
@@ -16,6 +16,11 @@ import PostIndex from '~/components/post/PostIndex.vue'
 export default {
   components: {
     PostIndex
+  },
+  data() {
+    return {
+      toolTitle: '最近の投稿'
+    }
   },
   async fetch({ $axios, store }) {
     await $axios
@@ -36,8 +41,7 @@ export default {
     ...mapGetters({
       currentUser: 'authentication/currentUser',
       login: 'authentication/login',
-      posts: 'post/posts',
-      post: 'post/post'
+      posts: 'post/posts'
     })
   },
   methods: {
