@@ -59,12 +59,21 @@
     </v-card-text>
     <v-card-actions class="pa-4">
       <v-btn
+        v-if="currentUser && currentUser.email !== guest"
         block
         color="tertiary"
         class="primary--text"
         @click="userEditAction"
       >
         更新
+      </v-btn>
+      <v-btn
+        v-else
+        block
+        color="tertiary"
+        class="primary--text"
+      >
+        ゲストユーザーは変更出来ません
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -81,6 +90,7 @@ export default {
       icon: require('@/assets/images/default.png'),
       name: '',
       email: '',
+      guest: 'guestuser0123@gmail.com',
       introduction: '',
       nameRules: [
         v => !!v || '名前を入力してください',

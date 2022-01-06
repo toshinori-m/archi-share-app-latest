@@ -1,11 +1,19 @@
 <template>
   <div>
     <v-btn
+      v-if="currentUser && currentUser.email !== guest"
       color="error"
       :disabled="disable"
       @click="dialog = true"
     >
       アカウント削除
+    </v-btn>
+    <v-btn
+      v-else
+      color="error"
+      :disabled="disable"
+    >
+      ゲストユーザーは削除出来ません
     </v-btn>
     <v-dialog
       v-model="dialog"
@@ -48,7 +56,7 @@
 </template>
 
 <script>
-import { mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
   props: {
     disable: {
@@ -58,8 +66,14 @@ export default {
   },
   data() {
     return {
-      dialog: false
+      dialog: false,
+      guest: 'guestuser0123@gmail.com'
     }
+  },
+  computed: {
+    ...mapGetters('authentication', [
+      'currentUser'
+    ])
   },
   methods: {
     ...mapMutations('authentication', [

@@ -35,6 +35,7 @@
     </v-card-text>
     <v-card-actions class="pa-4">
       <v-btn
+        v-if="currentUser && currentUser.email !== guest"
         block
         color="tertiary"
         class="primary--text"
@@ -42,12 +43,20 @@
       >
         変更
       </v-btn>
+      <v-btn
+        v-else
+        block
+        color="tertiary"
+        class="primary--text"
+      >
+        ゲストユーザーは変更出来ません
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   data() {
     return {
@@ -55,6 +64,7 @@ export default {
       passwordConfirmation: '',
       show: false,
       show2: false,
+      guest: 'guestuser0123@gmail.com',
       passwordRules: [
         v => !!v || 'パスワードを入力してください',
         v => (v && v.length >= 6) || '6文字以上で入力してください'
@@ -62,6 +72,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('authentication', [
+      'currentUser'
+    ]),
     passwordConfirmationRules() {
       return (this.password === this.passwordConfirmation) || 'パスワードが一致しません'
     }
