@@ -67,13 +67,23 @@
             />
           </v-form>
         </v-card-text>
-        <v-card-actions class="justify-center px-6 pt-0 pb-6">
+        <v-card-actions class="justify-center px-6 pt-0">
           <v-btn
             block
             color="tertiary"
             @click="signUpAction(user)"
           >
             登録
+          </v-btn>
+        </v-card-actions>
+        <v-card-actions class="justify-center px-6 pt-0 pb-6">
+          <v-btn
+            block
+            color="accent"
+            class="primary--text"
+            @click="guestSignIn"
+          >
+            ゲストログイン
           </v-btn>
         </v-card-actions>
         <v-card-text class="d-flex justify-center align-center">
@@ -97,6 +107,10 @@ export default {
         email: '',
         password: '',
         passwordConfirmation: ''
+      },
+      guest: {
+        email: 'guestuser0123@gmail.com',
+        password: 'guestuser0123'
       },
       show: false,
       show2: false,
@@ -132,6 +146,7 @@ export default {
   methods: {
     ...mapActions({
       userSignUp: 'authentication/userSignUp',
+      userSignIn: 'authentication/userSignIn',
       userSignUpModal: 'modal/userSignUpModal',
       userSignInModal: 'modal/userSignInModal'
     }
@@ -140,6 +155,10 @@ export default {
       if (this.$refs.form.validate()) {
         this.userSignUp(user)
       }
+    },
+    guestSignIn() {
+      this.userSignIn(this.guest)
+      this.userSignUpModal(false)
     },
     dialogClose() {
       this.userSignUpModal(false)

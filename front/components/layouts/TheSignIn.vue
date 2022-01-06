@@ -45,13 +45,24 @@
             />
           </v-form>
         </v-card-text>
-        <v-card-actions class="justify-center px-6 pt-0 pb-6">
+        <v-card-actions class="justify-center px-6 pt-0">
           <v-btn
             block
             color="tertiary"
+            class="primary--text"
             @click="signInAction(user)"
           >
             ログイン
+          </v-btn>
+        </v-card-actions>
+        <v-card-actions class="justify-center px-6 pt-0 pb-6">
+          <v-btn
+            block
+            color="accent"
+            class="primary--text"
+            @click="userSignIn(guest)"
+          >
+            ゲストログイン
           </v-btn>
         </v-card-actions>
         <v-card-text class="d-flex justify-center align-center">
@@ -73,6 +84,10 @@ export default {
       user: {
         email: '',
         password: ''
+      },
+      guest: {
+        email: 'guestuser0123@gmail.com',
+        password: 'guestuser0123'
       },
       show: false,
       emailRules: [
