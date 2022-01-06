@@ -113,7 +113,11 @@ export default {
   created() {
     this.image = this.currentUser.image
     this.name = this.currentUser.name
-    this.email = this.currentUser.email
+    if (this.currentUser.email === this.guest) {
+      this.email = 'example@gmail.com'
+    } else {
+      this.email = this.currentUser.email
+    }
     this.introduction = this.currentUser.introduction
   },
   methods: {
