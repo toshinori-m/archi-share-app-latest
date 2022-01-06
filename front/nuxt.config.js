@@ -31,8 +31,7 @@ export default {
     { src: '~/plugins/axios.js' },
     { src: '~/plugins/day.js' },
     { src: '~/plugins/persistedState.client.js' },
-    { src: '~/plugins/vue2-google-maps.js' },
-    { src: '~/plugins/vue2-geocoder.js' }
+    { src: '~/plugins/gmapVue.js' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -82,7 +81,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: [/^vue2-google-maps($|\/)/]
+    transpile: [/^gmap-vue($|\/)/]
   },
   publicRuntimeConfig: {
     API_KEY : process.env.API_KEY,
