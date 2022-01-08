@@ -27,6 +27,15 @@ module Api
         end
       end
 
+      def destroy
+        @architecture = Architecture.find(params[:id])
+        if @architecture.destroy
+          render json: @architecture
+        else
+          render json: @architecture.errors, status: :unprocessable_entity
+        end
+      end
+
       private
 
       def architecture_params
