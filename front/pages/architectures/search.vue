@@ -1,10 +1,27 @@
 <template>
   <v-row justify="center" align="center">
     <v-col cols="12">
+      <v-toolbar dark flat color="accent">
+        <v-combobox
+          ref="reset_form"
+          v-model="selectedItem"
+          :items="architectures"
+          item-text="name"
+          no-data-text="建築物がまだ登録されていません"
+          flat
+          solo-inverted
+          hide-details
+          clearable
+          prepend-inner-icon="mdi-magnify"
+        />
+        <v-spacer /> 
+        <architecture-search-modal />
+      </v-toolbar>
       <div class="mb-5">
         <GmapMap
-          :center="{ lat: 35.681236, lng: 139.767125 }"
-          :zoom="6"
+          ref="map"
+          :center="center"
+          :zoom="zoom"
           :options="options"
           map-type-id="roadmap"
           style="height: 400px"
@@ -14,7 +31,7 @@
             :options="infoOptions"
             :opened="window"
             :position="windowPosition"
-            @closeclick="window = false"
+            @closeclick="windowClose"
           >
             {{ architecture.name }}
           </GmapInfoWindow>
@@ -103,33 +120,39 @@
         type="info"
         elevation="2"
       >
-        <span>マップ上のマーカーを選択することで建築物の情報を表示</span>
+        <span>
+          マップ上のマーカーを選択、
+          またはフォームで該当する建築物を選択することで
+          建築物の情報を表示
+        </span>
       </v-alert>
     </v-col>
   </v-row>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import PostIndex from '~/components/post/PostIndex.vue'
+import ArchitectureSearchModal from '~/components/architecture/ArchitectureSearchModal.vue'
 export default {
   components: {
-    PostIndex
-  },
-  async asyncData({ $axios }) {
-    const architectures = await $axios
-      .$get('/api/v1/architectures')
-    return { architectures }
+    PostIndex,
+    ArchitectureSearchModal
   },
   data() {
     return {
+      selectedItem: null,
       lat: '',
       lng: '',
+      zoom: 5.8,
       options: {
         mapTypeControl: false,
         streetViewControl: false
       },
-      architectures: null,
+      center: {
+        lat: 35.681236,
+        lng: 139.767125
+      },
       window: false,
       windowPosition: null,
       infoOptions: {
@@ -138,11 +161,18 @@ export default {
           height: -35
         }
       },
-      itemsPerPageArray: [6, 9, 12],
-      page: 1,
-      itemsPerPage: 6,
       toolTitle: '関連する投稿'
     }
+  },
+  async fetch ({ $axios, store }) {
+    await $axios
+      .$get('/api/v1/architectures')
+      .then((res) => {
+        store.commit('architecture/architecturesSet', res)
+      })
+      .catch((e) => {
+        console.log(e)
+      })
   },
   head() {
     return {
@@ -151,20 +181,59 @@ export default {
   },
   computed: {
     ...mapGetters('architecture', [
-      'architecture'
-    ])
+      'architecture',
+      'architectures'
+    ]),
+    architectureCheck() {
+      return this.architecture
+    },
+    selectedItemCheck() {
+      return this.selectedItem
+    }
+  },
+  watch: {
+    architectureCheck() {
+      if (this.architecture) {
+        this.windowPosition = {
+          lat: Number(this.architecture.lat), lng: Number(this.architecture.lng)
+        }
+        this.$refs.map.panTo(
+          { lat: Number(this.architecture.lat), lng:  Number(this.architecture.lng) }
+        )
+        this.window = true
+      } else {
+        this.window = false
+        this.$refs.reset_form.reset()
+      }
+    },
+    selectedItemCheck() {
+      if (this.selectedItem) {
+        this.archiGet(this.selectedItem)
+      } else {
+        this.archiSet(null)
+      }
+    }
   },
   methods: {
+    ...mapMutations('architecture', [
+      'archiSet',
+      'architecturesSet'
+    ]),
     ...mapActions('architecture', [
       'archiGet'
     ]),
     async markerClick(architecture) {
       await this.archiGet(architecture)
       this.windowPosition = { lat: Number(architecture.lat), lng: Number(architecture.lng) }
+      this.$refs.map.panTo({ lat: Number(architecture.lat), lng:  Number(architecture.lng) })
       this.window = true
     },
     async loadArchi(architecture) {
       await this.archiGet(architecture)
+    },
+    windowClose() {
+      this.window = false
+      this.archiSet(null)
     }
   }
 }
