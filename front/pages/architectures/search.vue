@@ -51,6 +51,8 @@
           <v-toolbar-title class="primary--text">
             選択した建築物
           </v-toolbar-title>
+          <v-spacer />
+          <architecture-delete-modal v-if="currentUser && currentUser.admin" />
         </v-toolbar>
         <v-row justify="center" align="center">
           <v-col cols="12" sm="6">
@@ -134,10 +136,12 @@
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import PostIndex from '~/components/post/PostIndex.vue'
 import ArchitectureSearchModal from '~/components/architecture/ArchitectureSearchModal.vue'
+import ArchitectureDeleteModal from '~/components/architecture/ArchitectureDeleteModal.vue'
 export default {
   components: {
     PostIndex,
-    ArchitectureSearchModal
+    ArchitectureSearchModal,
+    ArchitectureDeleteModal
   },
   data() {
     return {
@@ -180,10 +184,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('architecture', [
-      'architecture',
-      'architectures'
-    ]),
+    ...mapGetters({
+      currentUser: 'authentication/currentUser',
+      architecture: 'architecture/architecture',
+      architectures: 'architecture/architectures'
+    }),
     architectureCheck() {
       return this.architecture
     },

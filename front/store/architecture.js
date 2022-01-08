@@ -69,6 +69,10 @@ export const mutations = {
   },
   filterQuerySet(state, filterQuery) {
     state.filterQuery = { ...filterQuery }
+  },
+  archiRemove(state, archi) {
+    const data = state.architectures.findIndex(n => n.id === archi.id)
+    state.architectures.splice(data, 1)
   }
 }
 
