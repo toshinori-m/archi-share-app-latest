@@ -32,8 +32,4 @@ class User < ApplicationRecord
     relationship = self.relationships.find_by(follow_id: other_user.id)
     relationship&.destroy
   end
-
-  def following?(other_user)
-    self.followings.include?(other_user)
-  end
 end
