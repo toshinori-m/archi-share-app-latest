@@ -10,7 +10,7 @@
                   v-if="post.user.image.url"
                   :src="post.user.image.url"
                 />
-                <v-else v-else :src="icon" />
+                <v-img v-else :src="icon" />
               </v-avatar>
               <span class="text-caption text-sm-subtitle-1">
                 {{ post.user.name }}

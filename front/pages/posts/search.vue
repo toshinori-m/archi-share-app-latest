@@ -1,23 +1,14 @@
 <template>
   <v-row justify="center" align="center">
     <v-col cols="12" sm="10" md="10">
-      <v-data-iterator
-        :items="filteredArchitectures"
-        :items-per-page="itemsPerPage"
-        no-results-text="該当する投稿はありません"
-        :page="page"
-        :search="search"
-        :sort-by="sortBy.toLowerCase()"
-        :sort-desc="sortDesc"
-        hide-default-footer
-      >
-        <template #header>
-          <template v-if="$vuetify.breakpoint.mdAndUp">
-            <v-toolbar
-              dark
-              color="primary"
-              class="mb-1"
-            >
+      <template v-if="$vuetify.breakpoint.smAndUp">
+        <v-toolbar
+          dark
+          color="primary"
+          class="mb-1"
+        >
+          <v-row justify="center" align="center">
+            <v-col cols="12" sm="4" md="5">
               <v-text-field
                 v-model="search"
                 clearable
@@ -27,240 +18,144 @@
                 prepend-inner-icon="mdi-magnify"
                 label="検索"
               />
-              <v-spacer />
-              <v-autocomplete
-                v-model="architecture"
+            </v-col>
+            <v-col cols="8" sm="4" md="5">
+              <v-combobox
+                v-model="selectedItem"
                 :items="architectures"
+                item-text="name"
+                item-value="id"
                 flat
                 hide-details
                 solo-inverted
                 no-data-text="該当する建築物はありません"
-                item-text="name"
-                item-value="id"
                 clearable
                 label="建築物を選択"
               />
-              <v-spacer />
-              <v-btn-toggle
-                v-model="sortDesc"
-                mandatory
-              >
+            </v-col>
+            <v-col cols="4" sm="4" md="2">
+              <div class="text-center">
                 <v-btn
+                  v-if="sort"
                   large
-                  depressed
-                  color="red lighten-1"
-                  :value="false"
-                >
-                  <v-icon>mdi-arrow-up</v-icon>
+                  color="error"
+                  @click="descent">
+                  昇順
                 </v-btn>
                 <v-btn
+                  v-else
                   large
-                  depressed
-                  color="indigo darken-1"
-                  :value="true"
+                  color="blue"
+                  @click="ascent"
                 >
-                  <v-icon>mdi-arrow-down</v-icon>
+                  降順
                 </v-btn>
-              </v-btn-toggle>
-            </v-toolbar>
-          </template>
-          <template v-if="$vuetify.breakpoint.smOnly">
-            <v-toolbar
-              dark
-              flat
-              color="primary"
-            >
-              <v-text-field
-                v-model="search"
-                clearable
-                flat
-                solo-inverted
-                hide-details
-                prepend-inner-icon="mdi-magnify"
-                label="検索"
-              />
-            </v-toolbar>
-            <v-toolbar
-              dark
-              flat
-              color="primary"
-              class="mb-1"
-            >
-              <v-autocomplete
-                v-model="architecture"
-                :items="architectures"
-                flat
-                hide-details
-                solo-inverted
-                no-data-text="該当する建築物はありません"
-                item-text="name"
-                item-value="id"
-                clearable
-                label="建築物を選択"
-              />
-              <v-spacer />
-              <v-btn-toggle
-                v-model="sortDesc"
-                mandatory
-              >
-                <v-btn
-                  large
-                  depressed
-                  color="red lighten-1"
-                  :value="false"
-                >
-                  <v-icon>mdi-arrow-up</v-icon>
-                </v-btn>
-                <v-btn
-                  large
-                  depressed
-                  color="indigo darken-1"
-                  :value="true"
-                >
-                  <v-icon>mdi-arrow-down</v-icon>
-                </v-btn>
-              </v-btn-toggle>
-            </v-toolbar>
-          </template>
-          <template v-if="$vuetify.breakpoint.xsOnly">
-            <v-toolbar
-              dark
-              flat
-              color="primary"
-            >
-              <v-text-field
-                v-model="search"
-                clearable
-                flat
-                solo-inverted
-                hide-details
-                prepend-inner-icon="mdi-magnify"
-                label="検索"
-              />
-            </v-toolbar>
-            <v-toolbar
-              dark
-              flat
-              color="primary"
-            >
-              <v-autocomplete
-                v-model="architecture"
-                :items="architectures"
-                flat
-                hide-details
-                solo-inverted
-                no-data-text="該当する建築物はありません"
-                item-text="name"
-                item-value="id"
-                clearable
-                label="建築物を選択"
-              />
-            </v-toolbar>
-            <v-toolbar
-              dark
-              flat
-              color="primary"
-              class="mb-1"
-            >
-              <v-btn-toggle
-                v-model="sortDesc"
-                mandatory
-                class="mx-auto"
-              >
-                <v-btn
-                  large
-                  depressed
-                  color="red lighten-1"
-                  width="150"
-                  :value="false"
-                >
-                  <v-icon>mdi-arrow-up</v-icon>
-                </v-btn>
-                <v-btn
-                  large
-                  depressed
-                  color="indigo darken-1"
-                  width="150"
-                  :value="true"
-                >
-                  <v-icon>mdi-arrow-down</v-icon>
-                </v-btn>
-              </v-btn-toggle>
-            </v-toolbar>
-          </template>
-        </template>
-        <template #default="props">
-          <v-row>
-            <v-col
-              v-for="item in props.items"
-              :key="item.id"
-              cols="12"
-              sm="6"
-              md="4"
-              lg="4"
-            >
-              <v-card @click="postClick(item)">
-                <v-img :src="item.image.url" />
-                <v-card-title
-                  class="justify-center font-weight-bold"
-                >
-                  <span class="text-truncate">{{ item.title }}</span>
-                </v-card-title>
-                <v-card-actions class="py-0">
-                  <div class="d-inline-block text-truncate" @click.stop="userClick(item.user)">
-                    <v-avatar size="50">
-                      <v-img :src="item.user.image.url" />
-                    </v-avatar>
-                    <span class="">{{ item.user.name }}</span>
-                  </div>
-                  <v-spacer />
-                </v-card-actions>
-                <v-card-actions class="justify-end pt-0">
-                  <v-spacer />
-                  <like-button :post="item" />
-                  <v-spacer />
-                  <elapsed-time :content="item" />
-                </v-card-actions>
-              </v-card>
+              </div>
             </v-col>
           </v-row>
-        </template>
-        <template  #footer>
-          <v-row
-            align="center"
-            justify="center"
-            class="ma-2"
+        </v-toolbar>
+      </template>
+      <template v-else>
+        <v-toolbar
+          dark
+          flat
+          color="primary"
+        >
+          <v-text-field
+            v-model="search"
+            clearable
+            flat
+            solo-inverted
+            hide-details
+            prepend-inner-icon="mdi-magnify"
+            label="検索"
+          />
+        </v-toolbar>
+        <v-toolbar dark flat color="primary" class="mb-1">
+          <v-combobox
+            v-model="selectedItem"
+            :items="architectures"
+            item-text="name"
+            item-value="id"
+            flat
+            hide-details
+            solo-inverted
+            no-data-text="該当する建築物はありません"
+            clearable
+            label="建築物を選択"
+          />
+          <v-btn
+            v-if="sort"
+            large
+            color="error"
+            class="ml-2"
+            @click="descent">
+            昇順
+          </v-btn>
+          <v-btn
+            v-else
+            large
+            color="blue"
+            class="ml-2"
+            @click="ascent"
           >
-            <span class="primary--text">Items per page</span>
-            <v-menu offset-y>
-            <template #activator="{ on, attrs }">
-              <v-btn
-                dark
-                text
-                color="primary"
-                class="ml-2"
-                v-bind="attrs"
-                v-on="on"
-              >
-                {{ itemsPerPage }}
-                <v-icon>mdi-chevron-down</v-icon>
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item
-                v-for="(number, index) in itemsPerPageArray"
-                :key="index"
-                @click="updateItemsPerPage(number)"
-              >
-                <v-list-item-title>{{ number }}</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
+            降順
+          </v-btn>
+        </v-toolbar>
+      </template>
+      <v-row v-if="viewLists">
+        <v-col
+          v-for="item in viewLists"
+          :key="item.id"
+          cols="12"
+          sm="6"
+          md="4"
+          lg="4"
+        >
+          <v-card @click="postClick(item)">
+            <v-img :src="item.image.url" />
+            <v-card-title
+              class="justify-center font-weight-bold"
+            >
+              <span class="text-truncate">{{ item.title }}</span>
+            </v-card-title>
+            <v-card-actions class="py-0">
+              <div class="d-inline-block text-truncate" @click.stop="userClick(item.user)">
+                <v-avatar size="50">
+                  <v-img :src="item.user.image.url" />
+                </v-avatar>
+                <span class="">{{ item.user.name }}</span>
+              </div>
+              <v-spacer />
+            </v-card-actions>
+            <v-card-actions class="justify-end pt-0">
+              <v-spacer />
+              <like-button :post="item" />
+              <v-spacer />
+              <elapsed-time :content="item" />
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <v-card v-if="!viewLists[0]">
+            <v-card-text class="text-center">
+              <span class="text-h6">
+                該当する建築物はありません
+              </span>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+      <div>
+        <v-row
+          class="ma-2"
+          align="center"
+          justify="center"
+        >
           <v-spacer />
-          <span
-            class="mr-4
-            primary--text"
-          >
+          <span class="mr-4 primary--text">
             Page {{ page }} of {{ numberOfPages }}
           </span>
           <v-btn
@@ -279,9 +174,8 @@
           >
             <v-icon>mdi-chevron-right</v-icon>
           </v-btn>
-          </v-row>
-        </template>
-      </v-data-iterator>
+        </v-row>
+      </div>
     </v-col>
   </v-row>
 </template>
@@ -309,16 +203,13 @@ export default {
   },
   data() {
     return {
-      itemsPerPageArray: [6, 9, 12],
-      search: '',
-      sortDesc: false,
-      page: 1,
-      itemsPerPage: 6,
-      sortBy: 'created_at',
-      groupBy: 'architecture_id',
       posts: null,
       architectures: null,
-      architecture: null
+      search: '',
+      sort: false,
+      selectedItem: null,
+      itemsPerPage: 6,
+      page: 1
     }
   },
   head() {
@@ -330,56 +221,81 @@ export default {
     ...mapGetters('post', [
       'post'
     ]),
-    numberOfPages () {
-      return Math.ceil(this.posts.length / this.itemsPerPage)
-    },
-    postUpdate() {
-      return this.post
-    },
-    filteredArchitectures() {
-      if (this.architecture !== null) {
+    filteredSearch() {
+      if (this.search) {
         const list = []
         for (let i = 0; i < this.posts.length; i++) {
           const post = this.posts[i]
-          if (post.architecture) {
-            if (post.architecture.id === this.architecture) {
-              list.push(post)
-            }
+          if (post.title.includes(this.search)) {
+            list.push(post)
           }
         }
         return list
       } else {
         return this.posts
       }
+    },
+    filteredArchi() {
+      if (this.selectedItem) {
+        const data = this.filteredSearch
+        const list = []
+        for (let i = 0; i < data.length; i++) {
+          const post = data[i]
+          if (post.architecture && post.architecture.id === this.selectedItem.id) {
+            list.push(post)
+          }
+        }
+        return list
+      } else {
+        return this.filteredSearch
+      }
+    },
+    viewLists() {
+      const lists = this.filteredArchi.slice(
+        this.itemsPerPage * (this.page - 1),
+        this.itemsPerPage * this.page
+      )
+      return lists
+    },
+    numberOfPages() {
+      return Math.ceil(this.filteredArchi.length / this.itemsPerPage)
+    },
+    postUpdate() {
+      return this.post
+    },
+    pageCheck() {
+      return this.selectedItem
     }
   },
   watch: {
     postUpdate() {
-      this.$axios
-        .get('/api/v1/posts')
-        .then((res) => {
-          this.posts = res.data
-        })
-        .catch((e) => {
-          console.log(e)
-        })
+      const data = this.posts.findIndex(n => n.id === this.post.id )
+      this.posts.splice(data, 1, this.post)
+    },
+    pageCheck() {
+      this.page = 1
     }
   },
   methods: {
-    nextPage () {
+    nextPage() {
       if (this.page + 1 <= this.numberOfPages) this.page += 1
     },
-    formerPage () {
+    formerPage() {
       if (this.page - 1 >= 1) this.page -= 1
-    },
-    updateItemsPerPage (number) {
-      this.itemsPerPage = number
     },
     postClick(post) {
       this.$router.push(`/posts/${post.id}`)
     },
     userClick(user) {
       this.$router.push(`/users/${user.id}`)
+    },
+    descent() {
+      this.posts.reverse()
+      this.sort = false
+    },
+    ascent() {
+      this.posts.reverse()
+      this.sort = true
     }
   }
 }

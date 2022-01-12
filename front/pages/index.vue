@@ -4,14 +4,14 @@
       <post-index
         :posts="posts"
         :tool-title="toolTitle"
-        @load="postsGet"
+        @load="postsLoad"
       />
     </v-col>
   </v-row>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import PostIndex from '~/components/post/PostIndex.vue'
 export default {
   components: {
@@ -41,13 +41,20 @@ export default {
     ...mapGetters({
       currentUser: 'authentication/currentUser',
       login: 'authentication/login',
-      posts: 'post/posts'
+      posts: 'post/posts',
+      post: 'post/post'
     })
   },
   methods: {
+    ...mapMutations('post', [
+      'postsUpdate'
+    ]),
     ...mapActions('post', [
       'postsGet'
-    ])
+    ]),
+    postsLoad() {
+      this.postsUpdate(this.post)
+    }
   }
 }
 </script>
