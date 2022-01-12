@@ -14,6 +14,10 @@ export const mutations = {
   },
   postsSet(state, data) {
     state.posts = data
+  },
+  postsUpdate(state, data) {
+    const index = state.posts.findIndex(n => n.id === data.id )
+    state.posts.splice(index, 1, data)
   }
 }
 

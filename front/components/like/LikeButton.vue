@@ -45,18 +45,18 @@ export default {
       login: 'authentication/login'
     }),
     loginCheck() {
-      return this.currentUser
+      return this.login
     }
   },
   watch: {
     loginCheck() {
       if (this.login) {
-        this.like = false
-        this.currentUser.postlike.forEach((f) => {
-          if (this.post.id === f.id) {
-            this.like = true
-          }
-        })
+        const data = this.currentUser.postlike.findIndex(n => n.id === this.post.id)
+        if (data !== -1) {
+          this.like = true
+        } else {
+          this.like = false
+        }
       } else {
         this.like = false
       }
@@ -64,11 +64,10 @@ export default {
   },
   mounted() {
     if (this.login) {
-      this.currentUser.postlike.forEach((f) => {
-        if (this.post.id === f.id) {
-          this.like = true
-        }
-      })
+      const data = this.currentUser.postlike.findIndex(n => n.id === this.post.id)
+      if (data !== -1) {
+        this.like = true
+      }
     }
   },
   methods: {
@@ -116,6 +115,7 @@ export default {
       }
       this.currentUserInfo(this.currentUser)
       this.postSet(res.data)
+      this.like = true
       this.messageShow({
         message: '投稿をいいねしました',
         type: 'success',
@@ -129,6 +129,7 @@ export default {
       }
       this.currentUserInfo(this.currentUser)
       this.postSet(res.data)
+      this.like = false
       this.messageShow({
         message: '投稿のいいねを外しました',
         type: 'info',
