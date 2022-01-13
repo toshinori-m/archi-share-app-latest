@@ -64,3 +64,7 @@ Rails/BulkChangeTable:
 
 Rails/InverseOf:
   Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
