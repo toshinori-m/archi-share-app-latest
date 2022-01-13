@@ -9,11 +9,10 @@ module Api
       end
 
       def destroy
-        user = @user.unfollow(@follow)
-        if user.destroy
-          render json: user, status: :ok
+        if @user.unfollow(@follow)
+          render json: @user, status: :ok
         else
-          render status: :unprocessable_entity
+          render json: @user.errors, status: :unprocessable_entity
         end
       end
 
