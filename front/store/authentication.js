@@ -70,12 +70,15 @@ export const actions = {
     return response
   },
   async userSignUp({ dispatch }, authData) {
+    dispatch('progressLinear/linearGet', true, { root: true })
     const res = await dispatch('signUp', authData)
     if (!res) {
+      dispatch('progressLinear/linearGet', false, { root: true })
       return
     }
     dispatch('modal/userSignUpModal', false, { root: true })
     dispatch('currentUserInfo', res.data)
+    dispatch('progressLinear/linearGet', false, { root: true })
     dispatch(
       'snackbarMessage/messageShow',
       {
@@ -87,12 +90,15 @@ export const actions = {
     )
   },
   async userSignIn({ dispatch }, authData) {
+    dispatch('progressLinear/linearGet', true, { root: true })
     const res = await dispatch('signIn', authData)
     if (!res) {
+      dispatch('progressLinear/linearGet', false, { root: true })
       return
     }
     dispatch('modal/userSignInModal', false, { root: true })
     dispatch('currentUserInfo', res.data)
+    dispatch('progressLinear/linearGet', false, { root: true })
     dispatch(
       'snackbarMessage/messageShow',
       {
