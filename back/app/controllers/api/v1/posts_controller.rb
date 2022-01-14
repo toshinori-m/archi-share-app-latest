@@ -51,11 +51,7 @@ module Api
       end
 
       def destroy
-        if @post.destroy
-          render json: @post
-        else
-          render json: @post.errors, status: :unprocessable_entity
-        end
+        render json: @post if @post.destroy
       end
 
       private
