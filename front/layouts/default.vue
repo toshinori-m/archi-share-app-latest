@@ -4,6 +4,7 @@
     <the-header />
     <v-main>
       <the-snackbar v-if="$vuetify.breakpoint.smAndUp" />
+      <the-progress-linear />
       <v-container>
         <Nuxt />
       </v-container>
@@ -16,12 +17,14 @@
 import TheNavigationDrawer from '~/components/layouts/TheNavigationDrawer.vue'
 import TheHeader from '~/components/layouts/TheHeader.vue'
 import TheSnackbar from '~/components/layouts/TheSnackbar.vue'
+import TheProgressLinear from '~/components/layouts/TheProgressLinear.vue'
 import TheFooter from '~/components/layouts/TheFooter.vue'
 export default {
   components: {
     TheHeader,
     TheNavigationDrawer,
     TheSnackbar,
+    TheProgressLinear,
     TheFooter
   }
 }
