@@ -16,7 +16,7 @@ module Api
       end
 
       def timeline
-        @posts = Post.where(user_id: current_user.following_ids << current_user.id ).order(id: 'DESC' )
+        @posts = Post.where(user_id: current_user.following_ids << current_user.id).order(id: 'DESC')
         render json: @posts.as_json(
           only: %i[id title content image created_at],
           include: [
