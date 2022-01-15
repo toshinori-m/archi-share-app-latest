@@ -10,7 +10,7 @@ RSpec.describe Relationship, type: :request do
     context 'ユーザーをフォロー・フォロー解除できる場合' do
       it 'ユーザーをフォロー' do
         post '/api/v1/relationships', params: { user_id: @user.id, follow_id: @other_user.id }
-        expect(response).to have_http_status(:created)
+        expect(response.status).to eq(200)
       end
 
       it 'ユーザーをフォロー解除' do
