@@ -1,8 +1,8 @@
 <template>
   <v-card>
-    <template v-if="user.postlike[0]">
+    <template v-if="posts[0]">
       <v-card
-        v-for="(post, i) in user.postlike"
+        v-for="(post, i) in posts"
         :key="post.id"
         tile
         flat
@@ -56,7 +56,7 @@
             <elapsed-time :content="post" />
           </v-col>
         </v-row>
-        <v-divider v-if="i !== user.postlike.length - 1" />
+        <v-divider v-if="i !== posts.length - 1" />
       </v-card>
     </template>
     <template v-else>
@@ -81,21 +81,15 @@ export default {
     user: {
       type: Object,
       required: true
+    },
+    posts: {
+      type: Array,
+      required: true
     }
   },
   data() {
     return {
       icon: require('@/assets/images/default.png')
-    }
-  },
-  computed: {
-    loadPost() {
-      return this.$store.getters['post/post']
-    }
-  },
-  watch: {
-    loadPost() {
-      this.$emit('load')
     }
   },
   methods: {

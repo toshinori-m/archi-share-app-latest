@@ -65,19 +65,19 @@
       <user-post-list
         v-if="tab == 0"
         :user="user"
-        @load="userGet(user.id)"
+        :posts="userPost"
       />
       <like-post-list
         v-else
         :user="user"
-        @load="userGet(user.id)"
+        :posts="userLikePost"
       />
     </v-col>
   </v-row>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import UserFollowButton from '~/components/user/UserFollowButton.vue'
 import UserFollowCount from '~/components/user/UserFollowCount.vue'
 import UserPostList from '~/components/user/UserPostList.vue'
@@ -100,8 +100,9 @@ export default {
     await $axios
       .$get(`/api/v1/users/${params.id}`)
       .then((res) => {
-        console.log(res)
         store.commit('user/userSet', res)
+        store.commit('user/userPostSet', res.posts)
+        store.commit('user/userLikePostSet', res.postlike)
       })
       .catch((e) => {
         console.log(e)
@@ -116,23 +117,47 @@ export default {
     ...mapGetters({
       currentUser: 'authentication/currentUser',
       login: 'authentication/login',
-      user: 'user/user'
+      user: 'user/user',
+      post: 'post/post',
+      userPost: 'user/userPost',
+      userLikePost: 'user/userLikePost'
     }),
-    currentUserCheck() {
-      return this.currentUser
+    postCheck() {
+      return this.post
+    },
+    tabCheck() {
+      return this.tab
     }
   },
   watch: {
-    currentUserCheck() {
-      this.userGet(this.user.id)
+    postCheck() {
+      if (this.tab === 1) {
+        this.userLikePostUpdate(this.post)
+      } else {
+        this.userPostUpdate(this.post)
+      }
+    },
+    tabCheck() {
+      if (this.tab === 0) {
+        this.$axios
+          .get(`/api/v1/users/${this.user.id}`)
+          .then((res) => {
+            this.userLikePostSet(res.data.postlike)
+          })
+          .catch((e) => {
+            console.log(e)
+          })
+      }
     }
   },
   created() {
     this.title = this.user.name
   },
   methods: {
-    ...mapActions('user', [
-      'userGet'
+    ...mapMutations('user', [
+      'userLikePostSet',
+      'userPostUpdate',
+      'userLikePostUpdate'
     ]),
     userEditButton() {
       this.$router.push('/users/edit')
