@@ -15,6 +15,18 @@ module Api
         )
       end
 
+      def timeline
+        @posts = Post.where(user_id: current_user.following_ids << current_user.id ).order(id: 'DESC' )
+        render json: @posts.as_json(
+          only: %i[id title content image created_at],
+          include: [
+            { user: { only: %i[id name image] } },
+            :like_users,
+            :architecture
+          ]
+        )
+      end
+
       def show
         @post = Post.includes(:like_users, :architecture, :comments).find(params[:id])
         render json: @post.as_json(

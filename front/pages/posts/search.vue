@@ -113,7 +113,7 @@
           lg="4"
         >
           <v-card @click="postClick(item)">
-            <v-img :src="item.image.url" />
+            <v-img :src="item.image.url" height="250" />
             <v-card-title
               class="justify-center font-weight-bold"
             >
@@ -122,7 +122,8 @@
             <v-card-actions class="py-0">
               <div class="d-inline-block text-truncate" @click.stop="userClick(item.user)">
                 <v-avatar size="50">
-                  <v-img :src="item.user.image.url" />
+                  <v-img v-if="item.user.image.url" :src="item.user.image.url" />
+                  <v-img v-else :src="icon" />
                 </v-avatar>
                 <span class="">{{ item.user.name }}</span>
               </div>
@@ -209,7 +210,8 @@ export default {
       sort: false,
       selectedItem: null,
       itemsPerPage: 6,
-      page: 1
+      page: 1,
+      icon: require('@/assets/images/default.png')
     }
   },
   head() {

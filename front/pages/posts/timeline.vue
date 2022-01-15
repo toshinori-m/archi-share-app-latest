@@ -2,7 +2,7 @@
   <v-row justify="center" align="center">
     <v-col cols="12" sm="10" md="10">
       <post-index
-        :posts="posts"
+        :posts="feed"
         :tool-title="toolTitle"
       />
     </v-col>
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import PostIndex from '~/components/post/PostIndex.vue'
 export default {
   components: {
@@ -18,14 +18,14 @@ export default {
   },
   data() {
     return {
-      toolTitle: '最近の投稿'
+      toolTitle: 'タイムライン'
     }
   },
   async fetch({ $axios, store }) {
     await $axios
-      .$get('/api/v1/posts')
+      .$get('/api/v1/posts/timeline')
       .then((res) => {
-        store.commit('post/postsSet', res)
+        store.commit('post/feedSet', res)
       })
       .catch((e) => {
         console.log(e)
@@ -33,14 +33,14 @@ export default {
   },
   head() {
     return {
-      title: 'ホーム',
+      title: 'タイムライン',
     }
   },
   computed: {
     ...mapGetters({
       currentUser: 'authentication/currentUser',
       login: 'authentication/login',
-      posts: 'post/posts',
+      feed: 'post/feed',
       post: 'post/post'
     }),
     postCheck() {
@@ -49,15 +49,12 @@ export default {
   },
   watch: {
     postCheck() {
-      this.postsUpdate(this.post)
+      this.feedUpdate(this.post)
     }
   },
   methods: {
     ...mapMutations('post', [
-      'postsUpdate'
-    ]),
-    ...mapActions('post', [
-      'postsGet'
+      'feedUpdate'
     ])
   }
 }

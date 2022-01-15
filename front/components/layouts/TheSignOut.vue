@@ -47,7 +47,7 @@ export default {
       const matchedRoute = this.$route.matched[0]
       const headInfo = matchedRoute.components.default.options.head()
       const title = headInfo.title
-      if (title === '新規投稿' || title === 'アカウント編集') {
+      if (title === '新規投稿' || title === 'アカウント編集' || title === 'タイムライン') {
         this.$router.push('/')
         this.dialog = false
         this.userSignOut()
