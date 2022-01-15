@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
   props: {
     user: {
@@ -100,12 +100,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('authentication', [
-      'login',
-      'currentUser'
-    ]),
-    currentUserCheck() {
-      return this.currentUser
+    ...mapGetters({
+      login: 'authentication/login',
+      currentUser: 'authentication/currentUser',
+      pageUser: 'user/user'
+    }),
+    loginCheck() {
+      return this.login
     },
     btnSize() {
       if (this.$vuetify.breakpoint.mdAndUp) {
@@ -132,31 +133,33 @@ export default {
     }
   },
   watch: {
-    currentUserCheck() {
+    loginCheck() {
       if (this.login) {
+        const data = this.currentUser.followings.findIndex(n => n.id === this.user.id)
+        if (data !== -1) {
+          this.follow = true
+        } else {
+          this.follow = false
+        }
+      } else {
         this.follow = false
-        this.currentUser.followings.forEach((f) => {
-          if (this.user.id === f.id) {
-            this.follow = true
-          }
-        })
       }
     }
   },
   mounted() {
     if (this.login) {
-      this.follow = false
-      this.currentUser.followings.forEach((f) => {
-        if (this.user.id === f.id) {
-          this.follow = true
-        }
-      })
+      const data = this.currentUser.followings.findIndex(n => n.id === this.user.id)
+      if (data !== -1) {
+        this.follow = true
+      }
     }
   },
   methods: {
+    ...mapMutations('authentication', [
+      'currentUserSet'
+    ]),
     ...mapActions({
       userGet: 'user/userGet',
-      currentUserInfo: 'authentication/currentUserInfo',
       messageShow: 'snackbarMessage/messageShow',
       userSignInModal: 'modal/userSignInModal'
     }),
@@ -200,7 +203,9 @@ export default {
       if (!res) {
         return
       }
-      this.currentUserInfo(this.currentUser)
+      this.currentUserSet(res.data)
+      this.userGet(this.pageUser.id)
+      this.follow = true
       this.messageShow({
         message: 'フォローしました',
         type: 'success',
@@ -212,7 +217,9 @@ export default {
       if (!res) {
         return
       }
-      this.currentUserInfo(this.currentUser)
+      this.currentUserSet(res.data)
+      this.userGet(this.pageUser.id)
+      this.follow = false
       this.messageShow({
         message: 'フォロー解除しました',
         type: 'success',
