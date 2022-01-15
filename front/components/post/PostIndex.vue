@@ -27,7 +27,7 @@
           lg="4"
         >
           <v-card @click="postClick(item)">
-            <v-img :src="item.image.url" />
+            <v-img :src="item.image.url" height="250" />
             <v-card-title class="justify-center font-weight-bold">
               <span class="text-truncate">
                 {{ item.title }}
@@ -39,7 +39,8 @@
                 @click.stop="userClick(item.user)"
               >
                 <v-avatar size="50">
-                  <v-img :src="item.user.image.url" />
+                  <v-img v-if="item.user.image.url" :src="item.user.image.url" />
+                  <v-img v-else :src="icon" />
                 </v-avatar>
                 {{ item.user.name }}
               </div>
@@ -136,23 +137,16 @@ export default {
     return {
       itemsPerPageArray: [6, 9, 12],
       page: 1,
-      itemsPerPage: 6
+      itemsPerPage: 6,
+      icon: require('@/assets/images/default.png')
     }
   },
   computed: {
-    loadPost() {
-      return this.$store.getters['post/post']
-    },
     numberOfPages () {
       return Math.ceil(this.posts.length / this.itemsPerPage)
     },
     filteredKeys () {
       return this.keys.filter(key => key !== 'Name')
-    }
-  },
-   watch: {
-    loadPost() {
-      this.$emit('load')
     }
   },
   methods: {
