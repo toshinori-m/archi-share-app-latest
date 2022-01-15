@@ -35,7 +35,7 @@ URL: https://archi-share-app.com
 
 ## インフラ構成図
 
-![インフラ構成図](https://user-images.githubusercontent.com/80773869/149624808-0e342a3e-aca8-418e-b2e7-eb1ed0d64ad9.png)
+![インフラ構成図](https://user-images.githubusercontent.com/80773869/149640457-a7a739c8-565a-41a5-b813-5e5e02646c62.png)
 
 ## 機能一覧
 
@@ -52,7 +52,12 @@ URL: https://archi-share-app.com
   - いいね / いいねしたユーザー一覧
   - コメント
   - 建築物の紐付け ( 建築物のデータの表示 )
+  - タイムライン ( フォローしているユーザーの投稿一覧 )
 - 建築物機能
   - 登録 / 削除 (管理者のみ)
   - 検索 ( 建築名 / 都道府県 / 構造 / 階数 / 設計者 等)
   - Google Map上での検索
+- 管理者機能
+  - ユーザー削除
+  - 投稿削除
+  - 建築物削除
