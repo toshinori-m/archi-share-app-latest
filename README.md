@@ -31,11 +31,11 @@ URL: https://archi-share-app.com
 
 ## ER図
 
-![ER図](https://user-images.githubusercontent.com/80773869/149619777-2bf7c370-5cd6-4055-b9cd-6e0efa2d934c.png)
+![ER図](https://user-images.githubusercontent.com/80773869/149650599-a522bdf8-1efc-4c10-8b40-20367d21eacb.png)
 
 ## インフラ構成図
 
-![インフラ構成図](https://user-images.githubusercontent.com/80773869/149640457-a7a739c8-565a-41a5-b813-5e5e02646c62.png)
+![インフラ構成図](https://user-images.githubusercontent.com/80773869/149650590-d2fed9d5-4107-4c16-9f24-43523be16f6e.png)
 
 ## 機能一覧
 
