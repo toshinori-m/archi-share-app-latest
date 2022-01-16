@@ -60,7 +60,7 @@
             block
             color="accent"
             class="primary--text"
-            @click="userSignIn(guest)"
+            @click="guestSignIn"
           >
             ゲストログイン
           </v-btn>
@@ -131,6 +131,10 @@ export default {
       this.userSignInModal(false)
       this.$refs.form.reset()
       this.userSignUpModal(true)
+    },
+    guestSignIn() {
+      this.userSignIn(this.guest)
+      this.userSignInModal(false)
     }
   }
 }
