@@ -124,7 +124,7 @@ export default {
     this.title = this.post.title
     this.content = this.post.content
     if (this.post.architecture) {
-      this.architecture = this.post.architecture
+      this.architecture = this.post.architecture.id
     }
     this.$axios
       .get('/api/v1/architectures')
@@ -162,13 +162,17 @@ export default {
       const formData = new FormData()
       formData.append('title', this.title)
       formData.append('content', this.content)
-      if (this.architecture !== null) {
-        formData.append('architecture_id', this.architecture)
-      } else {
-        formData.append('architecture_id', '')
-      }
       if (this.sendImage) {
         formData.append('image', this.sendImage)
+      }
+      if (this.architecture !== null) {
+        if (this.post.architecture && this.post.architecture.id === this.architecture) {
+          return formData
+        } else {
+          formData.append('architecture_id', this.architecture)
+        }
+      } else {
+        formData.append('architecture_id', '')
       }
       return formData
     },
