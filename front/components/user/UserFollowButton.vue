@@ -106,7 +106,7 @@ export default {
       pageUser: 'user/user'
     }),
     loginCheck() {
-      return this.login
+      return this.currentUser
     },
     btnSize() {
       if (this.$vuetify.breakpoint.mdAndUp) {
@@ -204,7 +204,9 @@ export default {
         return
       }
       this.currentUserSet(res.data)
-      this.userGet(this.pageUser.id)
+      if (this.pageUser) {
+        this.userGet(this.pageUser.id)
+      }
       this.follow = true
       this.messageShow({
         message: 'フォローしました',
@@ -218,7 +220,9 @@ export default {
         return
       }
       this.currentUserSet(res.data)
-      this.userGet(this.pageUser.id)
+      if (this.pageUser) {
+        this.userGet(this.pageUser.id)
+      }
       this.follow = false
       this.messageShow({
         message: 'フォロー解除しました',
