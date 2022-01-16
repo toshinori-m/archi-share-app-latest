@@ -1,6 +1,6 @@
 # ArchiShare
 
-URL: https://archi-share-app.com
+URL: https://www.archi-share-app.com
 
 ## 概要
 建築学生や建築に携わる方が学習の参考になる建築物や情報を共有することができるアプリです。
