@@ -12,7 +12,7 @@ CarrierWave.configure do |config|
     }
     config.fog_directory = ENV['AWS_BUCKET_NAME']
     config.cache_storage = :fog
-    config.fog_public = false
+    config.asset_host = ENV['AWS_CLOUD_FRONT_DOMAIN']
   else
     config.asset_host = 'http://localhost:3000'
     config.cache_storage = :file

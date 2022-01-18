@@ -7,6 +7,9 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   if Rails.env.production?
     storage :fog
+    def url
+      "#{asset_host}/#{store_dir}/#{identifier}" if path.present?
+    end
   else
     storage :file
   end
@@ -22,7 +25,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   #   # For Rails 3.1+ asset pipeline compatibility:
   #   # ActionController::Base.helpers.asset_path("fallback/" + [version_name, "default.png"].compact.join('_'))
   #
-  #   "/images/fallback/" + [version_name, "default.png"].compact.join('_')
+  # "#{asset_host}/uploads/user/image/default.png"
   # end
 
   # Process files as they are uploaded:
