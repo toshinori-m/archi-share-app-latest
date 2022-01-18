@@ -332,7 +332,8 @@ export default {
         '鉄骨造',
         '鉄筋コンクリート造',
         '鉄骨鉄筋コンクリート造',
-        'RS造'
+        'RS造',
+        'コンクリート打放し'
       ],
       above: Array.from(new Array(10)).map((v, i) => '地上' + (i + 1) + '階'),
       under: Array.from(new Array(5)).map((v, i) => '地下' + (i + 1) + '階'),
