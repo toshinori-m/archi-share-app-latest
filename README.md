@@ -26,7 +26,7 @@ URL: https://www.archi-share-app.com
 ### インフラ・開発環境
 - MySQL 5.7.34
 - Docker / docker-compose
-- AWS ( VPC / ECS(EC2) / ECR / S3 / Route53 / RDS / ACM / ALB )
+- AWS ( VPC / ECS(EC2) / ECR / S3 / Route53 / RDS / ACM / ALB / CloudFront )
 - CircleCI ( 自動テストのみ )
 
 ## ER図
@@ -35,7 +35,7 @@ URL: https://www.archi-share-app.com
 
 ## インフラ構成図
 
-![インフラ構成図](https://user-images.githubusercontent.com/80773869/149650590-d2fed9d5-4107-4c16-9f24-43523be16f6e.png)
+![インフラ構成図](https://user-images.githubusercontent.com/80773869/150005728-e995a94b-c87d-4c93-9ea0-79dc68322255.png)
 
 ## 機能一覧
 
