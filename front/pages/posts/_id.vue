@@ -88,7 +88,6 @@ export default {
     await $axios
       .$get(`/api/v1/posts/${params.id}`)
       .then((res) => {
-        console.log(res)
         store.commit('post/postSet', res)
       })
       .catch((e) => {

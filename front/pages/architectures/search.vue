@@ -177,8 +177,6 @@ export default {
       .$get('/api/v1/architectures')
       .then((res) => {
         store.commit('architecture/architecturesSet', res)
-        console.log(res)
-        store.commit('architecture/archiPostsSet', res.posts)
       })
       .catch((e) => {
         console.log(e)
