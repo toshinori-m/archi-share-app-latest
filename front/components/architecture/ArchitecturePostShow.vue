@@ -82,7 +82,12 @@
                   階数:
                 </v-list-item-content>
                 <v-list-item-content class="align-end">
-                  {{ architecture.above_floor + architecture.under_floor }}
+                  <template v-if="architecture.under_floor">
+                    {{ architecture.above_floor + architecture.under_floor }}
+                  </template>
+                  <template v-else>
+                    {{ architecture.above_floor }}
+                  </template>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
