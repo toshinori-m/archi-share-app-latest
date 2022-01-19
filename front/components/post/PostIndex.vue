@@ -1,7 +1,6 @@
 <template>
   <v-data-iterator
     :items="posts"
-    :items-per-page="itemsPerPage"
     no-data-text="表示する投稿がありません"
     :page="page"
     hide-default-footer
@@ -62,34 +61,6 @@
         align="center"
         justify="center"
       >
-        <span class="primary--text">
-          Items per page
-        </span>
-        <v-menu offset-y>
-          <template #activator="{ on, attrs }">
-            <v-btn
-              text
-              color="primary"
-              class="ml-2"
-              v-bind="attrs"
-              v-on="on"
-            >
-              {{ itemsPerPage }}
-              <v-icon>mdi-chevron-down</v-icon>
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-item
-              v-for="(number, i) in itemsPerPageArray"
-              :key="i"
-              @click="updateItemsPerPage(number)"
-            >
-              <v-list-item-title>
-                {{ number }}
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
         <v-spacer />
         <span class="mr-4 primary--text">
           Page {{ page }} of {{ numberOfPages }}
@@ -135,15 +106,18 @@ export default {
   },
   data() {
     return {
-      itemsPerPageArray: [6, 9, 12],
       page: 1,
-      itemsPerPage: 6,
+      itemsPerPage: 9,
       icon: require('@/assets/images/default.png')
     }
   },
   computed: {
     numberOfPages () {
-      return Math.ceil(this.posts.length / this.itemsPerPage)
+      if (this.posts.length) {
+        return Math.ceil(this.posts.length / this.itemsPerPage)
+      } else {
+        return 1
+      }
     },
     filteredKeys () {
       return this.keys.filter(key => key !== 'Name')
@@ -161,9 +135,6 @@ export default {
     },
     formerPage () {
       if (this.page - 1 >= 1) this.page -= 1
-    },
-    updateItemsPerPage (number) {
-      this.itemsPerPage = number
     }
   }
 }
