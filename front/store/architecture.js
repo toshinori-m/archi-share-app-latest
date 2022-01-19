@@ -1,12 +1,14 @@
 export const state = () => ({
   architecture: null,
   architectures: null,
+  archiPosts: null,
   filterQuery: {}
 })
 
 export const getters = {
   architecture: (state) => state.architecture,
   architectures: (state) => state.architectures,
+  archiPosts: (state) => state.archiPosts,
   filteredArchitectures(state) {
     let data = state.architectures
     if (state.filterQuery.prefecture) {
@@ -67,6 +69,13 @@ export const mutations = {
   architecturesSet(state, archi) {
     state.architectures = archi
   },
+  archiPostsSet(state, archi) {
+    state.archiPosts = archi
+  },
+  archiPostsUpdate(state, data) {
+    const index = state.archiPosts.findIndex(n => n.id === data.id )
+    state.archiPosts.splice(index, 1, data)
+  },
   filterQuerySet(state, filterQuery) {
     state.filterQuery = { ...filterQuery }
   },
@@ -84,5 +93,6 @@ export const actions = {
         console.log(e)
       })
     commit('archiSet', response)
+    commit('archiPostsSet', response.posts)
   }
 }

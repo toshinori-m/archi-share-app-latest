@@ -116,9 +116,8 @@
       </v-card>
       <post-index
         v-if="window"
-        :posts="architecture.posts"
+        :posts="archiPosts"
         :tool-title="toolTitle"
-        @load="loadArchi(architecture)"
       />
       <v-alert
         v-if="!window"
@@ -178,6 +177,8 @@ export default {
       .$get('/api/v1/architectures')
       .then((res) => {
         store.commit('architecture/architecturesSet', res)
+        console.log(res)
+        store.commit('architecture/archiPostsSet', res.posts)
       })
       .catch((e) => {
         console.log(e)
@@ -192,13 +193,18 @@ export default {
     ...mapGetters({
       currentUser: 'authentication/currentUser',
       architecture: 'architecture/architecture',
-      architectures: 'architecture/architectures'
+      architectures: 'architecture/architectures',
+      post: 'post/post',
+      archiPosts: 'architecture/archiPosts'
     }),
     architectureCheck() {
       return this.architecture
     },
     selectedItemCheck() {
       return this.selectedItem
+    },
+    postCheck() {
+      return this.post
     }
   },
   watch: {
@@ -222,12 +228,16 @@ export default {
       } else {
         this.archiSet(null)
       }
+    },
+    postCheck() {
+      this.archiPostsUpdate(this.post)
     }
   },
   methods: {
     ...mapMutations('architecture', [
       'archiSet',
-      'architecturesSet'
+      'architecturesSet',
+      'archiPostsUpdate'
     ]),
     ...mapActions('architecture', [
       'archiGet'
@@ -237,9 +247,6 @@ export default {
       this.windowPosition = { lat: Number(architecture.lat), lng: Number(architecture.lng) }
       this.$refs.map.panTo({ lat: Number(architecture.lat), lng:  Number(architecture.lng) })
       this.window = true
-    },
-    async loadArchi(architecture) {
-      await this.archiGet(architecture)
     },
     windowClose() {
       this.window = false
