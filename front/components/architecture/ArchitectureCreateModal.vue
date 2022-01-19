@@ -137,7 +137,7 @@
             <v-tab-item>
               <GmapMap
                 :center="{ lat: 35.68123620000001, lng: 139.7671248 }"
-                :zoom="12"
+                :zoom="6"
                 :options="options"
                 map-type-id="roadmap"
                 style="height: 300px"
@@ -332,8 +332,7 @@ export default {
         '鉄骨造',
         '鉄筋コンクリート造',
         '鉄骨鉄筋コンクリート造',
-        'RS造',
-        'コンクリート打放し'
+        'RS造'
       ],
       above: Array.from(new Array(10)).map((v, i) => '地上' + (i + 1) + '階'),
       under: Array.from(new Array(5)).map((v, i) => '地下' + (i + 1) + '階'),
