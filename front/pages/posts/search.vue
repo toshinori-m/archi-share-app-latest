@@ -143,7 +143,7 @@
           <v-card v-if="!viewLists[0]">
             <v-card-text class="text-center">
               <span class="text-h6">
-                該当する建築物はありません
+                該当する投稿はありません
               </span>
             </v-card-text>
           </v-card>
@@ -260,7 +260,11 @@ export default {
       return lists
     },
     numberOfPages() {
-      return Math.ceil(this.filteredArchi.length / this.itemsPerPage)
+      if (this.filteredArchi.length) {
+        return Math.ceil(this.filteredArchi.length / this.itemsPerPage)
+      } else {
+        return 1
+      }
     },
     postUpdate() {
       return this.post
