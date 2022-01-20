@@ -28,7 +28,8 @@
       <v-btn
         :disabled="able"
         :small="btnSize"
-        color="light-blue lighten-2"
+        color="tertiary"
+        class="primary--text"
         @click="userCommentCreate"
       >
         送信
