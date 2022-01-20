@@ -11,30 +11,32 @@
         コメント
       </v-toolbar-title>
     </v-toolbar>
-    <v-card-text>
-      <v-form>
-        <v-textarea
-          v-model="content"
-          dense
-          outlined
-          height="100"
-          placeholder="コメントを入力"
-          counter="150"
-        />
-      </v-form>
-    </v-card-text>
-    <v-card-actions class="pa-4 pt-0">
-      <v-spacer />
-      <v-btn
-        :disabled="able"
-        :small="btnSize"
-        color="tertiary"
-        class="primary--text"
-        @click="userCommentCreate"
-      >
-        送信
-      </v-btn>
-    </v-card-actions>
+    <template v-if="currentUser">
+      <v-card-text>
+        <v-form>
+          <v-textarea
+            v-model="content"
+            dense
+            outlined
+            height="100"
+            placeholder="コメントを入力"
+            counter="150"
+          />
+        </v-form>
+      </v-card-text>
+      <v-card-actions class="pa-4 pt-0">
+        <v-spacer />
+        <v-btn
+          :disabled="able"
+          :small="btnSize"
+          color="tertiary"
+          class="primary--text"
+          @click="userCommentCreate"
+        >
+          送信
+        </v-btn>
+      </v-card-actions>
+    </template>
   </div>
 </template>
 
