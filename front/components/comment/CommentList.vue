@@ -25,12 +25,12 @@
         <v-col cols="5" sm="4">
           <v-card-actions
             class="justify-end"
-            :class="currentUser.id !== comment.user.id ? 'pr-13' : ''"
+            :class="currentUser && currentUser.id !== comment.user.id ? 'pr-13' : ''"
           >
             <elapsed-time :content="comment" />
             <template v-if="login">
               <comment-setting-button
-                v-if="currentUser.id == comment.user.id"
+                v-if="currentUser && currentUser.id == comment.user.id"
                 :comment="comment"
               />
             </template>
