@@ -1,61 +1,56 @@
 <template>
-  <v-navigation-drawer
-    v-model="navigation"
-    app
-  >
-    <v-list v-if="login">
-      <v-list-item :to="{ name: 'users-id', params: { id: currentUser.id } }">
-        <v-list-item-avatar>
-          <v-img
-            v-if="currentUser.image.url"
-            :src="currentUser.image.url"
-          />
-          <v-img v-else :src="icon" />
-        </v-list-item-avatar>
-        <v-list-item-content>
-          <v-list-item-title>
-            {{ currentUser.name }}
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item
-        v-for="(item, i) in items1"
-        :key="i"
-        :to="item.route"
-        color="primary"
-      >
-        <v-list-item-icon>
-          <v-icon color="primary">
-            {{ item.icon }}
-          </v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title class="primary--text">
-            {{ item.text }}
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
-    <v-list v-else>
-      <v-list-item
-        v-for="(item, i) in items2"
-        :key="i"
-        :to="item.route"
-        color="primary"
-      >
-        <v-list-item-icon>
-          <v-icon color="primary">
-            {{ item.icon }}
-          </v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title class="primary--text">
-            {{ item.text }}
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
-  </v-navigation-drawer>
+  <v-list v-if="login">
+    <v-list-item :to="{ name: 'users-id', params: { id: currentUser.id } }">
+      <v-list-item-avatar>
+        <v-img
+          v-if="currentUser.image.url"
+          :src="currentUser.image.url"
+        />
+        <v-img v-else :src="icon" />
+      </v-list-item-avatar>
+      <v-list-item-content>
+        <v-list-item-title>
+          {{ currentUser.name }}
+        </v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+    <v-list-item
+      v-for="(item, i) in items1"
+      :key="i"
+      :to="item.route"
+      color="primary"
+    >
+      <v-list-item-icon>
+        <v-icon color="primary">
+          {{ item.icon }}
+        </v-icon>
+      </v-list-item-icon>
+      <v-list-item-content>
+        <v-list-item-title class="primary--text">
+          {{ item.text }}
+        </v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+  </v-list>
+  <v-list v-else>
+    <v-list-item
+      v-for="(item, i) in items2"
+      :key="i"
+      :to="item.route"
+      color="primary"
+    >
+      <v-list-item-icon>
+        <v-icon color="primary">
+          {{ item.icon }}
+        </v-icon>
+      </v-list-item-icon>
+      <v-list-item-content>
+        <v-list-item-title class="primary--text">
+          {{ item.text }}
+        </v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+  </v-list>
 </template>
 
 <script>
@@ -84,17 +79,8 @@ export default {
   computed: {
     ...mapGetters({
       currentUser: 'authentication/currentUser',
-      login: 'authentication/login',
-      drawer: 'navigationDrawer/drawer'
-    }),
-    navigation: {
-      get() {
-        return this.drawer
-      },
-      set(value) {
-        return value
-      }
-    }
+      login: 'authentication/login'
+    })
   }
 }
 </script>
