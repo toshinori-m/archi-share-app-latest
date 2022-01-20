@@ -45,6 +45,13 @@
       </p>
       <v-divider v-if="i !== comments.length - 1" />
     </div>
+    <v-card v-if="!comments[0]" flat>
+      <v-card-text class="text-center">
+        <span class="text-h6">
+          表示するコメントがありません
+        </span>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 
