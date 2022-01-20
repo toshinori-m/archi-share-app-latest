@@ -2,6 +2,7 @@
   <v-data-iterator
     :items="posts"
     no-data-text="表示する投稿がありません"
+    :items-per-page="itemsPerPage"
     :page="page"
     hide-default-footer
   >
