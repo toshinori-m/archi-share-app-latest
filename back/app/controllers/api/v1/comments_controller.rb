@@ -12,11 +12,7 @@ module Api
 
       def destroy
         @comment = Comment.find(params[:id])
-        if @comment.destroy
-          render json: @comment
-        else
-          render json: @comment.errors, status: :unprocessable_entity
-        end
+        render json: @comment if @comment.destroy
       end
 
       private
