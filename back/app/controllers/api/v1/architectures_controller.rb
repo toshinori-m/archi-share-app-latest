@@ -12,7 +12,8 @@ module Api
           include: [
             { posts: { include: [
               { user: { only: %i[id name image] } },
-              :like_users
+              :like_users,
+              :comments
             ] } }
           ]
         )

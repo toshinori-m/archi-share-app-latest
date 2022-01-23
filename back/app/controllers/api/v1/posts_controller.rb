@@ -4,12 +4,13 @@ module Api
       before_action :set_post, only: %i[update destroy]
 
       def index
-        @posts = Post.all.includes(:user, :like_users, :architecture).order(id: 'DESC')
+        @posts = Post.all.includes(:user, :like_users, :comments, :architecture).order(id: 'DESC')
         render json: @posts.as_json(
           only: %i[id title content image created_at],
           include: [
             { user: { only: %i[id name image] } },
             :like_users,
+            :comments,
             :architecture
           ]
         )
@@ -22,6 +23,7 @@ module Api
           include: [
             { user: { only: %i[id name image] } },
             :like_users,
+            :comments,
             :architecture
           ]
         )

@@ -52,10 +52,19 @@
           align="center"
           class="pr-10"
         >
-          <v-col cols="5" sm="3">
-            <like-button :post="post" />
+          <v-col cols="4">
+            <like-button
+              :post="post"
+              class="justify-end"
+            />
           </v-col>
-          <v-col cols="5" sm="3" class="text-right">
+          <v-col cols="4">
+            <comment-count
+              :comments="post.comments"
+              class="justify-end"
+            />
+          </v-col>
+          <v-col cols="4" class="text-right">
             <elapsed-time :content="post" />
           </v-col>
         </v-row>
@@ -74,10 +83,12 @@
 
 <script>
 import LikeButton from '~/components/like/LikeButton.vue'
+import CommentCount from '~/components/comment/CommentCount.vue'
 import ElapsedTime from '~/components/time/ElapsedTime.vue'
 export default {
   components: {
     LikeButton,
+    CommentCount,
     ElapsedTime
   },
   filters: {

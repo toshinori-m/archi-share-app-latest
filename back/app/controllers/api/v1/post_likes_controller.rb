@@ -10,6 +10,7 @@ module Api
             include: [
               { user: { only: %i[id name image] } },
               :like_users,
+              :comments,
               :architecture
             ]
           ), status: :created
@@ -27,6 +28,7 @@ module Api
             include: [
               { user: { only: %i[id name image] } },
               :like_users,
+              :comments,
               :architecture
             ]
           )
