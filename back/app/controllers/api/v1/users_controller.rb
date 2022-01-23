@@ -18,8 +18,8 @@ module Api
         render json: @user.as_json(
           only: %i[id name email introduction image admin],
           include: [
-            { posts: { include: [:like_users], only: %i[id title content image created_at] } },
-            { postlike: { include: [{ user: { only: %i[id name image] } }, :like_users] } },
+            { posts: { include: %i[like_users comments], only: %i[id title content image created_at] } },
+            { postlike: { include: [{ user: { only: %i[id name image] } }, :like_users, :comments] } },
             :followings,
             :followers
           ]

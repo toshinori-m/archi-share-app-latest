@@ -133,6 +133,8 @@
               <v-spacer />
               <like-button :post="item" />
               <v-spacer />
+              <comment-count :comments="item.comments" />
+              <v-spacer />
               <elapsed-time :content="item" />
             </v-card-actions>
           </v-card>
@@ -184,10 +186,12 @@
 <script>
 import { mapGetters } from 'vuex'
 import LikeButton from '~/components/like/LikeButton.vue'
+import CommentCount from '~/components/comment/CommentCount.vue'
 import ElapsedTime from '~/components/time/ElapsedTime.vue'
 export default {
   components: {
     LikeButton,
+    CommentCount,
     ElapsedTime
   },
   filters: {
