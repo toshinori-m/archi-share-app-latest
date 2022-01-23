@@ -7,7 +7,7 @@ class Post < ApplicationRecord
   has_many :like_users, through: :post_likes, source: :user
   has_many :comments, dependent: :destroy
 
-  validates :title, presence: true
-  validates :content, presence: true
+  validates :title, presence: true, length: { maximum: 30 }
+  validates :content, presence: true, length: { maximum: 200 }
   validates :image, presence: true
 end
