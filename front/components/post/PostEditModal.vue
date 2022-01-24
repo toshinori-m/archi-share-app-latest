@@ -75,7 +75,7 @@
         color="secondary"
         @click="postEditAction"
       >
-        編集
+        編集を完了
       </v-btn>
     </v-card-actions>
   </v-card>
