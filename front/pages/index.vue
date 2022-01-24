@@ -1,6 +1,25 @@
 <template>
   <v-row justify="center" align="center">
     <v-col cols="12" sm="10" md="10">
+      <v-card flat>
+        <v-img :src="image" height="600" class="mb-2">
+          <v-card-text class="primary--text">
+            <p class="text-h3 mb-10">ArchiShare</p>
+            <span class="text-h5">
+              建築を学ぶ人同士が
+            </span>
+            <br />
+            <span class="text-h5">
+              参考になる建築物や情報を共有するアプリです
+            </span>
+          </v-card-text>
+          <v-card-actions class="px-4">
+            <v-btn color="secondary" @click="helpClick">
+              操作方法
+            </v-btn>
+          </v-card-actions>
+        </v-img>
+      </v-card>
       <post-index
         :posts="posts"
         :tool-title="toolTitle"
@@ -18,7 +37,8 @@ export default {
   },
   data() {
     return {
-      toolTitle: '最近の投稿'
+      toolTitle: '最近の投稿',
+      image: require('@/assets/images/lp.jpg')
     }
   },
   async fetch({ $axios, store }) {
@@ -58,7 +78,10 @@ export default {
     ]),
     ...mapActions('post', [
       'postsGet'
-    ])
+    ]),
+    helpClick() {
+      this.$router.push('/help')
+    }
   }
 }
 </script>
