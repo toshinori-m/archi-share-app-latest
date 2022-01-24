@@ -2,7 +2,7 @@
 
 URL: https://www.archi-share-app.com
 
-![PR画像ベスト](https://user-images.githubusercontent.com/80773869/150219429-b6cb6694-f933-4e5a-bb4b-413f3d5ce4f8.png)
+![PR画像](https://user-images.githubusercontent.com/80773869/150808642-210b8ec9-a7bf-4db9-89f8-a437e1184e1a.png)
 
 ## 概要
 建築学生や建築に携わる方が学習の参考になる建築物や情報を共有することができるアプリです。
