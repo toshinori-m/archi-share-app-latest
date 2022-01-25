@@ -49,10 +49,14 @@
                   />
                 </v-col>
                 <v-col cols="12" sm="6">
-                  <v-text-field
+                  <v-select
                     v-model="filterQuery.designer"
+                    :items="architectures"
                     label="設計者"
+                    item-text="designer"
+                    item-value="designer"
                     hide-details
+                    clearable
                     color="secondary"
                     prepend-icon="mdi-account-edit"
                   />
@@ -185,6 +189,7 @@ export default {
       ],
       above: Array.from(new Array(10)).map((v, i) => '地上' + (i + 1) + '階'),
       under: Array.from(new Array(5)).map((v, i) => '地下' + (i + 1) + '階'),
+      architectures: null
     }
   },
   computed: {
@@ -210,6 +215,14 @@ export default {
         this.title = '検索結果'
       }
     }
+  },
+  mounted() {
+    this.$axios
+      .get('/api/v1/architectures')
+      .then((res) => {
+        this.architectures = res.data
+          .filter(n => n.designer !== null && n.designer !== '')
+      })
   },
   methods: {
     ...mapMutations('architecture', [
