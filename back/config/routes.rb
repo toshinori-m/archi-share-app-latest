@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       resources :users, only: %i[index show destroy]
       resources :posts, only: %i[index show create update destroy] do
         get :timeline, on: :collection
+        get :rank, on: :collection
       end
       resource :post_likes, only: %i[create destroy]
       resources :comments, only: %i[create destroy]

@@ -1,13 +1,15 @@
 export const state = () => ({
   post: null,
   posts: null,
-  feed: null
+  feed: null,
+  rank: null
 })
 
 export const getters = {
   post: (state) => state.post,
   posts: (state) => state.posts,
-  feed: (state) => state.feed
+  feed: (state) => state.feed,
+  rank: (state) => state.rank
 }
 
 export const mutations = {
@@ -19,6 +21,9 @@ export const mutations = {
   },
   feedSet(state, data) {
     state.feed = data
+  },
+  rankSet(state, data) {
+    state.rank = data
   },
   postsUpdate(state, data) {
     const index = state.posts.findIndex(n => n.id === data.id )

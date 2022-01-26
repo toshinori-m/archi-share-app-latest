@@ -68,6 +68,11 @@ module Api
         render json: @post if @post.destroy
       end
 
+      def rank
+        @post_like_ranks = Post.find(PostLike.group(:post_id).order('count(post_id) desc').pluck(:post_id))
+        render json: @post_like_ranks
+      end
+
       private
 
       def post_params
