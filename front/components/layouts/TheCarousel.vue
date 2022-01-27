@@ -15,15 +15,22 @@
           align="center"
           justify="center"
         >
-          <v-col cols="6">
+          <v-col cols="12" sm="6">
             <div>
               <v-img :src="slide.image.url" height="400" />
             </div>
           </v-col>
-          <v-col cols="6">
-            <div>
-              {{ slide.title }}
-            </div>
+          <v-col cols="12" sm="6">
+            <v-card-title>
+              <span class="text-truncate">
+                {{ slide.title }}
+              </span>
+            </v-card-title>
+            <v-card-text>
+              <p>
+                {{ slide.content }}
+              </p>
+            </v-card-text>
           </v-col>
         </v-row>
       </v-card>
