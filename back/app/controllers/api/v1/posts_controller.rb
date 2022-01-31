@@ -70,7 +70,7 @@ module Api
 
       def rank
         @post_like_ranks = Post.find(PostLike.group(:post_id).order('count(post_id) desc').pluck(:post_id))
-        render json: @post_like_ranks
+        render json: @post_like_ranks[0, 5]
       end
 
       private

@@ -22,13 +22,10 @@
       </v-card>
       <v-toolbar flat color="tertiary">
         <v-toolbar-title>
-          人気の投稿
+          評価の高い投稿
         </v-toolbar-title>
       </v-toolbar>
-      <the-carousel
-        :items="rank"
-        class="mb-2"
-      />
+      <the-carousel :items="rank" />
       <post-index
         :posts="posts"
         :tool-title="toolTitle"
@@ -65,18 +62,11 @@ export default {
         .then((res) => {
           store.commit('post/rankSet', res)
         })
+        .catch((e) => {
+          console.log(e)
+        })
     ])
   },
-  // async fetch({ $axios, store }) {
-  //   await $axios
-  //     .$get('/api/v1/posts')
-  //     .then((res) => {
-  //       store.commit('post/postsSet', res)
-  //     })
-  //     .catch((e) => {
-  //       console.log(e)
-  //     })
-  // },
   head() {
     return {
       title: 'ホーム',

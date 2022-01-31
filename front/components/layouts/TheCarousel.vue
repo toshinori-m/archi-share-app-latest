@@ -1,39 +1,31 @@
 <template>
   <v-carousel
     cycle
-    height="400"
-    hide-delimiter-background
-    show-arrows-on-hover
+    hide-delimiters
+    :height="carouselHeight"
   >
     <v-carousel-item
       v-for="slide in items"
       :key="slide.id"
     >
-      <v-card>
+      <v-sheet height="100%">
         <v-row
-          class="fill-height"
-          align="center"
           justify="center"
+          align="end"
+          class="fill-height"
         >
-          <v-col cols="12" sm="6">
-            <div>
-              <v-img :src="slide.image.url" height="400" />
-            </div>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <v-card-title>
-              <span class="text-truncate">
-                {{ slide.title }}
-              </span>
-            </v-card-title>
-            <v-card-text>
-              <p>
-                {{ slide.content }}
-              </p>
-            </v-card-text>
+          <v-col cols="12">
+            <v-img
+              :src="slide.image.url"
+              :max-height="heightValue"
+              contain
+            />
+            <p class="text-center text-h6 text-truncate">
+              {{ slide.title }}
+            </p>
           </v-col>
         </v-row>
-      </v-card>
+      </v-sheet>
     </v-carousel-item>
   </v-carousel>
 </template>
@@ -44,6 +36,22 @@ export default {
     items: {
       type: Array,
       required: true
+    }
+  },
+  computed: {
+    heightValue() {
+      if (this.$vuetify.breakpoint.xsOnly) {
+        return 200
+      } else {
+        return 400
+      }
+    },
+    carouselHeight() {
+      if (this.$vuetify.breakpoint.xsOnly) {
+        return 240
+      } else {
+        return 440
+      }
     }
   }
 }
