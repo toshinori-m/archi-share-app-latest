@@ -20,8 +20,19 @@
               :max-height="heightValue"
               contain
             />
-            <p class="text-center text-h6 text-truncate">
+            <p
+              class="text-h6
+              text-truncate
+              mb-0
+              text-center"
+            >
               {{ slide.title }}
+            </p>
+            <p class="text-h6 text-center">
+              いいね数
+              <span class="font-weight-bold">
+                {{ slide.like_users.length }}
+              </span>
             </p>
           </v-col>
         </v-row>
@@ -48,9 +59,9 @@ export default {
     },
     carouselHeight() {
       if (this.$vuetify.breakpoint.xsOnly) {
-        return 240
+        return 270
       } else {
-        return 440
+        return 470
       }
     }
   }
