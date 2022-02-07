@@ -229,13 +229,9 @@ export default {
     ]),
     filteredSearch() {
       if (this.search) {
-        const list = []
-        for (let i = 0; i < this.posts.length; i++) {
-          const post = this.posts[i]
-          if (post.title.includes(this.search)) {
-            list.push(post)
-          }
-        }
+        const list = this.posts.filter((post) => {
+          return post.title.includes(this.search)
+        })
         return list
       } else {
         return this.posts
@@ -243,21 +239,18 @@ export default {
     },
     filteredArchi() {
       if (this.selectedItem) {
-        const data = this.filteredSearch
-        const list = []
-        for (let i = 0; i < data.length; i++) {
-          const post = data[i]
-          if (post.architecture && post.architecture.id === this.selectedItem.id) {
-            list.push(post)
-          }
-        }
+        const data = [...this.filteredSearch]
+        const list = data.filter((post) => {
+          return post.architecture && post.architecture.id === this.selectedItem.id
+        })
         return list
       } else {
         return this.filteredSearch
       }
     },
     viewLists() {
-      const lists = this.filteredArchi.slice(
+      const data = [...this.filteredArchi]
+      const lists = data.slice(
         this.itemsPerPage * (this.page - 1),
         this.itemsPerPage * this.page
       )
