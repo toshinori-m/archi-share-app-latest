@@ -2,6 +2,8 @@
 
 URL: https://www.archi-share-app.com
 
+※AWSの費用削減のため、平日08:00~22:00以外の時間帯はポートフォリオを非公開にしています。
+
 ![PR画像](https://user-images.githubusercontent.com/80773869/150808642-210b8ec9-a7bf-4db9-89f8-a437e1184e1a.png)
 
 ## 概要
