@@ -8,18 +8,13 @@ module.exports = {
     parser: '@babel/eslint-parser',
     requireConfigFile: false
   },
-  extends: [
-    '@nuxtjs',
-    'plugin:nuxt/recommended',
-    'prettier'
-  ],
-  plugins: [
-  ],
+  extends: ['@nuxtjs', 'plugin:nuxt/recommended', 'prettier'],
+  plugins: [],
   // add your custom rules here
   rules: {
     'no-console': 'off',
-    'arrow-body-style': 'error',
-    'arrow-parens': 'error',
+    'arrow-body-style': ['error', 'as-needed'],
+    'arrow-parens': ['error', 'always'],
     'arrow-spacing': 'error',
     'no-duplicate-imports': 'error',
     'no-useless-computed-key': 'error',
