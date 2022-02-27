@@ -5,31 +5,26 @@
         <v-img :src="image" height="600" class="mb-2">
           <v-card-text class="primary--text">
             <p class="text-h3 mb-10">ArchiShare</p>
-            <span class="text-h5">
-              建築を学ぶ人同士が
-            </span>
+            <span class="text-h5">建築を学ぶ人同士が</span>
             <br />
             <span class="text-h5">
               参考になる建築物や情報を共有するアプリです
             </span>
           </v-card-text>
           <v-card-actions class="px-4">
-            <v-btn color="secondary" @click="helpClick">
-              操作方法
-            </v-btn>
+            <app-button
+              text="操作方法"
+              color="secondary"
+              :on-click="helpClick"
+            />
           </v-card-actions>
         </v-img>
       </v-card>
       <v-toolbar flat color="tertiary">
-        <v-toolbar-title>
-          評価の高い投稿
-        </v-toolbar-title>
+        <v-toolbar-title>評価の高い投稿</v-toolbar-title>
       </v-toolbar>
       <the-carousel :items="rank" />
-      <post-index
-        :posts="posts"
-        :tool-title="toolTitle"
-      />
+      <post-index :posts="posts" :tool-title="toolTitle" />
     </v-col>
   </v-row>
 </template>
@@ -38,10 +33,12 @@
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import TheCarousel from '~/components/layouts/TheCarousel.vue'
 import PostIndex from '~/components/post/PostIndex.vue'
+import AppButton from '~/components/layouts/AppButton.vue'
 export default {
   components: {
     TheCarousel,
-    PostIndex
+    PostIndex,
+    AppButton
   },
   data() {
     return {
@@ -51,14 +48,16 @@ export default {
   },
   async fetch({ app, store }) {
     await Promise.all([
-      app.$axios.$get('/api/v1/posts')
+      app.$axios
+        .$get('/api/v1/posts')
         .then((res) => {
           store.commit('post/postsSet', res)
         })
         .catch((e) => {
           console.log(e)
         }),
-      app.$axios.$get('/api/v1/posts/rank')
+      app.$axios
+        .$get('/api/v1/posts/rank')
         .then((res) => {
           store.commit('post/rankSet', res)
         })
@@ -69,7 +68,7 @@ export default {
   },
   head() {
     return {
-      title: 'ホーム',
+      title: 'ホーム'
     }
   },
   computed: {
@@ -90,12 +89,8 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('post', [
-      'postsUpdate'
-    ]),
-    ...mapActions('post', [
-      'postsGet'
-    ]),
+    ...mapMutations('post', ['postsUpdate']),
+    ...mapActions('post', ['postsGet']),
     helpClick() {
       this.$router.push('/help')
     }
