@@ -3,9 +3,7 @@ module Api
     class UsersController < ApplicationController
       def index
         @users = User.all
-        render json: @users.as_json(
-          only: %i[id name email introduction image]
-        )
+        render json: @users
       end
 
       def show
@@ -16,7 +14,6 @@ module Api
           :followers
         ).find(params[:id])
         render json: @user.as_json(
-          only: %i[id name email introduction image admin],
           include: [
             { posts: { include: %i[like_users comments], only: %i[id title content image created_at] } },
             { postlike: { include: [{ user: { only: %i[id name image] } }, :like_users, :comments] } },
