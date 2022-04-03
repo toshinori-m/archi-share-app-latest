@@ -7,6 +7,8 @@ module Api
                  :email,
                  :introduction,
                  :admin
+
+      has_many :posts
     end
   end
 end
