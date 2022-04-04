@@ -205,7 +205,10 @@ export default {
       formData.append('title', this.title)
       formData.append('content', this.content)
       formData.append('image', this.sendImage)
-      formData.append('architecture_id', this.architecture)
+      if (this.architecture) {
+        formData.append('architecture_id', this.architecture)
+      }
+      console.log(this.architecture)
       return formData
     },
     async postCreate() {
