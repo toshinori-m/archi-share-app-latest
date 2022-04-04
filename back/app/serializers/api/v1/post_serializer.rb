@@ -8,6 +8,7 @@ module Api
                  :created_at
 
       belongs_to :user
+      belongs_to :architecture
     end
   end
 end

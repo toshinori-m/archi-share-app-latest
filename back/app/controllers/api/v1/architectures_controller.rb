@@ -24,7 +24,7 @@ module Api
         if @architecture.save
           render json: @architecture, status: :created
         else
-          render json: { message: @architecture.errors }
+          render json: { message: @architecture.errors }, status: :unprocessable_entity
         end
       end
 
@@ -36,7 +36,7 @@ module Api
       private
 
       def architecture_params
-        params.permit(:name, :prefecture, :address, :lat, :lng, :construction, :designer, :image, :above_floor, :under_floor)
+        params.permit(:name, :prefecture, :address, :lat, :lng, :construction, :designer, :above_floor, :under_floor, :image)
       end
     end
   end
