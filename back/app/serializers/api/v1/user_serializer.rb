@@ -9,6 +9,7 @@ module Api
                  :admin
 
       has_many :posts
+      has_many :comments
     end
   end
 end

@@ -9,6 +9,7 @@ module Api
 
       belongs_to :user
       belongs_to :architecture
+      has_many :comments
     end
   end
 end
