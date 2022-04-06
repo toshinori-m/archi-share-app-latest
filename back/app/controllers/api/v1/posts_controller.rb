@@ -5,44 +5,21 @@ module Api
 
       def index
         @posts = Post.all.includes(:user, :like_users, :comments, :architecture).order(id: 'DESC')
-        render json: @posts.as_json(
-          only: %i[id title content image created_at],
-          include: [
-            { user: { only: %i[id name image] } },
-            :like_users,
-            :comments,
-            :architecture
-          ]
-        )
+        render json: @posts
       end
 
       def timeline
         @posts = Post.where(user_id: current_user.following_ids << current_user.id).order(id: 'DESC')
-        render json: @posts.as_json(
-          only: %i[id title content image created_at],
-          include: [
-            { user: { only: %i[id name image] } },
-            :like_users,
-            :comments,
-            :architecture
-          ]
-        )
+        render json: @posts
       end
 
       def show
-        @post = Post.includes(:like_users, :architecture, :comments).find(params[:id])
-        render json: @post.as_json(
-          only: %i[id title content image],
-          include: [
-            { user: { only: %i[id name image] } },
-            { comments: { include: [
-              { user: { only: %i[id name image] } },
-              { post: { only: %i[id] } }
-            ] } },
-            :like_users,
-            :architecture
-          ]
-        )
+        @post = Post.find(params[:id])
+        render json: @post, include: [
+          { comments: %i[user post] },
+          :user,
+          :architecture
+        ]
       end
 
       def create
@@ -56,9 +33,7 @@ module Api
 
       def update
         if @post.update(post_params)
-          render json: @post.as_json(
-            include: [:user]
-          )
+          render json: @post
         else
           render json: @post.errors, status: :unprocessable_entity
         end
