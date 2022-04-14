@@ -16,9 +16,10 @@ module Api
       def show
         @post = Post.find(params[:id])
         render json: @post, include: [
-          { comments: %i[user post] },
           :user,
-          :architecture
+          :architecture,
+          :like_users,
+          { comments: :user }
         ]
       end
 
