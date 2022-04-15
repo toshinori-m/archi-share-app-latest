@@ -1,47 +1,37 @@
 require 'rails_helper'
 
-RSpec.describe PostLike, type: :request do
-  describe 'いいね機能' do
-    before do
-      @user = create(:user)
-      @post = create(:post)
-      @postlike = create(:post_like)
-    end
+RSpec.describe Api::V1::PostLikesController, type: :request do
+  let!(:user) { create(:user) }
+  let!(:target_post) { create(:post) }
 
-    context '投稿をいいね・いいね解除できる場合' do
-      it '投稿をいいね' do
-        post '/api/v1/post_likes', params: { user_id: @user.id, post_id: @post.id }
-        expect(response).to have_http_status(:created)
-      end
+  describe 'POST /api/v1/post_likes' do
+    subject(:request) { post api_v1_post_likes_path, params: params }
 
-      it '投稿をいいね解除' do
-        delete '/api/v1/post_likes', params: { user_id: @postlike.user_id, post_id: @postlike.post_id }
-        expect(response.status).to eq(200)
+    context 'paramsの値が正しい場合' do
+      let(:params) { { user_id: user.id, post_id: target_post.id } }
+
+      it 'いいね出来ること' do
+        expect { request }.to change(PostLike, :count).by(+1)
       end
     end
 
-    context '投稿をいいねできない場合' do
-      it 'user_idがない場合' do
-        post '/api/v1/post_likes', params: { user_id: nil, post_id: @post.id }
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
+    context 'paramsの値が正しくない場合' do
+      let(:params) { { user_id: nil, post_id: target_post.id } }
 
-      it 'post_idがない場合' do
-        post '/api/v1/post_likes', params: { user_id: @user.id, post_id: nil }
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
-
-      it 'すでにいいねしている場合' do
-        post '/api/v1/post_likes', params: { user_id: @postlike.user_id, post_id: @postlike.post_id }
+      it 'いいね出来ないこと' do
+        request
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
+  end
 
-    context '投稿をいいね解除できない場合' do
-      it 'いいねしていない投稿のいいね解除の場合' do
-        delete '/api/v1/post_likes', params: { user_id: @user.id, post_id: @post.id }
-        expect(response).to have_http_status(:unprocessable_entity)
-      end
+  describe 'DELETE /api/v1/post_likes' do
+    subject(:request) { delete api_v1_post_likes_path, params: params }
+    let!(:post_like) { create(:post_like) }
+    let(:params) { { user_id: post_like.user_id, post_id: post_like.post_id } }
+
+    it 'いいねを削除出来ること' do
+      expect { request }.to change(PostLike, :count).by(-1)
     end
   end
 end
