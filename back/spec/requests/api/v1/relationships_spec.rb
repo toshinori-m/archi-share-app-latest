@@ -1,29 +1,30 @@
 require 'rails_helper'
 
-RSpec.describe Relationship, type: :request do
-  describe 'フォロー機能' do
-    before(:each) do
-      @user = create(:user)
-      @other_user = create(:user)
-    end
+RSpec.describe Api::V1::RelationshipsController, type: :request do
+  let!(:user) { create(:user) }
+  let!(:target_user) { create(:user) }
 
-    context 'ユーザーをフォロー・フォロー解除できる場合' do
-      it 'ユーザーをフォロー' do
-        post '/api/v1/relationships', params: { user_id: @user.id, follow_id: @other_user.id }
-        expect(response.status).to eq(200)
-      end
+  describe 'POST /api/v1/relationships' do
+    subject(:request) { post api_v1_relationships_path, params: params }
 
-      it 'ユーザーをフォロー解除' do
-        @relationship = create(:relationship)
-        delete '/api/v1/relationships', params: { user_id: @relationship.user_id, follow_id: @relationship.follow_id }
-        expect(response).to have_http_status(:ok)
+    context 'paramsの値が正しい場合' do
+      let(:params) { { user_id: user.id, follow_id: target_user.id } }
+
+      it 'ユーザーをフォロー出来ること' do
+        expect { request }.to change(Relationship, :count).by(+1)
       end
     end
+  end
 
-    context 'ユーザーをフォロー・フォロー解除できない場合' do
-      it 'フォローしていないユーザーへのフォロー解除をした場合' do
-        delete '/api/v1/relationships', params: { user_id: @user.id, follow_id: @other_user.id }
-        expect(response).to have_http_status(:unprocessable_entity)
+  describe 'DELETE /api/v1/relationships' do
+    subject(:request) { delete api_v1_relationships_path, params: params }
+    let!(:relationship) { create(:relationship) }
+
+    context 'paramsの値が正しい場合' do
+      let(:params) { { user_id: relationship.user_id, follow_id: relationship.follow_id } }
+
+      it 'フォローを解除出来ること' do
+        expect { request }.to change(Relationship, :count).by(-1)
       end
     end
   end

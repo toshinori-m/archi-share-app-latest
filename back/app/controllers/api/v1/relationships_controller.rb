@@ -14,16 +14,14 @@ module Api
       end
 
       def destroy
-        if @user.unfollow(@follow)
-          render json: @user, serializer: UserProfileSerializer, include: [
-            { posts: %i[like_users comments] },
-            { postlike: %i[user like_users comments] },
-            :followings,
-            :followers
-          ]
-        else
-          render json: @user.errors, status: :unprocessable_entity
-        end
+        return head :unprocessable_entity unless @user.unfollow(@follow)
+
+        render json: @user, serializer: UserProfileSerializer, include: [
+          { posts: %i[like_users comments] },
+          { postlike: %i[user like_users comments] },
+          :followings,
+          :followers
+        ]
       end
 
       private
