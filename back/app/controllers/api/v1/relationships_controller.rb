@@ -5,28 +5,22 @@ module Api
 
       def create
         @user.follow(@follow)
-        render json: @user.as_json(
-          only: %i[id name email introduction image admin],
-          include: [
-            { posts: { include: [:like_users], only: %i[id title content image created_at] } },
-            { postlike: { include: [{ user: { only: %i[id name image] } }, :like_users] } },
-            :followings,
-            :followers
-          ]
-        )
+        render json: @user, serializer: UserProfileSerializer, include: [
+          { posts: %i[like_users comments] },
+          { postlike: %i[user like_users comments] },
+          :followings,
+          :followers
+        ]
       end
 
       def destroy
         if @user.unfollow(@follow)
-          render json: @user.as_json(
-            only: %i[id name email introduction image admin],
-            include: [
-              { posts: { include: [:like_users], only: %i[id title content image created_at] } },
-              { postlike: { include: [{ user: { only: %i[id name image] } }, :like_users] } },
-              :followings,
-              :followers
-            ]
-          )
+          render json: @user, serializer: UserProfileSerializer, include: [
+            { posts: %i[like_users comments] },
+            { postlike: %i[user like_users comments] },
+            :followings,
+            :followers
+          ]
         else
           render json: @user.errors, status: :unprocessable_entity
         end
@@ -35,8 +29,19 @@ module Api
       private
 
       def set_user
-        @user = User.find(params[:user_id])
-        @follow = User.find(params[:follow_id])
+        @user = User.includes(
+          { posts: %i[like_users comments] },
+          { postlike: %i[user like_users comments] },
+          :followings,
+          :followers
+        ).find(params[:user_id])
+
+        @follow = User.includes(
+          { posts: %i[like_users comments] },
+          { postlike: %i[user like_users comments] },
+          :followings,
+          :followers
+        ).find(params[:follow_id])
       end
     end
   end
