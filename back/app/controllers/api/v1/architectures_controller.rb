@@ -7,16 +7,10 @@ module Api
       end
 
       def show
-        @architecture = Architecture.includes(:posts).find(params[:id])
-        render json: @architecture.as_json(
-          include: [
-            { posts: { include: [
-              { user: { only: %i[id name image] } },
-              :like_users,
-              :comments
-            ] } }
-          ]
-        )
+        @architecture = Architecture.find(params[:id])
+        render json: @architecture, include: [
+          { posts: %i[user like_users comments] }
+        ]
       end
 
       def create
