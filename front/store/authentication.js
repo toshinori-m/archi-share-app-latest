@@ -110,18 +110,14 @@ export const actions = {
     )
   },
   async signOut({ context }) {
-    const response = await this.$axios
+    await this.$axios
       .$delete('/api/v1/auth/sign_out')
       .catch((e) => {
         console.log(e)
       })
-    return response
   },
   async userSignOut({ commit, dispatch }) {
-    const res = await dispatch('signOut')
-    if (!res) {
-      return
-    }
+    await dispatch('signOut')
     commit('loginSet', false)
     commit('currentUserSet', null)
     dispatch(
