@@ -27,19 +27,8 @@ module Api
       private
 
       def set_user
-        @user = User.includes(
-          { posts: %i[like_users comments] },
-          { postlike: %i[user like_users comments] },
-          :followings,
-          :followers
-        ).find(params[:user_id])
-
-        @follow = User.includes(
-          { posts: %i[like_users comments] },
-          { postlike: %i[user like_users comments] },
-          :followings,
-          :followers
-        ).find(params[:follow_id])
+        @user = User.find(params[:user_id])
+        @follow = User.find(params[:follow_id])
       end
     end
   end
