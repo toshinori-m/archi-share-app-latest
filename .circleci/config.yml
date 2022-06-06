@@ -2,21 +2,50 @@ version: 2.1
 
 orbs:
   ruby: circleci/ruby@1.2.0
+  aws-s3: circleci/aws-s3@3.0.0
 
 jobs:
-  build:
+  back_build:
     docker:
       - image: circleci/ruby:3.0.2-node-browsers-legacy
-    working_directory: ~/archi-shares-app/back
+    working_directory: ~/archi-share-app/back
     steps:
       - checkout:
-          path: ~/archi-shares-app
+          path: ~/archi-share-app
       - run:
           name: Which bundler?
           command: bundle -v
       - ruby/install-deps
+  
+  front_build:
+    docker:
+      - image: cimg/node:14.17.0
+    working_directory: ~/archi-share-app
+    steps:
+      - checkout
+      - restore_cache:
+          name: Yarn パッケージのキャッシュの復元
+          keys:
+            - yarn-packages-{{ checksum "~/archi-share-app/front/package.json" }}
+      - run:
+          name: 依存関係のインストール
+          command: yarn install --frozen-lockfile --cache-folder ~/.cache/yarn
+          working_directory: ~/archi-share-app/front
+      - save_cache:
+          name: Yarn パッケージのキャッシュの保存
+          key: yarn-packages-{{ checksum "~archi-share-app/front/package.json" }}
+          paths:
+            - node_modules
+      - run: 
+          name: 静的サイトのビルド
+          command: yarn generate
+          working_directory: ~/archi-share-app/front
+      - persist_to_workspace:
+          root: front
+          paths:
+            - dist
 
-  test:
+  back_test:
     docker:
       - image: circleci/ruby:3.0.2-node-browsers-legacy
       - image: circleci/mysql:5.7
@@ -31,10 +60,10 @@ jobs:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       RAILS_ENV: test
       TZ: Asia/Tokyo
-    working_directory: ~/archi-shares-app/back
+    working_directory: ~/archi-share-app/back
     steps:
       - checkout:
-          path: ~/archi-shares-app
+          path: ~/archi-share-app
       - ruby/install-deps
       - run:
           name: MySQL が準備できるまで待機
@@ -52,10 +81,32 @@ jobs:
       - ruby/rspec-test
       - ruby/rubocop-check
 
+  front_deploy:
+    docker:
+      - image: cimg/python:3.10.4
+    working_directory: ~/archi-share-app/front
+    steps:
+      - attach_workspace:
+          at: .
+      - aws-s3/sync:
+          from: dist
+          to: s3://archi-share-app-spa-bucket
+          arguments: |
+            --acl public-read \
+            --cache-control "max-age=86400"
+
+
 workflows:
-  build_and_test:
+  build_test_and_deploy:
     jobs:
-      - build
-      - test:
+      - back_build
+      - back_test:
           requires:
-            - build
+            - back_build
+      - front_build
+      - front_deploy:
+          requires:
+            - front_build
+          filters:
+            branches:
+              only: main
