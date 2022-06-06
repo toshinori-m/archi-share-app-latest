@@ -105,7 +105,6 @@ workflows:
       - back_test:
           requires:
             - back_build
-
   front_build_and_deploy:
     jobs:
       - front_build
