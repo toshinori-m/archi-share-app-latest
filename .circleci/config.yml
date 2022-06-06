@@ -98,15 +98,12 @@ jobs:
 
 
 workflows:
-  version: 2
-  back_build_and_test:
+  build_test_and_deploy:
     jobs:
       - back_build
       - back_test:
           requires:
             - back_build
-  front_build_and_deploy:
-    jobs:
       - front_build
       - front_deploy:
           requires:
