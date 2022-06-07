@@ -115,7 +115,6 @@ workflows:
   build_and_push_image:
     jobs:
       - aws-ecr/build-and-push-image:
-          working_directory: ~/archi-share-app/back
           dockerfile: Dockerfile.production
           repo: '${MY_APP_PREFIX}-back'
           tag: '${CIRCLE_SHA1}'
