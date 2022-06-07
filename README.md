@@ -31,7 +31,7 @@ URL: https://www.archi-share-app.com
 - MySQL 5.7.34
 - Docker / docker-compose
 - AWS ( VPC / ECS(EC2) / ECR / S3 / Route53 / RDS / ACM / ALB / CloudFront )
-- CircleCI ( 自動テストのみ )
+- CircleCI
 
 ## ER図
 
@@ -39,7 +39,7 @@ URL: https://www.archi-share-app.com
 
 ## インフラ構成図
 
-![インフラ構成図](https://user-images.githubusercontent.com/80773869/150005728-e995a94b-c87d-4c93-9ea0-79dc68322255.png)
+![インフラ構成図](https://user-images.githubusercontent.com/80773869/172495103-ab302ac8-7879-4c4c-aa20-8a36ad2fab12.png)
 
 ## 機能一覧
 
