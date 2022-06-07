@@ -127,6 +127,7 @@ workflows:
             - aws-ecr/build-and-push-image
           family: '${MY_APP_PREFIX}-back-task-definition'
           cluster-name: '${MY_APP_PREFIX}-cluster'
+          service-name: '${MY_APP_PREFIX}-back-service'
           container-image-name-updates: 'container=${MY_APP_PREFIX}-back-container,tag=${CIRCLE_SHA1}'
           filters:
             branches:
